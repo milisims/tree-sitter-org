@@ -4,7 +4,7 @@ Headlines.1a - No eols
 * l1
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (title))))
 
 ==============
 Headlines.1b - pre eol
@@ -13,7 +13,7 @@ Headlines.1b - pre eol
 * l1
 ----------
 
-(document (body) (section (headline (stars) (item))))
+(document (body) (section (headline (stars) (title))))
 
 ==============
 Headlines.1c - Post eols (body)
@@ -23,7 +23,7 @@ Headlines.1c - Post eols (body)
 
 ----------
 
-(document (section (headline (stars) (item)) (body)))
+(document (section (headline (stars) (title)) (body)))
 
 ==============
 Headlines.1d - More eols
@@ -34,7 +34,7 @@ Headlines.1d - More eols
 
 ----------
 
-(document (body) (section (headline (stars) (item)) (body)))
+(document (body) (section (headline (stars) (title)) (body)))
 
 ==============
 Headlines.2  - level 2
@@ -43,7 +43,7 @@ Headlines.2  - level 2
 
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (title))))
 
 ==============
 Headlines.3  - Two sections
@@ -54,8 +54,8 @@ Headlines.3  - Two sections
 ----------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (title)))
+  (section (headline (stars) (title)))
   )
 
 ==============
@@ -67,8 +67,8 @@ Headlines.3a - Two sections, eol
 ----------
 
 (document
-  (section (headline (stars) (item)) (body))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (title)) (body))
+  (section (headline (stars) (title)))
   )
 
 ==============
@@ -81,8 +81,8 @@ Headlines.4  - Subsection
 
 (document
   (section
-    (headline (stars) (item))
-    (section (headline (stars) (item))))
+    (headline (stars) (title))
+    (section (headline (stars) (title))))
   )
 
 ==============
@@ -96,9 +96,9 @@ Headlines.4a - Subsection eols
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (title))
     (body)
-    (section (headline (stars) (item)))
+    (section (headline (stars) (title)))
     ))
 
 ==============
@@ -111,9 +111,9 @@ Headlines.5  - Subsection & continued section
 
 (document
   (section
-    (headline (stars) (item))
-    (section (headline (stars) (item))))
-  (section (headline (stars) (item)))
+    (headline (stars) (title))
+    (section (headline (stars) (title))))
+  (section (headline (stars) (title)))
   )
 
 ==============
@@ -124,8 +124,8 @@ Headlines.6  - Top high level section
 ----------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (title)))
+  (section (headline (stars) (title)))
   )
 
 ==============
@@ -134,7 +134,7 @@ Headlines.7a - Item/tag conflict (:)
 * a: b
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (title))))
 
 ==============
 Headlines.7b - Item/tag conflict (:)
@@ -142,7 +142,7 @@ Headlines.7b - Item/tag conflict (:)
 * a: b:
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (title))))
 
 ==============
 Headlines.8  - Tag
@@ -150,7 +150,68 @@ Headlines.8  - Tag
 * a :b:
 ----------
 
-(document (section (headline (stars) (item) (tag))))
+(document (section (headline (stars) (title) (tag))))
+
+==============
+Headlines.9a - Non-markup
+==============
+* a *b
+----------
+
+(document
+  (section
+    (headline (stars) (title))
+    ))
+
+==============
+Headlines.9b - Non-markup over newline
+==============
+* a *b
+c*
+----------
+
+(document
+  (section
+    (headline (stars) (title))
+    (body (paragraph))
+    ))
+
+===================
+PropertyDrawer.1  -
+===================
+* b
+:PROPERTIES:
+:a: c
+:END:
+----------
+
+(document
+  (section
+    (headline
+      (stars)
+      (title))
+    (properties
+      (property))
+    ))
+
+===================
+PropertyDrawer.2  -
+===================
+* C
+:PROPERTIES:
+:ab: [2021-02-21 Sun 13:30]
+:END:
+
+----------
+
+(document
+  (section
+    (headline
+      (stars)
+      (title))
+    (properties
+      (property))
+    ))
 
 ==========
 Body.1
@@ -298,15 +359,14 @@ words
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (title))
     (body (paragraph) (paragraph))
     ))
 
-==========
-Timestamp.1
-==========
-<1111-11-11 day>
-
+==============
+Timestamp.1  - Basic
+==============
+<1-1-1 a>
 ----------
 
 (document
@@ -315,11 +375,10 @@ Timestamp.1
       (timestamp (date)))
     ))
 
-==========
-Timestamp.2
-==========
-<1111-11-11 day +1h>
-
+==============
+Timestamp.2  - Repeater
+==============
+<1-1-1 a +1h>
 ----------
 
 (document
@@ -328,11 +387,10 @@ Timestamp.2
       (timestamp (date) (repeater)))
     ))
 
-==========
-Timestamp.3
-==========
-<1111-11-11 day -1d>
-
+==============
+Timestamp.3  - Delay
+==============
+<1-1-1 a -1d>
 ----------
 
 (document
@@ -341,11 +399,10 @@ Timestamp.3
       (timestamp (date) (delay)))
     ))
 
-==========
-Timestamp.4
-==========
-<1111-11-11 day +1w -1m>
-
+==============
+Timestamp.4  - Repdel
+==============
+<1-1-1 a +1w -1m>
 ----------
 
 (document
@@ -354,11 +411,10 @@ Timestamp.4
       (timestamp (date) (repeater) (delay)))
     ))
 
-==========
-Timestamp.5
-==========
-<1111-11-11 day 11:11>
-
+==============
+Timestamp.5  - Time
+==============
+<1-1-1 a 1:11>
 ----------
 
 (document
@@ -367,37 +423,30 @@ Timestamp.5
       (timestamp (date) (time)))
     ))
 
-==========
-Timestamp.6
-==========
-<1111-11-11 day 11:11-11:11>
+==============
+Timestamp.6  - Time range
+==============
+<1-1-1 a 1:11-11:11>
 
 ----------
 
 (document
   (body
     (paragraph
-      (timestamp (date) (time) (time)))
+      (timestamp (date) (timerange (time) (time))))
     ))
 
-==========
-Timestamp.7
-==========
-<1111-11-11 day 11:11>--<1111-11-11 day 11:11 +1d>
-
+==============
+Timestamp.7  - Date range
+==============
+<1-1-1 a>--<1-1-1 a>
 ----------
 
-(document
-  (body
-    (paragraph
-      (timestamp
-        (timestamp (date) (time))
-        (timestamp (date) (time) (repeater)))
-      )))
+(document (body (paragraph (timestamp (date) (date)))))
 
-===============
-Timestamp.8   - Junk
-===============
+==============
+Timestamp.8a - Junk
+==============
 [b]
 ---------------
 
@@ -406,9 +455,9 @@ Timestamp.8   - Junk
     (paragraph)
     ))
 
-===============
-Timestamp.9   - Junk
-===============
+==============
+Timestamp.8b - Junk
+==============
 <b>
 ---------------
 
@@ -427,7 +476,7 @@ Plan
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (title))
     (plan (timestamp (date)))
     ))
 
@@ -441,7 +490,7 @@ SCHEDULED: <1111-11-11 Day>
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (title))
     (plan (scheduled (timestamp (date))))
     ))
 
@@ -455,7 +504,7 @@ DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (title))
     (plan
       (deadline (timestamp (date)))
       (timestamp (date))
@@ -755,7 +804,7 @@ Markup.5  - Junk
 
 ----------
 
-(document (body (paragraph)) (section (headline (stars) (item))))
+(document (body (paragraph)) (section (headline (stars) (title))))
 
 
 ==========

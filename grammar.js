@@ -14,26 +14,37 @@ org_grammar = {
   ],
 
   // inline: $ => [$._word, $._numbers, $._junk],
-  // inline: $ => [ $._activeStart, $._activeEnd, $._inactiveStart, $._inactiveEnd,
-  //   $._tsSeparator, $._ymd, $._dayname,],
+  // inline: $ => [ $._active_start, $._active_end, $._inactive_start, $._inactive_end,
+  //   $._ts_separator, $._ymd, $._dayname,],
 
+  // inline: $ => [
+  //   $._ts_contents,
+  //   $._ts_contents_range,
+  // ],
 
   // PRECEDENCES, CONFLICT =============================== {{{1
+
+  // precedences: _ => [
+  //   ['section', 'element', 'paragraph', 'textelement'],
+  //   ['plan', 'textelement'],
+  //   ['fn_definition', 'footnote'],
+  // ],
+
   precedences: _ => [
-    ['section', 'element', 'paragraph', 'textelement'],
-    ['plan', 'textelement'],
     ['fn_definition', 'footnote'],
   ],
 
   conflicts: $ => [
-    [$._text, $.bold],
-    [$._text, $.italic],
-    [$._text, $.underline],
-    [$._text, $.strikethrough],
-    [$._text, $.code],
-    [$._text, $.verbatim],
-    [$.item],
+    [$._itemtag, $._textelement], // textelement in $._itemtext
+    [$.title],
+    [$._conflicts, $.bold],
+    [$._conflicts, $.italic],
+    [$._conflicts, $.underline],
+    [$._conflicts, $.strikethrough],
+    [$._conflicts, $.code],
+    [$._conflicts, $.verbatim],
     [$._lastitem],
+
   ],
 
   rules: {
@@ -46,8 +57,7 @@ org_grammar = {
 
     // SECTIONS, BODY, PARAGRAPH =========================== {{{1
 
-    section: $ => prec.dynamic(1, prec('section',
-      seq(
+    section: $ => seq(
         $.headline, $._eol,
         optional(seq(
           optional(seq($.plan, $._eol)),
@@ -56,25 +66,25 @@ org_grammar = {
           repeat($.section),
         )),
         $._sectionend,
-      ))),
+      ),
 
-    _eol: _ => choice('\0', '\n', '\r'),
+    _eol: _ => choice('\0', '\n', '\r'), // repeating over this on its own is bad
     _nl: _ => choice('\n', '\r'),
 
     body: $ => choice(
-      repeat1($._eol),
+      repeat1($._nl),
       seq(
-        repeat($._eol),
+        repeat($._nl),
         repeat1(seq(
           choice(
             $._element,
             $.paragraph
           ),
-          repeat($._eol),
+          repeat($._nl),
         )),
       )),
 
-    paragraph: $ => prec.right('paragraph',
+    paragraph: $ => prec.right(
       repeat1(seq(
         repeat1($._textelement),
         $._eol)
@@ -91,12 +101,14 @@ org_grammar = {
         $.block,
         $.dynamic_block,
         // $.table,
+        // $.latex_environment
       ),
 
-    _textelement: $ => prec('textelement',
-      choice(
+    _textelement: $ => choice(
         $._text,
+        $._conflicts,
         $.timestamp,
+
         $.footnote,
         $.link,
         $.bold,
@@ -105,22 +117,24 @@ org_grammar = {
         $.verbatim,
         $.underline,
         $.strikethrough,
+
         // $.subscript
         // $.superscript
         // $.latexfragment
-      )),
+      ),
 
     // HEADLINES =========================================== {{{1
 
     headline: $ => seq(
       $.stars,
-      $.item,
+      $.title,
       optional($._taglist),
     ),
 
-    item: $ => repeat1(choice($._text, ':')),
+    // the choice with ':' allows for the conflict of $.title to work
+    title: $ => repeat1(choice($._text, ':')),
 
-    _taglist: $ => prec.dynamic(1,  // otherwise just item
+    _taglist: $ => prec.dynamic(1,  // over title text
       seq(':',
         repeat1(seq(
           $.tag,
@@ -132,8 +146,8 @@ org_grammar = {
     _propertyName:  _ => /:\p{Z}*:/,
 
     property_drawer: $ => seq(
-      ':PROPERTIES:', $._eol,
-      repeat(prec.right(seq(optional($.property), repeat1($._eol)))),
+      ':PROPERTIES:', repeat1($._nl),
+      repeat(seq($.property, repeat1($._nl))),
       ':END:',
     ),
 
@@ -148,7 +162,7 @@ org_grammar = {
     _deadline:      _ => 'DEADLINE:',
     _closed:        _ => 'CLOSED:',
 
-    plan: $ => repeat1(prec('plan',
+    plan: $ => repeat1(prec(1, // precedence over paragraph→timestamp
       choice(
         $.timestamp,
         $.scheduled,
@@ -161,75 +175,72 @@ org_grammar = {
     closed: $ => seq(
       $._closed,
       alias(choice(
-        $._inactiveTimestamp,
-        $._inactiveTimestampRange,
+        $._inactive_ts,
+        $._inactive_ts_trange,
+        $._inactive_ts_range,
       ), $.timestamp),
     ),
 
     // TIMESTAMP =========================================== {{{1
 
-    _activeStart:   _ => '<',
-    _activeEnd:     _ => '>',
-    _inactiveStart: _ => '[',
-    _inactiveEnd:   _ => ']',
-    _tsSeparator:   _ => '--',
-    _ymd:           _ => /\p{N}{1,4}-\p{N}{1,2}-\p{N}{1,4}/,
-    time:           _ => /\p{N}?\p{N}:\p{N}\p{N}/,
-    repeater:       _ => /[.+]?\+\p{N}+\p{L}/,
-    delay:          _ => /--?\p{N}+\p{L}/,
+    _active_start:        _ => '<',
+    _active_end:          _ => '>',
+    _inactive_start:      _ => '[',
+    _inactive_end:        _ => ']',
+    _active_separator:   _ => '>--<',
+    _inactive_separator: _ => ']--[',
+    _ymd:                _ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
+    time:                _ => /\p{N}?\p{N}:\p{N}\p{N}/,
+    repeater:            _ => /[.+]?\+\p{N}+\p{L}/,
+    delay:               _ => /--?\p{N}+\p{L}/,
 
     date: $ => seq($._ymd, optional(/\p{L}+/)),
 
+    timerange: $ => seq($.time, '-', $.time),
+
     timestamp: $ => choice(
-      $._activeTimestamp,
-      $._activeTimestampRange,
-      $._inactiveTimestamp,
-      $._inactiveTimestampRange,
+      $._active_ts,
+      $._active_ts_trange,
+      $._active_ts_range,
+      $._inactive_ts,
+      $._inactive_ts_trange,
+      $._inactive_ts_range,
     ),
 
-    _activeTimestamp: $ => seq(
-      $._activeStart,
+    _ts_contents: $ => seq(
       $.date,
       optional($.time),
       optional($.repeater),
       optional($.delay),
-      $._activeEnd,
     ),
 
-    _inactiveTimestamp: $ => seq(
-      $._inactiveStart,
+    _ts_contents_range: $ => seq(
       $.date,
-      optional($.time),
+      $.timerange,
       optional($.repeater),
       optional($.delay),
-      $._inactiveEnd,
     ),
 
-    _activeTimestampRange: $ => choice(
-      seq(
-        alias($._activeTimestamp, $.timestamp),
-        $._tsSeparator,
-        alias($._activeTimestamp, $.timestamp)),
-      seq(
-        $._activeStart,
-        $.date,
-        $.time, '-', $.time,
-        optional($.repeater),
-        optional($.delay),
-        $._activeEnd,
-      )
+    _active_ts: $ => seq($._active_start, $._ts_contents, $._active_end),
+    _active_ts_trange: $ => seq($._active_start, $._ts_contents_range, $._active_end),
+
+    _active_ts_range: $ => seq(
+      $._active_start,
+      $._ts_contents,
+      $._active_separator,
+      $._ts_contents,
+      $._active_end
     ),
 
-    _inactiveTimestampRange: $ => choice(
-      seq($._inactiveTimestamp, $._tsSeparator, $._inactiveTimestamp),
-      seq(
-        $._inactiveStart,
-        $.date,
-        $.time, '-', $.time,
-        optional($.repeater),
-        optional($.delay),
-        $._inactiveEnd,
-      )
+    _inactive_ts: $ => seq($._inactive_start, $._ts_contents, $._inactive_end),
+    _inactive_ts_trange: $ => seq($._inactive_start, $._ts_contents_range, $._inactive_end),
+
+    _inactive_ts_range: $ => seq(
+      $._inactive_start,
+      $._ts_contents,
+      $._inactive_separator,
+      $._ts_contents,
+      $._inactive_end
     ),
 
     // MARKUP ============================================== {{{1
@@ -270,7 +281,7 @@ org_grammar = {
 
     footnote: $ => prec('footnote',
       seq(
-        $._fn,
+        $._fn, // TODO immediate token here? dynamic prec if in paragraph?
         choice(
           $._fn_label,
           seq(optional($._fn_label), ':', repeat1($._fn_label)),
@@ -279,6 +290,8 @@ org_grammar = {
       )),
 
     // DIRECTIVE =========================================== {{{1
+
+    _directives: $ => repeat1($.directive),
 
     directive: $ => seq(
       '#+',
@@ -315,7 +328,7 @@ org_grammar = {
       $._nl,
       alias(
         repeat(seq(
-          repeat($._textonly),
+          repeat($._text),
           $._nl,
         )),
         $.contents),
@@ -328,20 +341,20 @@ org_grammar = {
 
     // DYNAMIC BLOCK ======================================= {{{1
 
-    dynamic_block: $ => prec(1, seq( // FIXME why is this precedence required?
+    dynamic_block: $ => seq(
       '#+BEGIN:',
-      optional(alias($._text, $.name)),
+      alias(/[^\p{Z}\n\r]+/, $.name),
       optional($.parameters),
       // optional(alias(repeat1(/\S+/), $.parameters)),
       $._eol,
       alias(repeat(seq(
-        repeat($._textonly),
+        repeat($._text),
         $._nl,
       )), $.contents),
       '#+END:',
-      repeat($._junk), // FIXME
+      repeat($._junk), // report bug
       $._eol,
-    )),
+    ),
 
     parameters: $ => repeat1($._text),
 
@@ -369,10 +382,14 @@ org_grammar = {
       optional($._itemtext),
       $._listend,
       optional($._eol),
+      // not sure why optional is required. Pairs with conflict [$._lastitem]
     ),
 
     _checkbox: _ => /\[[ xX-]\]/,
-    _itemtag: $ => seq(repeat($._textelement), '::'),
+    _itemtag: $ => seq(
+      repeat($._text),
+      prec.dynamic(1, '::'), // precedence over itemtext
+    ),
 
     _itemtext: $ => seq(
       repeat1($._textelement),
@@ -386,35 +403,27 @@ org_grammar = {
 
     // TEXT ================================================ {{{1
 
-    // TODO: inline word/numbers/junk. Causes precedence issues
-    // A repeat would also be nice.
-    _textonly: $ => choice($._word,
-      $._numbers,
-      $._junk,
-    ),
-
     _text: $ => choice(
       $._word,
       $._numbers,
       $._junk,
+    ),
 
-      $._activeStart, // Causes conflicts, so they get marked as text.
-      $._inactiveStart,
-
+    _conflicts: $ => choice(
+      $._active_start,
+      $._inactive_start,
       seq($._markup, '*'),
       seq($._markup, '/'),
       seq($._markup, '_'),
       seq($._markup, '+'),
       seq($._markup, '~'),
       seq($._markup, '='),
-
-      '#', // comment collision
     ),
 
 
     _word:          _ => /\p{L}+/,
     _numbers:       _ => /\p{N}+/,
-    _junk:          _ => /[^\p{Z}\p{L}\p{N}]/,
+    _junk:          _ => /[^\p{Z}\p{L}\p{N}\n\r]+/,
 
   }
 };
