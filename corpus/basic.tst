@@ -655,7 +655,7 @@ Footnote.3
 words
 ----------
 
-(document (body (fndef (paragraph))))
+(document (body (fndef)))
 
 ==========
 Comment.1
@@ -1045,9 +1045,86 @@ List.7a  - changing
     ))
 
 ==============
-Directive.1  -
+Directive.1  - Document
 ==============
 #+a: b
 ----------
 
+(document (directive))
+
+==============
+Directive.2  - Bare
+==============
+
+#+a: b
+----------
+
 (document (body (directive)))
+
+==============
+Directive.3  - Doc & Bare
+==============
+#+a: b
+
+#+a: b
+----------
+
+(document (directive) (body (directive)))
+
+==============
+Directive.4  - Attached
+==============
+
+#+a: b
+hello there
+----------
+
+(document (body (paragraph (directive))))
+
+==============
+Directive.5  - No empty lines
+==============
+* a
+#+a: b
+c
+----------
+
+(document
+  (section
+    (headline (stars) (title))
+    (body (paragraph (directive)))
+    ))
+
+==============
+Directive.5  - Precedences
+==============
+
+c
+#+a: b
+d
+----------
+
+(document (body (paragraph) (paragraph (directive))))
+
+==============
+Directive.6a - List
+==============
+
+#+a: b
+  - c
+----------
+
+(document (body (list (directive) (listitem))))
+
+==============
+Directive.6b - Sublist
+==============
+
+#+a: b
+  - c
+    #+a: b
+    - c
+
+----------
+
+(document (body (list (directive) (listitem (list (directive) (listitem))))))

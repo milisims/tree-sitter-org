@@ -32,41 +32,51 @@ org_grammar = {
 
   precedences: _ => [
     ['fn_definition', 'footnote'],
+    ['attached_directive', 'bare_directive'],
   ],
 
   conflicts: $ => [
     [$._itemtag, $._textelement], // textelement in $._itemtext
-    [$.title],
+    [$.title], // :tags: in headlines
+
+    // Markup
     [$._conflicts, $.bold],
     [$._conflicts, $.italic],
     [$._conflicts, $.underline],
     [$._conflicts, $.strikethrough],
     [$._conflicts, $.code],
     [$._conflicts, $.verbatim],
-    [$._lastitem],
 
+    // Multiple lastitems from nested lists
+    [$._lastitem],
   ],
 
   rules: {
     // DOCUMENT, SECTIONS, BODY, & PARAGRAPH =============== {{{1
 
     document: $ => seq(
-      optional($.body),
+      optional($._docbody),
       repeat($.section),
+    ),
+
+    _docbody: $ => choice(
+      $.body,
+      $._directives,
+      seq($._directives, $._nl, $.body),
     ),
 
     // SECTIONS, BODY, PARAGRAPH =========================== {{{1
 
     section: $ => seq(
-        $.headline, $._eol,
-        optional(seq(
-          optional(seq($.plan, $._eol)),
-          optional(seq($.property_drawer, $._eol)),
-          optional($.body),
-          repeat($.section),
-        )),
-        $._sectionend,
-      ),
+      $.headline, $._eol,
+      optional(seq(
+        optional(seq($.plan, $._eol)),
+        optional(seq($.property_drawer, $._eol)),
+        optional($.body),
+        repeat($.section),
+      )),
+      $._sectionend,
+    ),
 
     _eol: _ => choice('\0', '\n', '\r'), // repeating over this on its own is bad
     _nl: _ => choice('\n', '\r'),
@@ -75,53 +85,51 @@ org_grammar = {
       repeat1($._nl),
       seq(
         repeat($._nl),
-        repeat1(seq(
-          choice(
-            $._element,
-            $.paragraph
-          ),
-          repeat($._nl),
-        )),
-      )),
+        repeat1(seq($._element, repeat($._nl))),
+      ),
+    ),
 
-    paragraph: $ => prec.right(
-      repeat1(seq(
-        repeat1($._textelement),
-        $._eol)
-      )),
+    paragraph: $ => seq(
+      optional($._directives),
+      prec.right(
+        repeat1(seq(
+          repeat1($._textelement),
+          $._eol)
+        ))),
 
     // ELEMENT AND TEXTELEMENT ============================= {{{1
 
     _element: $ => choice(
-        $.drawer,
-        $.comment,
-        $.fndef,
-        $.directive,
-        $.list,
-        $.block,
-        $.dynamic_block,
-        // $.table,
-        // $.latex_environment
-      ),
+      $.comment,
+      $.fndef,
+      $.drawer,
+      prec('bare_directive', $.directive),
+      $.list,
+      $.block,
+      $.dynamic_block,
+      $.paragraph
+      // $.table,
+      // $.latex_environment
+    ),
 
     _textelement: $ => choice(
-        $._text,
-        $._conflicts,
-        $.timestamp,
+      $._text,
+      $._conflicts,
+      $.timestamp,
 
-        $.footnote,
-        $.link,
-        $.bold,
-        $.code,
-        $.italic,
-        $.verbatim,
-        $.underline,
-        $.strikethrough,
+      $.footnote,
+      $.link,
+      $.bold,
+      $.code,
+      $.italic,
+      $.verbatim,
+      $.underline,
+      $.strikethrough,
 
-        // $.subscript
-        // $.superscript
-        // $.latexfragment
-      ),
+      // $.subscript
+      // $.superscript
+      // $.latexfragment
+    ),
 
     // HEADLINES =========================================== {{{1
 
@@ -278,7 +286,10 @@ org_grammar = {
         $._fn,
         $._fn_label,
         ']',
-        $.paragraph,
+        prec.right(repeat1(seq(
+          repeat1($._textelement),
+          $._eol,
+        )))
       )),
 
     footnote: $ => prec('footnote',
@@ -293,13 +304,13 @@ org_grammar = {
 
     // DIRECTIVE =========================================== {{{1
 
-    _directives: $ => repeat1($.directive),
+    _directives: $ => repeat1(prec('attached_directive', $.directive)),
 
     directive: $ => seq(
       '#+',
-      token.immediate(/[^\p{Z}\n\r:]+/), // name
+      field('name', token.immediate(/[^\p{Z}\n\r:]+/)), // name
       token.immediate(':'),
-      repeat($._text),
+      field('value', repeat($._text)),
       $._eol,
     ),
 
@@ -312,6 +323,7 @@ org_grammar = {
     // DRAWER ============================================== {{{1
 
     drawer: $ => seq(
+      optional($._directives),
       ':',
       token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
       token.immediate(':'),
@@ -324,6 +336,7 @@ org_grammar = {
     // BLOCK =============================================== {{{1
 
     block: $ => seq(
+      optional($._directives),
       '#+BEGIN_',
       alias($._name, $.name),
       optional(alias(repeat1($._text), $.parameters)),
@@ -344,6 +357,7 @@ org_grammar = {
     // DYNAMIC BLOCK ======================================= {{{1
 
     dynamic_block: $ => seq(
+      optional($._directives),
       '#+BEGIN:',
       alias(/[^\p{Z}\n\r]+/, $.name),
       optional(alias(repeat1($._text), $.parameters)),
@@ -360,6 +374,7 @@ org_grammar = {
     // LISTS =============================================== {{{1
 
     list: $ => seq(
+      optional($._directives),
       $._liststart,
       repeat(seq($.listitem, optional($._eol))),
       alias($._lastitem, $.listitem),
@@ -380,8 +395,7 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listend,
-      optional($._eol),
-      // not sure why optional is required. Pairs with conflict [$._lastitem]
+      optional($._eol), // Multiple lastitems consume the eol once
     ),
 
     _checkbox: _ => /\[[ xX-]\]/,
