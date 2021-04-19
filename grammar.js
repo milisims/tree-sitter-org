@@ -1,5 +1,5 @@
 org_grammar = {
-  // EXTERNALS, INLINE =================================== {{{1
+  // Externals, inline =================================== {{{1
   name: 'org',
   extras: _ => [' '],  // Treat newlines explicitly
 
@@ -13,22 +13,12 @@ org_grammar = {
     $._markup,
   ],
 
-  // inline: $ => [$._word, $._numbers, $._junk],
-  // inline: $ => [ $._active_start, $._active_end, $._inactive_start, $._inactive_end,
-  //   $._ts_separator, $._ymd, $._dayname,],
+  inline: $ => [
+    $._ts_contents,
+    $._ts_contents_range,
+  ],
 
-  // inline: $ => [
-  //   $._ts_contents,
-  //   $._ts_contents_range,
-  // ],
-
-  // PRECEDENCES, CONFLICT =============================== {{{1
-
-  // precedences: _ => [
-  //   ['section', 'element', 'paragraph', 'textelement'],
-  //   ['plan', 'textelement'],
-  //   ['fn_definition', 'footnote'],
-  // ],
+  // Precedences, conflict =============================== {{{1
 
   precedences: _ => [
     ['fn_definition', 'footnote'],
@@ -52,7 +42,7 @@ org_grammar = {
   ],
 
   rules: {
-    // DOCUMENT, SECTIONS, BODY, & PARAGRAPH =============== {{{1
+    // Document, sections, body, & paragraph =============== {{{1
 
     document: $ => seq(
       optional($._docbody),
@@ -65,7 +55,7 @@ org_grammar = {
       seq($._directives, $._nl, $.body),
     ),
 
-    // SECTIONS, BODY, PARAGRAPH =========================== {{{1
+    // Sections, body, paragraph =========================== {{{1
 
     section: $ => seq(
       $.headline, $._eol,
@@ -97,7 +87,7 @@ org_grammar = {
           $._eol)
         ))),
 
-    // ELEMENT AND TEXTELEMENT ============================= {{{1
+    // Element and textelement ============================= {{{1
 
     _element: $ => choice(
       $.comment,
@@ -131,7 +121,7 @@ org_grammar = {
       // $.latexfragment
     ),
 
-    // HEADLINES =========================================== {{{1
+    // Headlines =========================================== {{{1
 
     headline: $ => seq(
       $.stars,
@@ -166,7 +156,7 @@ org_grammar = {
       repeat($._text),
     ),
 
-    // PLANNING ============================================ {{{1
+    // Planning ============================================ {{{1
 
     _scheduled:     _ => 'SCHEDULED:',
     _deadline:      _ => 'DEADLINE:',
@@ -191,7 +181,7 @@ org_grammar = {
       ), $.timestamp),
     ),
 
-    // TIMESTAMP =========================================== {{{1
+    // Timestamp =========================================== {{{1
 
     _active_start:        _ => '<',
     _active_end:          _ => '>',
@@ -253,7 +243,7 @@ org_grammar = {
       $._inactive_end
     ),
 
-    // MARKUP ============================================== {{{1
+    // Markup ============================================== {{{1
 
     bold:          make_markup('*'),
     italic:        make_markup('/'),
@@ -262,7 +252,7 @@ org_grammar = {
     code:          make_markup('~', true),
     verbatim:      make_markup('=', true),
 
-    // LINK ================================================ {{{1
+    // Link ================================================ {{{1
 
     _linkstart:     _ => '[[',
     _linksep:       _ => '][',
@@ -276,7 +266,7 @@ org_grammar = {
     ),
     linktext: _ => /[^\]]*/,
 
-    // FOOTNOTE ============================================ {{{1
+    // Footnote ============================================ {{{1
 
     _fn_label: _ => /[^\p{Z}\[\]]+/,
     _fn: _ => '[fn:',
@@ -302,7 +292,7 @@ org_grammar = {
         ']',
       )),
 
-    // DIRECTIVE =========================================== {{{1
+    // Directive =========================================== {{{1
 
     _directives: $ => repeat1(prec('attached_directive', $.directive)),
 
@@ -314,13 +304,13 @@ org_grammar = {
       $._eol,
     ),
 
-    // COMMENTS ============================================ {{{1
+    // Comments ============================================ {{{1
 
     comment: $ => prec.right(repeat1(seq(
       '# ', repeat($._text), $._eol
     ))),
 
-    // DRAWER ============================================== {{{1
+    // Drawer ============================================== {{{1
 
     drawer: $ => seq(
       optional($._directives),
@@ -334,7 +324,7 @@ org_grammar = {
       $._eol,
     ),
 
-    // BLOCK =============================================== {{{1
+    // Block =============================================== {{{1
 
     block: $ => seq(
       optional($._directives),
@@ -355,7 +345,7 @@ org_grammar = {
 
     _name: _ => token.immediate(/[^\p{Z}\n\r]+/),
 
-    // DYNAMIC BLOCK ======================================= {{{1
+    // Dynamic block ======================================= {{{1
 
     dynamic_block: $ => seq(
       optional($._directives),
@@ -372,7 +362,7 @@ org_grammar = {
       $._eol,
     ),
 
-    // LISTS =============================================== {{{1
+    // Lists =============================================== {{{1
 
     list: $ => seq(
       optional($._directives),
@@ -417,7 +407,7 @@ org_grammar = {
     ),
 
 
-    // TABLE =============================================== {{{1
+    // Table =============================================== {{{1
 
     // table: $ => seq(
     //   optional($._directives),
@@ -431,7 +421,7 @@ org_grammar = {
     // _formulas: $ => repeat1($.formula),
     // formula: $ => seq('#+TBLFM:', field('formula', repeat($._text))),
 
-    // LATEX ENVIRONMENT =================================== {{{1
+    // Latex environment =================================== {{{1
 
     latex_env: $ => seq(
       // optional($._directives),
@@ -443,12 +433,12 @@ org_grammar = {
       $._eol,
     ),
 
-    // TEXT ================================================ {{{1
+    // Text ================================================ {{{1
 
-    _text: $ => choice(
-      $._word,
-      $._numbers,
-      $._junk,
+    _text: _ => choice(
+      /\p{L}+/,                   // Letters
+      /\p{N}+/,                   // Numbers
+      /[^\p{Z}\p{L}\p{N}\n\r]+/,  // Everything else, minus whitespace
     ),
 
     _conflicts: $ => choice(
@@ -461,11 +451,6 @@ org_grammar = {
       seq($._markup, '~'),
       seq($._markup, '='),
     ),
-
-
-    _word:          _ => /\p{L}+/,
-    _numbers:       _ => /\p{N}+/,
-    _junk:          _ => /[^\p{Z}\p{L}\p{N}\n\r]+/,
 
   }
 };
