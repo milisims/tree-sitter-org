@@ -143,16 +143,18 @@ org_grammar = {
 
     tag: _ => token.immediate(/[\p{L}\p{N}_@#%]+/),
 
-    _propertyName:  _ => /:\p{Z}*:/,
-
     property_drawer: $ => seq(
       ':PROPERTIES:', repeat1($._nl),
       repeat(seq($.property, repeat1($._nl))),
       ':END:',
+      optional(':'), // FIXME: report bug
     ),
 
     property: $ => seq(
-      $._propertyName,
+      ':',
+      // token.immediate(/[^\s:]+/),
+      token.immediate(/[^\p{Z}\n\r:]+/),
+      token.immediate(':'),
       repeat($._text),
     ),
 
@@ -295,7 +297,7 @@ org_grammar = {
 
     directive: $ => seq(
       '#+',
-      token.immediate(/[^\p{Z}:]+/), // name
+      token.immediate(/[^\p{Z}\n\r:]+/), // name
       token.immediate(':'),
       repeat($._text),
       $._eol,
@@ -324,7 +326,7 @@ org_grammar = {
     block: $ => seq(
       '#+BEGIN_',
       alias($._name, $.name),
-      optional($.parameters),
+      optional(alias(repeat1($._text), $.parameters)),
       $._nl,
       alias(
         repeat(seq(
@@ -333,7 +335,7 @@ org_grammar = {
         )),
         $.contents),
       '#+END_', $._name, // \P{Z} does not match newlines
-      repeat($._junk), // FIXME
+      optional('_'), // FIXME: report bug
       $._eol,
     ),
 
@@ -344,19 +346,16 @@ org_grammar = {
     dynamic_block: $ => seq(
       '#+BEGIN:',
       alias(/[^\p{Z}\n\r]+/, $.name),
-      optional($.parameters),
-      // optional(alias(repeat1(/\S+/), $.parameters)),
+      optional(alias(repeat1($._text), $.parameters)),
       $._eol,
       alias(repeat(seq(
         repeat($._text),
         $._nl,
       )), $.contents),
       '#+END:',
-      repeat($._junk), // report bug
+      optional(':'), // FIXME: report bug
       $._eol,
     ),
-
-    parameters: $ => repeat1($._text),
 
     // LISTS =============================================== {{{1
 
