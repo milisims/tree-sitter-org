@@ -515,7 +515,6 @@ Drawer.1
 ==========
 :name:
 :END:
-
 ----------
 
 (document (body (drawer)))
@@ -526,7 +525,6 @@ Drawer.2
 :name:
 a
 :END:
-
 ----------
 
 (document (body (drawer (body (paragraph)))))
@@ -539,7 +537,6 @@ a
 
 a
 :END:
-
 ----------
 
 (document (body (drawer (body (paragraph) (paragraph)))))
@@ -553,7 +550,6 @@ a
 :END:
 a
 :END:
-
 ----------
 
 (document
@@ -563,6 +559,14 @@ a
         (drawer (body (paragraph)))
         (paragraph))
       )))
+
+==========
+Drawer.5 - Junk
+==========
+:l 1
+----------
+
+(document (body (paragraph)))
 
 ==========
 Block.1  -
@@ -1044,6 +1048,14 @@ List.7a  - changing
     (list (listitem))
     ))
 
+==========
+List.8   - Whitespace
+==========
+  - 
+----------
+
+(document (body (list (listitem))))
+
 ==============
 Directive.1  - Document
 ==============
@@ -1128,3 +1140,85 @@ Directive.6b - Sublist
 ----------
 
 (document (body (list (directive) (listitem (list (directive) (listitem))))))
+
+=============
+LatexEnv.1  -
+=============
+\begin{a}
+\end{a}
+
+----------
+
+(document (body (latex_env)))
+
+=============
+LatexEnv.2  -
+=============
+\begin{a}
+a
+\end{a}
+----------
+
+(document (body (latex_env)))
+
+=============
+LatexEnv.3  -
+=============
+\begin{a}
+
+\end{a}
+----------
+
+(document (body (latex_env)))
+
+=============
+LatexEnv.4a -
+=============
+\begin{a}
+
+a
+\end{a}
+----------
+
+(document (body (latex_env)))
+
+=============
+LatexEnv.4b -
+=============
+\begin{a}
+a
+
+\end{a}
+----------
+
+(document (body (latex_env)))
+
+=============
+LatexEnv.4c -
+=============
+\begin{a}
+
+a
+
+\end{a}
+----------
+
+(document (body (latex_env)))
+
+=============
+Combined.1  -
+=============
+#+TITLE: A
+
+* A
+:PROPERTIES:
+:l: 1
+:END:
+----------
+
+(document
+  (directive)
+  (section
+    (headline (stars) (title))
+    (property_drawer (property))
+    ))

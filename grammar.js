@@ -61,7 +61,7 @@ org_grammar = {
 
     _docbody: $ => choice(
       $.body,
-      $._directives,
+      seq($._directives, optional($._nl)),
       seq($._directives, $._nl, $.body),
     ),
 
@@ -107,9 +107,9 @@ org_grammar = {
       $.list,
       $.block,
       $.dynamic_block,
-      $.paragraph
+      $.paragraph,
       // $.table,
-      // $.latex_environment
+      $.latex_env,
     ),
 
     _textelement: $ => choice(
@@ -327,9 +327,10 @@ org_grammar = {
       ':',
       token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
       token.immediate(':'),
-      $._eol,
+      $._nl,
       optional($.body),
       ':END:',
+      optional(':'),
       $._eol,
     ),
 
@@ -413,6 +414,18 @@ org_grammar = {
       )),
     ),
 
+
+    // LATEX ENVIRONMENT =================================== {{{1
+
+    latex_env: $ => seq(
+      // optional($._directives),
+      '\\begin{', field('name', /\p{L}+/), token.immediate('}'),
+      repeat($._nl),
+      repeat(seq(repeat1($._textelement), repeat1($._nl))),
+      '\\end{', /\p{L}+/, token.immediate('}'),
+      optional('}'), // FIXME: report bug
+      $._eol,
+    ),
 
     // TEXT ================================================ {{{1
 
