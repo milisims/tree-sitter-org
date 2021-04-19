@@ -387,6 +387,7 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listitemend,
+      repeat(' '),
       $._eol,
     ),
 
@@ -396,6 +397,7 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listend,
+      repeat(' '), // should be covered in extras, but extras + scanner = ???
       optional($._eol), // Multiple lastitems consume the eol once
     ),
 
@@ -414,6 +416,20 @@ org_grammar = {
       )),
     ),
 
+
+    // TABLE =============================================== {{{1
+
+    // table: $ => seq(
+    //   optional($._directives),
+    //   repeat1(choice($.row, $.separator)),
+    //   optional($._formulas),
+    // ),
+
+    // row: $ => seq('|', $.cell, repeat(seq('|', $.cell)), '|', $._eol),
+    // separator: _ => /|[-+|]+|/,
+
+    // _formulas: $ => repeat1($.formula),
+    // formula: $ => seq('#+TBLFM:', field('formula', repeat($._text))),
 
     // LATEX ENVIRONMENT =================================== {{{1
 
