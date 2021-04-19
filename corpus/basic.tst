@@ -190,7 +190,7 @@ PropertyDrawer.1  -
     (headline
       (stars)
       (title))
-    (properties
+    (property_drawer
       (property))
     ))
 
@@ -209,7 +209,7 @@ PropertyDrawer.2  -
     (headline
       (stars)
       (title))
-    (properties
+    (property_drawer
       (property))
     ))
 
@@ -471,7 +471,6 @@ Plan
 ==========
 * headline
 [1111-11-11 Day]
-
 ----------
 
 (document
