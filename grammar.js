@@ -460,7 +460,7 @@ function make_markup(delim, textonly = false) {      // {{{1
     $._markup,
     delim,
     repeat1(textonly ? $._text : $._textelement),
-    repeat(seq($._eol, repeat1(textonly ? $._text : $._textelement))),
+    repeat(seq($._nl, repeat1(textonly ? $._text : $._textelement))),
     token.immediate(delim),
   ))
 }

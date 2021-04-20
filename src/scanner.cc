@@ -4,7 +4,6 @@
 #include <cstring>
 #include <cassert>
 #include <stdio.h>
-#include <iostream>
 
 namespace {
 
@@ -261,7 +260,6 @@ struct Scanner {                                                       // {{{1
         lexer->result_symbol = MARKUP;
         return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
       }
-      return false;
     }
 
     // - Markup                                                           {{{1
