@@ -800,17 +800,44 @@ Markup.4 - Multi
 ===========
 Markup.5a - Junk
 ===========
-
 *b * a
+----------
+
+(document (body (paragraph)))
+
+===========
+Markup.5b - Junk
+===========
++b + a
+----------
+
+(document (body (paragraph)))
+
+===========
+Markup.5c - Junk
+===========
+/b / a
+----------
+
+(document (body (paragraph)))
+
+===========
+Markup.5d - Junk
+===========
+
+b *a
 
 * b* a
 
 ----------
 
-(document (body (paragraph)) (section (headline (stars) (title))))
+(document
+  (body (paragraph))
+  (section (headline (stars) (title)))
+  )
 
 ===========
-Markup.5a - Bold section
+Markup.6 - Bold section
 ===========
 * a
  *b*
@@ -819,7 +846,7 @@ Markup.5a - Bold section
 (document
   (section
     (headline (stars) (title))
-    (paragraph (bold))
+    (body (paragraph (bold)))
     ))
 
 ==========
