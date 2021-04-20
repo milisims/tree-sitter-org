@@ -424,7 +424,7 @@ org_grammar = {
     // Latex environment =================================== {{{1
 
     latex_env: $ => seq(
-      // optional($._directives),
+      optional($._directives),
       '\\begin{', field('name', /\p{L}+/), token.immediate('}'),
       repeat($._nl),
       repeat(seq(repeat1($._textelement), repeat1($._nl))),
