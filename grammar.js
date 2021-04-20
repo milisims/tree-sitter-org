@@ -92,7 +92,10 @@ org_grammar = {
       repeat1($._nl),
       seq(
         repeat($._nl),
-        repeat1(seq($._text, repeat($._nl))),
+        repeat1(seq(
+          repeat1($._text),
+          repeat1($._nl),
+        )),
       ),
     ),
 
