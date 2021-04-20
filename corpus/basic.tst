@@ -798,7 +798,7 @@ Markup.4 - Multi
 (document (body (paragraph (strikethrough (italic)))))
 
 ===========
-Markup.5  - Junk
+Markup.5a - Junk
 ===========
 
 *b * a
@@ -809,6 +809,18 @@ Markup.5  - Junk
 
 (document (body (paragraph)) (section (headline (stars) (title))))
 
+===========
+Markup.5a - Bold section
+===========
+* a
+ *b*
+----------
+
+(document
+  (section
+    (headline (stars) (title))
+    (paragraph (bold))
+    ))
 
 ==========
 List.1a  - Basic: dash [-]
