@@ -315,7 +315,7 @@ org_grammar = {
     drawer: $ => seq(
       optional($._directives),
       ':',
-      token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
+      $._drawername,
       token.immediate(':'),
       $._nl,
       optional($.body),
@@ -323,6 +323,8 @@ org_grammar = {
       optional(':'),
       $._eol,
     ),
+
+    _drawername: $ => token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
 
     // Block =============================================== {{{1
 
@@ -450,6 +452,7 @@ org_grammar = {
       seq($._markup, '+'),
       seq($._markup, '~'),
       seq($._markup, '='),
+      seq(':', optional($._drawername))
     ),
 
   }
