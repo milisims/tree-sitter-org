@@ -145,12 +145,28 @@ Headlines.7b - Item/tag conflict (:)
 (document (section (headline (stars) (title))))
 
 ==============
-Headlines.8  - Tag
+Headlines.8a - Tag
 ==============
 * a :b:
 ----------
 
 (document (section (headline (stars) (title) (tag))))
+
+==============
+Headlines.8b - Multitag
+==============
+* a :b:c:
+----------
+
+(document (section (headline (stars) (title) (tag) (tag))))
+
+==============
+Headlines.8c - Junk
+==============
+* a :b: c:
+----------
+
+(document (section (headline (stars) (title))))
 
 ==============
 Headlines.9a - Non-markup

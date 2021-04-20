@@ -1,7 +1,7 @@
 org_grammar = {
   // Externals, inline =================================== {{{1
   name: 'org',
-  extras: _ => [' '],  // Treat newlines explicitly
+  extras: _ => [/[ \t]/],  // Treat newlines explicitly
 
   externals: $ => [
     $._liststart,
@@ -130,10 +130,10 @@ org_grammar = {
     ),
 
     // the choice with ':' allows for the conflict of $.title to work
-    title: $ => repeat1(choice($._text, ':')),
+    title: $ => repeat1(choice($._text, /[ \t]:/)),
 
     _taglist: $ => prec.dynamic(1,  // over title text
-      seq(':',
+      seq(/[ \t]:/,
         repeat1(seq(
           $.tag,
           token.immediate(':')
