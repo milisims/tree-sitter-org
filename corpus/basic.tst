@@ -601,7 +601,7 @@ a
 #+END_ABC
 ----------
 
-(document (body (block (name) (parameters) (contents))))
+(document (body (block (name) (parameters) )))
 
 =================
 DynamicBlock.1  -
@@ -620,7 +620,7 @@ c
 #+END:
 ----------
 
-(document (body (dynamic_block (name) (contents))))
+(document (body (dynamic_block (name) )))
 
 ==========
 Link.1   - Description only
@@ -1209,12 +1209,12 @@ LatexEnv.1  -
 =============
 LatexEnv.2  -
 =============
-\begin{a}
+\begin{a1}
 a
-\end{a}
+\end{1a}
 ----------
 
-(document (body (latex_env)))
+(document (body (latex_env )))
 
 =============
 LatexEnv.3  -
@@ -1224,7 +1224,7 @@ LatexEnv.3  -
 \end{a}
 ----------
 
-(document (body (latex_env)))
+(document (body (latex_env )))
 
 =============
 LatexEnv.4a -
@@ -1235,7 +1235,7 @@ a
 \end{a}
 ----------
 
-(document (body (latex_env)))
+(document (body (latex_env )))
 
 =============
 LatexEnv.4b -
@@ -1246,7 +1246,7 @@ a
 \end{a}
 ----------
 
-(document (body (latex_env)))
+(document (body (latex_env )))
 
 =============
 LatexEnv.4c -
@@ -1258,7 +1258,7 @@ a
 \end{a}
 ----------
 
-(document (body (latex_env)))
+(document (body (latex_env )))
 
 =============
 Combined.1  -

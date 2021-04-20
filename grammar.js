@@ -1,7 +1,8 @@
 org_grammar = {
   // Externals, inline =================================== {{{1
   name: 'org',
-  extras: _ => [/[ \t]/],  // Treat newlines explicitly
+  // Treat newlines explicitly, all other whitespace is extra
+  extras: _ => [/[ \f\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]/],
 
   externals: $ => [
     $._liststart,
@@ -86,6 +87,15 @@ org_grammar = {
           repeat1($._textelement),
           $._eol)
         ))),
+
+    _text_body: $ => choice(
+      repeat1($._nl),
+      seq(
+        repeat($._nl),
+        repeat1(seq($._text, repeat($._nl))),
+      ),
+    ),
+
 
     // Element and textelement ============================= {{{1
 
@@ -324,23 +334,26 @@ org_grammar = {
       $._eol,
     ),
 
-    _drawername: $ => token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
+    _drawername: _ => token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
 
     // Block =============================================== {{{1
 
     block: $ => seq(
       optional($._directives),
+      $._block_begin,
+      optional($._text_body),
+      $._block_end,
+    ),
+
+    _block_begin: $ => seq(
       '#+BEGIN_',
       alias($._name, $.name),
       optional(alias(repeat1($._text), $.parameters)),
       $._nl,
-      alias(
-        repeat(seq(
-          repeat($._text),
-          $._nl,
-        )),
-        $.contents),
-      '#+END_', $._name, // \P{Z} does not match newlines
+    ),
+
+    _block_end: $ => seq(
+      '#+END_', $._name,
       optional('_'), // FIXME: report bug
       $._eol,
     ),
@@ -351,14 +364,19 @@ org_grammar = {
 
     dynamic_block: $ => seq(
       optional($._directives),
+      $._dynamic_begin,
+      optional($._text_body),
+      $._dynamic_end,
+    ),
+
+    _dynamic_begin: $ => seq(
       '#+BEGIN:',
       alias(/[^\p{Z}\n\r]+/, $.name),
       optional(alias(repeat1($._text), $.parameters)),
       $._eol,
-      alias(repeat(seq(
-        repeat($._text),
-        $._nl,
-      )), $.contents),
+    ),
+
+    _dynamic_end: $ => seq(
       '#+END:',
       optional(':'), // FIXME: report bug
       $._eol,
@@ -379,7 +397,7 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listitemend,
-      repeat(' '),
+      // repeat(choice(' ', '\t')),
       $._eol,
     ),
 
@@ -389,7 +407,7 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listend,
-      repeat(' '), // should be covered in extras, but extras + scanner = ???
+      // repeat(choice(' ', '\t')), // should be covered in extras, but extras + scanner = ???
       optional($._eol), // Multiple lastitems consume the eol once
     ),
 
@@ -427,10 +445,22 @@ org_grammar = {
 
     latex_env: $ => seq(
       optional($._directives),
-      '\\begin{', field('name', /\p{L}+/), token.immediate('}'),
-      repeat($._nl),
-      repeat(seq(repeat1($._textelement), repeat1($._nl))),
-      '\\end{', /\p{L}+/, token.immediate('}'),
+      $._env_begin,
+      optional($._text_body),
+      $._env_end,
+    ),
+
+    _env_begin: $ => seq(
+      '\\begin{',
+      field('name', /[\p{L}\p{N}]+/),
+      token.immediate('}'),
+      $._nl,
+    ),
+
+    _env_end: $ => seq(
+      '\\end{',
+      /[\p{L}\p{N}]+/,
+      token.immediate('}'),
       optional('}'), // FIXME: report bug
       $._eol,
     ),
