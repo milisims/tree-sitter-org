@@ -543,41 +543,10 @@ a
 :END:
 ----------
 
-(document (body (drawer (body (paragraph)))))
+(document (body (drawer)))
 
 ==========
-Drawer.3
-==========
-:name:
-a
-
-a
-:END:
-----------
-
-(document (body (drawer (body (paragraph) (paragraph)))))
-
-==========
-Drawer.4
-==========
-:name:
-:name:
-a
-:END:
-a
-:END:
-----------
-
-(document
-  (body
-    (drawer
-      (body
-        (drawer (body (paragraph)))
-        (paragraph))
-      )))
-
-==========
-Drawer.5 - Junk
+Drawer.3 - Junk
 ==========
 :l 1
 ----------
@@ -1294,3 +1263,13 @@ Combined.1  -
     (headline (stars) (title))
     (property_drawer (property))
     ))
+
+=============
+Combined.2  -
+=============
+a_b
+a b+c
+a c=a+d
+----------
+
+(document (body (paragraph)))

@@ -333,13 +333,21 @@ org_grammar = {
 
     drawer: $ => seq(
       optional($._directives),
+      $._drawer_begin,
+      optional($._text_body),
+      $._drawer_end,
+    ),
+
+    _drawer_begin: $ => seq(
       ':',
       $._drawername,
       token.immediate(':'),
       $._nl,
-      optional($.body),
+    ),
+
+    _drawer_end: $ => seq(
       ':END:',
-      optional(':'),
+      optional(':'), // FIXME: report bug
       $._eol,
     ),
 

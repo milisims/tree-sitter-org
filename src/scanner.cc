@@ -263,7 +263,7 @@ struct Scanner {                                                       // {{{1
     }
 
     // - Markup                                                           {{{1
-    if (valid_symbols[MARKUP] // && (indent_length > 0 || lexer->get_column(lexer) == 0)
+    if (valid_symbols[MARKUP] && (indent_length > 0 || lexer->get_column(lexer) == 0)
       && (lexer->lookahead == '*'
       || lexer->lookahead == '/'
       || lexer->lookahead == '_'
