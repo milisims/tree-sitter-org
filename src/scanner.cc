@@ -169,9 +169,9 @@ struct Scanner {                                                       // {{{1
       int16_t newlines = 0;
       lexer->mark_end(lexer);
       for (;;) {
-        if (lexer->lookahead == ' ' && newlines > 0) {
+        if (lexer->lookahead == ' ') {
           indent_length++;
-        } else if (lexer->lookahead == '\t' && newlines > 0) {
+        } else if (lexer->lookahead == '\t') {
           indent_length += 8;
         } else if (lexer->lookahead == '\0') {
           return dedent(lexer);
