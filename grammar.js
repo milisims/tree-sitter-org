@@ -17,6 +17,8 @@ org_grammar = {
   inline: $ => [
     $._ts_contents,
     $._ts_contents_range,
+    $._directives,
+    $._docbody,
   ],
 
   // Precedences, conflict =============================== {{{1
@@ -103,10 +105,11 @@ org_grammar = {
     // Element and textelement ============================= {{{1
 
     _element: $ => choice(
+      prec('bare_directive', $.directive),
       $.comment,
       $.fndef,
+
       $.drawer,
-      prec('bare_directive', $.directive),
       $.list,
       $.block,
       $.dynamic_block,
@@ -163,7 +166,6 @@ org_grammar = {
 
     property: $ => seq(
       ':',
-      // token.immediate(/[^\s:]+/),
       token.immediate(/[^\p{Z}\n\r:]+/),
       token.immediate(':'),
       repeat($._text),
@@ -202,12 +204,13 @@ org_grammar = {
     _inactive_end:        _ => ']',
     _active_separator:   _ => '>--<',
     _inactive_separator: _ => ']--[',
+    _day:                _ => /\p{L}+/,
     _ymd:                _ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
     time:                _ => /\p{N}?\p{N}:\p{N}\p{N}/,
     repeater:            _ => /[.+]?\+\p{N}+\p{L}/,
     delay:               _ => /--?\p{N}+\p{L}/,
 
-    date: $ => seq($._ymd, optional(/\p{L}+/)),
+    date: $ => seq($._ymd, optional($._day)),
 
     timerange: $ => seq($.time, '-', $.time),
 
