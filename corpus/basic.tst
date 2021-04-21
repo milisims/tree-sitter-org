@@ -652,25 +652,34 @@ Link.3   - Junk
 
 (document (body (paragraph)))
 
-==========
-Footnote.1
-==========
+=============
+Footnote.1  -
+=============
 a [fn:b]
 ----------
 
 (document (body (paragraph (footnote))))
 
-==========
-Footnote.2
-==========
+=============
+Footnote.2  -
+=============
 inline def [fn:name:definition]
 ----------
 
 (document (body (paragraph (footnote))))
 
-==========
-Footnote.3
-==========
+=============
+Footnote.3  -
+=============
+a [fn::b c]
+----------
+
+(document (body (paragraph (footnote))))
+
+
+=============
+Footnote.4  -
+=============
 [fn:name] definition
 words
 ----------

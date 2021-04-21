@@ -284,7 +284,7 @@ org_grammar = {
 
     // Footnote ============================================ {{{1
 
-    _fn_label: _ => /[^\p{Z}\[\]]+/,
+    _fn_label: _ => /[\p{L}\p{N}_-]+/,
     _fn: _ => '[fn:',
 
     fndef: $ => prec('fn_definition',
@@ -292,18 +292,21 @@ org_grammar = {
         $._fn,
         $._fn_label,
         ']',
-        prec.right(repeat1(seq(
-          repeat1($._textelement),
-          $._eol,
-        )))
+        $._fn_def,
+        $._eol,
       )),
+
+    _fn_def: $ => prec.right(seq(
+      repeat1($._textelement),
+      repeat(seq($._nl, repeat1($._textelement))),
+    )),
 
     footnote: $ => prec('footnote',
       seq(
-        $._fn, // TODO immediate token here? dynamic prec if in paragraph?
+        $._fn,
         choice(
           $._fn_label,
-          seq(optional($._fn_label), ':', repeat1($._fn_label)),
+          seq(optional($._fn_label), token.immediate(':'), $._fn_def),
         ),
         ']',
       )),
@@ -476,7 +479,7 @@ org_grammar = {
     _text: _ => choice(
       /\p{L}+/,                   // Letters
       /\p{N}+/,                   // Numbers
-      /[^\p{Z}\p{L}\p{N}\n\r]+/,  // Everything else, minus whitespace
+      /[^\p{Z}\p{L}\p{N}\n\r]/,   // Everything else, minus whitespace
     ),
 
     _conflicts: $ => choice(
