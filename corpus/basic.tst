@@ -1253,7 +1253,7 @@ a
 ==================
 LatexFragment.1  -
 ==================
-test \hello{a}{b} there
+a \b{c}{d}
 ----------
 
 (document (body (paragraph (latex_fragment))))
@@ -1261,7 +1261,7 @@ test \hello{a}{b} there
 ==================
 LatexFragment.2  -
 ==================
-test $$hello $ there$$ there
+a $$b $ c$$ d
 ----------
 
 (document (body (paragraph (latex_fragment))))
@@ -1269,8 +1269,40 @@ test $$hello $ there$$ there
 ==================
 LatexFragment.3  -
 ==================
-test $$hello
-there$$ there
+a $$b
+c$$ d
+----------
+
+(document (body (paragraph (latex_fragment))))
+
+==================
+LatexFragment.4  -
+==================
+a $b+c$ d
+----------
+
+(document (body (paragraph (latex_fragment))))
+
+==================
+LatexFragment.5  -
+==================
+a$b+c$d
+----------
+
+(document (body (paragraph)))
+
+==================
+LatexFragment.6  -
+==================
+\(a + b\)
+----------
+
+(document (body (paragraph (latex_fragment))))
+
+==================
+LatexFragment.7  -
+==================
+\[a + b\]
 ----------
 
 (document (body (paragraph (latex_fragment))))

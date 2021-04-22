@@ -137,7 +137,7 @@ org_grammar = {
 
       $.subscript,
       $.superscript,
-      $.latex_fragment
+      $.latex_fragment,
     ),
 
     // Headlines =========================================== {{{1
@@ -292,7 +292,15 @@ org_grammar = {
       token.immediate('}'),
     ),
 
-    latex_fragment: $ => choice($._latex_named, $._latex_expr),
+    // Latex fragments ===================================== {{{1
+
+    latex_fragment: $ => choice(
+      $._latex_named,
+      $._latex_expr,
+      $._latex_snip,
+      $._latex_round_brackets,
+      $._latex_square_brackets,
+    ),
 
     _latex_named: $ => seq(
       '\\',
@@ -300,11 +308,31 @@ org_grammar = {
       repeat($._bracket_expr),
     ),
 
-    _latex_expr: $ =>seq(
+    _latex_expr: $ => seq(
       '$$',
       repeat1($._text),
       repeat(seq($._nl, repeat1($._text))),
       '$$',
+    ),
+
+    _latex_snip: _ => seq(
+      '$',
+      token.immediate(/[^\p{Z}\n\r$]+/),
+      token.immediate('$'),
+    ),
+
+    _latex_round_brackets: $ => seq(
+      '\\(',
+      repeat1($._text),
+      repeat(seq($._nl, repeat1($._text))),
+      '\\)',
+    ),
+
+    _latex_square_brackets: $ => seq(
+      '\\[',
+      repeat1($._text),
+      repeat(seq($._nl, repeat1($._text))),
+      '\\]',
     ),
 
     // Link ================================================ {{{1
