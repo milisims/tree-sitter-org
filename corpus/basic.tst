@@ -716,23 +716,27 @@ text
 Markup.1  - Ya basic
 ===========
 a *b*
+
 a /b/
+
 a ~b~
+
 a _b_
+
 a =b=
+
 a +b+
 
 ----------
 
 (document
   (body
-    (paragraph
-      (bold)
-      (italic)
-      (code)
-      (underline)
-      (verbatim)
-      (strikethrough))
+    (paragraph (bold))
+    (paragraph (italic))
+    (paragraph (code))
+    (paragraph (underline))
+    (paragraph (verbatim))
+    (paragraph (strikethrough))
     ))
 
 ===========
@@ -1246,6 +1250,31 @@ a
 
 (document (body (latex_env )))
 
+==================
+LatexFragment.1  -
+==================
+test \hello{a}{b} there
+----------
+
+(document (body (paragraph (latex_fragment))))
+
+==================
+LatexFragment.2  -
+==================
+test $$hello $ there$$ there
+----------
+
+(document (body (paragraph (latex_fragment))))
+
+==================
+LatexFragment.3  -
+==================
+test $$hello
+there$$ there
+----------
+
+(document (body (paragraph (latex_fragment))))
+
 =============
 Combined.1  -
 =============
@@ -1264,9 +1293,17 @@ Combined.1  -
     (property_drawer (property))
     ))
 
-=============
-Combined.2  -
-=============
+==================
+Miscellaneous.1  -
+==================
+a_b
+----------
+
+(document (body (paragraph)))
+
+==================
+Miscellaneous.2  -
+==================
 a_b
 a b+c
 a c=a+d

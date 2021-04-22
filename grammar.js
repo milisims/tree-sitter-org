@@ -137,7 +137,7 @@ org_grammar = {
 
       $.subscript,
       $.superscript,
-      // $.latexfragment
+      $.latex_fragment
     ),
 
     // Headlines =========================================== {{{1
@@ -290,6 +290,21 @@ org_grammar = {
         repeat(seq($._nl, repeat1($._text)))
       )),
       token.immediate('}'),
+    ),
+
+    latex_fragment: $ => choice($._latex_named, $._latex_expr),
+
+    _latex_named: $ => seq(
+      '\\',
+      token.immediate(/[\p{L}]+/),
+      repeat($._bracket_expr),
+    ),
+
+    _latex_expr: $ =>seq(
+      '$$',
+      repeat1($._text),
+      repeat(seq($._nl, repeat1($._text))),
+      '$$',
     ),
 
     // Link ================================================ {{{1
