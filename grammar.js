@@ -42,6 +42,9 @@ org_grammar = {
 
     // Multiple lastitems from nested lists
     [$._lastitem],
+
+    // Subscript and underlines
+    [$._textelement, $.subscript, $._conflicts],
   ],
 
   rules: {
@@ -132,8 +135,8 @@ org_grammar = {
       $.underline,
       $.strikethrough,
 
-      // $.subscript
-      // $.superscript
+      $.subscript,
+      $.superscript,
       // $.latexfragment
     ),
 
@@ -267,6 +270,27 @@ org_grammar = {
     strikethrough: make_markup('+'),
     code:          make_markup('~', true),
     verbatim:      make_markup('=', true),
+
+    subscript: $ => seq(
+      $._text,
+      token.immediate('_'),
+      $._bracket_expr,
+    ),
+
+    superscript: $ => seq(
+      $._text,
+      token.immediate('^'),
+      $._bracket_expr,
+    ),
+
+    _bracket_expr: $ => seq(
+      token.immediate('{'),
+      optional(seq(
+        repeat1($._text),
+        repeat(seq($._nl, repeat1($._text)))
+      )),
+      token.immediate('}'),
+    ),
 
     // Link ================================================ {{{1
 
@@ -499,7 +523,8 @@ org_grammar = {
       seq($._markup, '+'),
       seq($._markup, '~'),
       seq($._markup, '='),
-      seq(':', optional($._drawername))
+      seq(':', optional($._drawername)),
+      seq($._text, token.immediate('_'), token.immediate(/[^\p{Z}]/))
     ),
 
   }
@@ -511,7 +536,7 @@ function make_markup(delim, textonly = false) {      // {{{1
     delim,
     repeat1(textonly ? $._text : $._textelement),
     repeat(seq($._nl, repeat1(textonly ? $._text : $._textelement))),
-    token.immediate(delim),
+    delim == '_' ? prec.dynamic(1, token.immediate(delim)) : token.immediate(delim),
   ))
 }
 
