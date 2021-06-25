@@ -4,7 +4,7 @@ Headlines.1a - No eols
 * l1
 ----------
 
-(document (section (headline (stars) (title))))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.1b - pre eol
@@ -13,7 +13,7 @@ Headlines.1b - pre eol
 * l1
 ----------
 
-(document (body) (section (headline (stars) (title))))
+(document (body) (section (headline (stars) (item))))
 
 ==============
 Headlines.1c - Post eols (body)
@@ -23,7 +23,7 @@ Headlines.1c - Post eols (body)
 
 ----------
 
-(document (section (headline (stars) (title)) (body)))
+(document (section (headline (stars) (item)) (body)))
 
 ==============
 Headlines.1d - More eols
@@ -34,7 +34,7 @@ Headlines.1d - More eols
 
 ----------
 
-(document (body) (section (headline (stars) (title)) (body)))
+(document (body) (section (headline (stars) (item)) (body)))
 
 ==============
 Headlines.2  - level 2
@@ -43,7 +43,7 @@ Headlines.2  - level 2
 
 ----------
 
-(document (section (headline (stars) (title))))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.3  - Two sections
@@ -54,8 +54,8 @@ Headlines.3  - Two sections
 ----------
 
 (document
-  (section (headline (stars) (title)))
-  (section (headline (stars) (title)))
+  (section (headline (stars) (item)))
+  (section (headline (stars) (item)))
   )
 
 ==============
@@ -67,8 +67,8 @@ Headlines.3a - Two sections, eol
 ----------
 
 (document
-  (section (headline (stars) (title)) (body))
-  (section (headline (stars) (title)))
+  (section (headline (stars) (item)) (body))
+  (section (headline (stars) (item)))
   )
 
 ==============
@@ -81,8 +81,8 @@ Headlines.4  - Subsection
 
 (document
   (section
-    (headline (stars) (title))
-    (section (headline (stars) (title))))
+    (headline (stars) (item))
+    (section (headline (stars) (item))))
   )
 
 ==============
@@ -96,9 +96,9 @@ Headlines.4a - Subsection eols
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (body)
-    (section (headline (stars) (title)))
+    (section (headline (stars) (item)))
     ))
 
 ==============
@@ -111,9 +111,9 @@ Headlines.5  - Subsection & continued section
 
 (document
   (section
-    (headline (stars) (title))
-    (section (headline (stars) (title))))
-  (section (headline (stars) (title)))
+    (headline (stars) (item))
+    (section (headline (stars) (item))))
+  (section (headline (stars) (item)))
   )
 
 ==============
@@ -124,8 +124,8 @@ Headlines.6  - Top high level section
 ----------
 
 (document
-  (section (headline (stars) (title)))
-  (section (headline (stars) (title)))
+  (section (headline (stars) (item)))
+  (section (headline (stars) (item)))
   )
 
 ==============
@@ -134,7 +134,7 @@ Headlines.7a - Item/tag conflict (:)
 * a: b
 ----------
 
-(document (section (headline (stars) (title))))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.7b - Item/tag conflict (:)
@@ -142,7 +142,7 @@ Headlines.7b - Item/tag conflict (:)
 * a: b:
 ----------
 
-(document (section (headline (stars) (title))))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.8a - Tag
@@ -150,7 +150,7 @@ Headlines.8a - Tag
 * a :b:
 ----------
 
-(document (section (headline (stars) (title) (tag))))
+(document (section (headline (stars) (item) (tag))))
 
 ==============
 Headlines.8b - Multitag
@@ -158,7 +158,7 @@ Headlines.8b - Multitag
 * a :b:c:
 ----------
 
-(document (section (headline (stars) (title) (tag) (tag))))
+(document (section (headline (stars) (item) (tag) (tag))))
 
 ==============
 Headlines.8c - Junk
@@ -166,7 +166,7 @@ Headlines.8c - Junk
 * a :b: c:
 ----------
 
-(document (section (headline (stars) (title))))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.9a - Non-markup
@@ -176,7 +176,7 @@ Headlines.9a - Non-markup
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     ))
 
 ==============
@@ -188,7 +188,7 @@ c*
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (body (paragraph))
     ))
 
@@ -205,7 +205,7 @@ PropertyDrawer.1  -
   (section
     (headline
       (stars)
-      (title))
+      (item))
     (property_drawer
       (property))
     ))
@@ -224,7 +224,7 @@ PropertyDrawer.2  -
   (section
     (headline
       (stars)
-      (title))
+      (item))
     (property_drawer
       (property))
     ))
@@ -375,7 +375,7 @@ words
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (body (paragraph) (paragraph))
     ))
 
@@ -491,7 +491,7 @@ Plan
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (plan (timestamp (date)))
     ))
 
@@ -505,7 +505,7 @@ SCHEDULED: <1111-11-11 Day>
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (plan (scheduled (timestamp (date))))
     ))
 
@@ -519,7 +519,7 @@ DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (plan
       (deadline (timestamp (date)))
       (timestamp (date))
@@ -831,7 +831,7 @@ b *a
 
 (document
   (body (paragraph))
-  (section (headline (stars) (title)))
+  (section (headline (stars) (item)))
   )
 
 ===========
@@ -843,9 +843,25 @@ Markup.6 - Bold section
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (body (paragraph (bold)))
     ))
+
+===========
+Markup.6 - Parens
+===========
+(/a/)
+----------
+
+(document (body (paragraph (italics))))
+
+===========
+Markup.8 - Not markup
+===========
+a/a/ b
+----------
+
+(document (body (paragraph)))
 
 ==========
 List.1a  - Basic: dash [-]
@@ -1148,7 +1164,7 @@ c
 
 (document
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (body (paragraph (directive)))
     ))
 
@@ -1321,7 +1337,7 @@ Combined.1  -
 (document
   (directive)
   (section
-    (headline (stars) (title))
+    (headline (stars) (item))
     (property_drawer (property))
     ))
 
@@ -1342,3 +1358,112 @@ a c=a+d
 ----------
 
 (document (body (paragraph)))
+
+==========
+Table.1  -
+==========
+|a|
+----------
+
+(document (body (table (row (cell)))))
+
+==========
+Table.2  -
+==========
+|a|b|
+----------
+
+(document (body (table
+                  (row (cell) (cell))
+                  )))
+
+==========
+Table.3  -
+==========
+|a|b|
+|c|d|
+----------
+
+(document (body (table
+                  (row (cell) (cell))
+                  (row (cell) (cell))
+                  )))
+
+==========
+Table.4  -
+==========
+|a|b|
+| |d|
+----------
+
+(document (body (table
+                  (row (cell) (cell))
+                  (row (cell) (cell))
+                  )))
+
+
+==========
+Table.5  -
+==========
+|| |
+----------
+
+(document (body (table
+                  (row (cell) (cell))
+                  )))
+
+==========
+Table.6  -
+==========
+|-|
+----------
+
+(document (body (table)))
+
+==========
+Table.7  -
+==========
+|a | b |  c|
+|--+---+---|
+|Some words about | something |
+----------
+
+(document (body (table
+                  (row (cell) (cell) (cell))
+                  (row (cell) (cell))
+                  )))
+
+
+==========
+Table.8  -
+==========
+|a|b|
+|c|d|
+#+TBLFM: ab cd ef gh
+
+----------
+
+(document (body (table
+                  (row (cell) (cell))
+                  (row (cell) (cell))
+                  (formula)
+                  )))
+
+==========
+Table.9  -
+==========
+|a|b|
+|c|d|
+#+TBLFM: ab cd ef gh1
+#+TBLFM: ab cd ef gh2
+#+TBLFM: ab cd ef gh3
+
+----------
+
+(document (body (table
+                  (row (cell) (cell))
+                  (row (cell) (cell))
+                  (formula)
+                  (formula)
+                  (formula)
+                  )))

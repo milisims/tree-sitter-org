@@ -30,7 +30,7 @@ org_grammar = {
 
   conflicts: $ => [
     [$._itemtag, $._textelement], // textelement in $._itemtext
-    [$.title], // :tags: in headlines
+    [$.item], // :tags: in headlines
 
     // Markup
     [$._conflicts, $.bold],
@@ -74,7 +74,7 @@ org_grammar = {
       $._sectionend,
     ),
 
-    _eol: _ => choice('\0', '\n', '\r'), // repeating over this on its own is bad
+    _eol: _ => choice('\0', '\n', '\r'), // repeat($._eol) is bad
     _nl: _ => choice('\n', '\r'),
 
     body: $ => choice(
@@ -117,7 +117,7 @@ org_grammar = {
       $.block,
       $.dynamic_block,
       $.paragraph,
-      // $.table,
+      $.table,
       $.latex_env,
     ),
 
@@ -128,6 +128,7 @@ org_grammar = {
 
       $.footnote,
       $.link,
+
       $.bold,
       $.code,
       $.italic,
@@ -144,12 +145,15 @@ org_grammar = {
 
     headline: $ => seq(
       $.stars,
-      $.title,
+      optional(seq(
+        /[ \t]+/, // so it's not part of title
+        $.item,
+      )),
       optional($._taglist),
     ),
 
-    // the choice with ':' allows for the conflict of $.title to work
-    title: $ => repeat1(choice($._text, /[ \t]:/)),
+    // the choice with ':' allows for the conflict of $.title to operate
+    item: $ => repeat1(choice($._text, /[ \t]:/)),
 
     _taglist: $ => prec.dynamic(1,  // over title text
       seq(/[ \t]:/,
@@ -274,13 +278,21 @@ org_grammar = {
     subscript: $ => seq(
       $._text,
       token.immediate('_'),
-      $._bracket_expr,
+      choice(
+        /\p{L}+/,
+        /\p{N}+/,
+        $._bracket_expr,
+      ),
     ),
 
     superscript: $ => seq(
       $._text,
       token.immediate('^'),
-      $._bracket_expr,
+      choice(
+        token.immediate(/\p{L}+/),
+        token.immediate(/\p{N}+/),
+        $._bracket_expr
+      ),
     ),
 
     _bracket_expr: $ => seq(
@@ -481,7 +493,6 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listitemend,
-      // repeat(choice(' ', '\t')),
       $._eol,
     ),
 
@@ -491,7 +502,6 @@ org_grammar = {
       optional($._itemtag),
       optional($._itemtext),
       $._listend,
-      // repeat(choice(' ', '\t')), // should be covered in extras, but extras + scanner = ???
       optional($._eol), // Multiple lastitems consume the eol once
     ),
 
@@ -513,17 +523,26 @@ org_grammar = {
 
     // Table =============================================== {{{1
 
-    // table: $ => seq(
-    //   optional($._directives),
-    //   repeat1(choice($.row, $.separator)),
-    //   optional($._formulas),
-    // ),
+    table: $ => prec.right(seq(
+      optional($._directives),
+      repeat1(seq(choice($.row, $._hrule), $._eol)),
+      repeat($.formula),
+    )),
 
-    // row: $ => seq('|', $.cell, repeat(seq('|', $.cell)), '|', $._eol),
-    // separator: _ => /|[-+|]+|/,
+    row: $ => seq(repeat1($.cell), '|'),
+    cell: $ => seq('|', repeat($._text)),
+    _hrule: _ => seq(
+      '|',
+      repeat1(seq(/[-+]+/, '|')),
+      optional('-'), // FIXME
+    ),
 
-    // _formulas: $ => repeat1($.formula),
-    // formula: $ => seq('#+TBLFM:', field('formula', repeat($._text))),
+    // _hrule: $ => seq(
+    //   '|', '-', '|',
+    //   optional('-'),
+    //   ), Good test!
+
+    formula: $ => seq('#+TBLFM:', field('formula', repeat($._text)), $._eol),
 
     // Latex environment =================================== {{{1
 
@@ -567,6 +586,10 @@ org_grammar = {
       seq($._markup, '~'),
       seq($._markup, '='),
       seq(':', optional($._drawername)),
+      seq('\\', /[^\p{L}]+/),
+      seq($._text, '^', /[^{]/),
+      seq('$', token.immediate(/[^\p{Z}\n\r$]+/)),
+      // seq($._text, '^', /[^{]/),
       seq($._text, token.immediate('_'), token.immediate(/[^\p{Z}]/))
     ),
 
@@ -580,7 +603,7 @@ function make_markup(delim, textonly = false) {      // {{{1
     repeat1(textonly ? $._text : $._textelement),
     repeat(seq($._nl, repeat1(textonly ? $._text : $._textelement))),
     delim == '_' ? prec.dynamic(1, token.immediate(delim)) : token.immediate(delim),
-  ))
+  ))  // Dynamic prec on _ deals with subscript conflicts
 }
 
 // }}}
