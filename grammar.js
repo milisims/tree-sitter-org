@@ -66,8 +66,8 @@ org_grammar = {
     section: $ => seq(
       $.headline, $._eol,
       optional(seq(
-        optional(seq($.plan, $._eol)),
-        optional(seq($.property_drawer, $._eol)),
+        optional(seq(field('plan', $.plan), $._eol)),
+        optional(seq(field('property_drawer', $.property_drawer), $._eol)),
         optional($.body),
         repeat($.section),
       )),
@@ -149,11 +149,14 @@ org_grammar = {
         /[ \t]+/, // so it's not part of title
         $.item,
       )),
-      optional($._taglist),
+      optional(field('tags', $._taglist)),
     ),
 
     // the choice with ':' allows for the conflict of $.title to operate
-    item: $ => repeat1(choice($._text, /[ \t]:/)),
+    item: $ => seq(
+      field('first', choice($._text, /[ \t]:/)),
+      field('rest', repeat(choice($._text, /[ \t]:/))),
+    ),
 
     _taglist: $ => prec.dynamic(1,  // over title text
       seq(/[ \t]:/,
