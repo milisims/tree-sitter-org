@@ -154,12 +154,6 @@ struct Scanner {                                                       // {{{1
   bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
 
     // - Section ends                                                     {{{1
-    if (valid_symbols[SECTIONEND] && lexer->lookahead == '\0' && section_stack.back() > 0) {
-      lexer->result_symbol = SECTIONEND;
-      section_stack.pop_back();
-      return true;
-    }
-
     // I think section back > 0 is implied by it being valid
     // TEST: listitemend/listitemend should be mutually exclusive with sectionend
     if (valid_symbols[SECTIONEND] && lexer->lookahead == '\n') {
@@ -178,59 +172,69 @@ struct Scanner {                                                       // {{{1
       return false;
     }
 
-    int16_t indent_length = 0;
-    // - Listiem ends                                                     {{{1
-    // Listend -> end of a line, looking for:
-    // 1. dedent
-    // 2. same indent, not a bullet
-    // 3. three eols
-    if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
-      int16_t newlines = 0;
-      lexer->mark_end(lexer);
-      for (;;) {
-        if (lexer->lookahead == ' ') {
-          indent_length++;
-        } else if (lexer->lookahead == '\t') {
-          indent_length += 8;
-        } else if (lexer->lookahead == '\0') {
-          return dedent(lexer);
-        } else if (lexer->lookahead == '\n') {
-          if (++newlines > 2) return dedent(lexer);
-          indent_length = 0;
-        } else {
-          break;
-        }
-        skip(lexer);
-      }
-      if (newlines == 0) return false;
-
-      if (indent_length < indent_length_stack.back()) {
-        return dedent(lexer);
-      } else if (indent_length == indent_length_stack.back()) {
-        if (getbullet(lexer) == bullet_stack.back()) {
-          lexer->result_symbol = LISTITEMEND;
-          return true;
-        }
-        return dedent(lexer);
-      }
-      return false;
-    }
-
     // - Count whitespace                                                 {{{1
+    int16_t indent_length = 0;
     lexer->mark_end(lexer);
     for (;;) {
       if (lexer->lookahead == ' ') {
         indent_length++;
       } else if (lexer->lookahead == '\t') {
         indent_length += 8;
-      } else if (lexer->lookahead == '\n') {
-        return false;
       } else {
         break;
       }
       skip(lexer);
     }
 
+    if (valid_symbols[SECTIONEND] && lexer->lookahead == '\0' && section_stack.back() > 0) {
+      lexer->result_symbol = SECTIONEND;
+      lexer->mark_end(lexer);
+      section_stack.pop_back();
+      return true;
+    }
+
+    if (valid_symbols[LISTEND] && lexer->lookahead == '\0') {
+      lexer->result_symbol = LISTEND;
+      lexer->mark_end(lexer);
+      return true;
+    }
+
+    // - Listiem ends                                                     {{{1
+    // Listend -> end of a line, looking for:
+    // 1. dedent
+    // 2. same indent, not a bullet
+    // 3. three eols
+    if (lexer->lookahead == '\n') {
+      if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
+        int16_t newlines = 0;
+        for (;;) {
+          if (lexer->lookahead == ' ') {
+            indent_length++;
+          } else if (lexer->lookahead == '\t') {
+            indent_length += 8;
+          } else if (lexer->lookahead == '\0') {
+            return dedent(lexer);
+          } else if (lexer->lookahead == '\n') {
+            if (++newlines > 2) return dedent(lexer);
+            indent_length = 0;
+          } else {
+            break;
+          }
+          skip(lexer);
+        }
+
+        if (indent_length < indent_length_stack.back()) {
+          return dedent(lexer);
+        } else if (indent_length == indent_length_stack.back()) {
+          if (getbullet(lexer) == bullet_stack.back()) {
+            lexer->result_symbol = LISTITEMEND;
+            return true;
+          }
+          return dedent(lexer);
+        }
+      }
+      return false;
+    }
 
     // - Col=0 star                                                       {{{1
     if (indent_length == 0 && lexer->lookahead == '*') {
