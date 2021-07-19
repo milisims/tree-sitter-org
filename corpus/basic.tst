@@ -13,7 +13,7 @@ Headlines.1b - pre eol
 * l1
 ----------
 
-(document (body) (section (headline (stars) (item))))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.1c - Post eols (body)
@@ -23,7 +23,7 @@ Headlines.1c - Post eols (body)
 
 ----------
 
-(document (section (headline (stars) (item)) (body)))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.1d - More eols
@@ -34,7 +34,7 @@ Headlines.1d - More eols
 
 ----------
 
-(document (body) (section (headline (stars) (item)) (body)))
+(document (section (headline (stars) (item))))
 
 ==============
 Headlines.2  - level 2
@@ -46,7 +46,7 @@ Headlines.2  - level 2
 (document (section (headline (stars) (item))))
 
 ==============
-Headlines.3  - Two sections
+Headlines.3a - Two sections
 ==============
 * l1
 * l1
@@ -59,7 +59,7 @@ Headlines.3  - Two sections
   )
 
 ==============
-Headlines.3a - Two sections, eol
+Headlines.3b - Two sections, eol
 ==============
 * l1
 
@@ -67,7 +67,7 @@ Headlines.3a - Two sections, eol
 ----------
 
 (document
-  (section (headline (stars) (item)) (body))
+  (section (headline (stars) (item)))
   (section (headline (stars) (item)))
   )
 
@@ -97,7 +97,6 @@ Headlines.4a - Subsection eols
 (document
   (section
     (headline (stars) (item))
-    (body)
     (section (headline (stars) (item)))
     ))
 
@@ -230,9 +229,48 @@ PropertyDrawer.2  -
     ))
 
 ==========
-Body.1
+Body.1a
 ==========
 a
+----------
+
+(document (body (paragraph)))
+
+==========
+Body.1b
+==========
+a
+a
+----------
+
+(document (body (paragraph)))
+
+==========
+Body.1c
+==========
+
+a
+----------
+
+(document (body (paragraph)))
+
+==========
+Body.1d
+==========
+a
+
+----------
+
+(document (body (paragraph)))
+
+==========
+Body.1e
+==========
+
+
+a
+
+
 ----------
 
 (document (body (paragraph)))
@@ -246,32 +284,6 @@ Body.2
 
 (document (body (comment)))
 
-==========
-Body.3
-==========
-a
-
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.4
-==========
-
-a
-
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.5
-==========
-a
-----------
-
-(document (body (paragraph)))
 
 ==========
 Body.6
@@ -363,21 +375,35 @@ a
 ==========
 Paragraph.4
 ==========
-* headline
-words
-words
-words
 
-words
-words
+a
+a
+a
+
+a
 
 ----------
 
 (document
-  (section
-    (headline (stars) (item))
     (body (paragraph) (paragraph))
-    ))
+    )
+
+==========
+Paragraph.5
+==========
+
+a
+a
+a
+
+a
+a
+
+----------
+
+(document
+    (body (paragraph) (paragraph))
+    )
 
 ==============
 Timestamp.1  - Basic
@@ -483,7 +509,7 @@ Timestamp.8b - Junk
     ))
 
 ==========
-Plan
+Plan.1
 ==========
 * headline
 [1111-11-11 Day]
@@ -496,7 +522,7 @@ Plan
     ))
 
 ==========
-Scheduled
+Plan.2
 ==========
 * headline
 SCHEDULED: <1111-11-11 Day>
@@ -510,7 +536,7 @@ SCHEDULED: <1111-11-11 Day>
     ))
 
 =================
-Multiple plan
+Plan.3
 =================
 * headline
 DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
@@ -658,7 +684,7 @@ words
 ==========
 Comment.1
 ==========
-# Comment
+# a
 ----------
 
 (document
@@ -669,73 +695,81 @@ Comment.1
 ==========
 Comment.2
 ==========
-text
-# Comment
-----------
+# a
 
-(document
-  (body
-    (paragraph)
-    (comment)
-    ))
-
-==========
-Comment.3
-==========
-# Comment
-text
+# a
 ----------
 
 (document
   (body
     (comment)
-    (paragraph)
-    ))
-
-==========
-Comment.4
-==========
-text
-# Comment
-text
-
-# Comment
-# Comment
-----------
-
-(document
-  (body
-    (paragraph)
-    (comment)
-    (paragraph)
     (comment)
     ))
-
 
 ===========
-Markup.1  - Ya basic
+Markup.1a - Bold
 ===========
 a *b*
+----------
 
+(document
+  (body
+    (paragraph (bold))
+    ))
+
+===========
+Markup.1b - Italics
+===========
 a /b/
+----------
 
+(document
+  (body
+    (paragraph (italic))
+    ))
+
+===========
+Markup.1c - Code
+===========
 a ~b~
+----------
 
+(document
+  (body
+    (paragraph (code))
+    ))
+
+===========
+Markup.1d - Underline
+===========
 a _b_
+----------
 
+(document
+  (body
+    (paragraph (underline))
+    ))
+
+===========
+Markup.1e - Verbatim
+===========
 a =b=
+----------
 
+(document
+  (body
+    (paragraph (verbatim))
+    ))
+
+===========
+Markup.1f - Strikethrough
+===========
 a +b+
 
 ----------
 
 (document
   (body
-    (paragraph (bold))
-    (paragraph (italic))
-    (paragraph (code))
-    (paragraph (underline))
-    (paragraph (verbatim))
     (paragraph (strikethrough))
     ))
 
@@ -848,7 +882,7 @@ Markup.6 - Bold section
     ))
 
 ===========
-Markup.6 - Parens
+Markup.7 - Parens
 ===========
 (/a/)
 ----------
@@ -862,6 +896,20 @@ a/a/ b
 ----------
 
 (document (body (paragraph)))
+
+===========
+Markup.9  - Together
+===========
+a _b_
+
+a =b=
+----------
+
+(document
+  (body
+    (paragraph (underline))
+    (paragraph (verbatim))
+    ))
 
 ==========
 List.1a  - Basic: dash [-]
@@ -1123,7 +1171,7 @@ Directive.1  - Document
 #+a: b
 ----------
 
-(document (directive))
+(document (directive (name) (value)))
 
 ==============
 Directive.2  - Bare
@@ -1132,7 +1180,7 @@ Directive.2  - Bare
 #+a: b
 ----------
 
-(document (body (directive)))
+(document (body (directive (name) (value))))
 
 ==============
 Directive.3  - Doc & Bare
@@ -1142,17 +1190,26 @@ Directive.3  - Doc & Bare
 #+a: b
 ----------
 
-(document (directive) (body (directive)))
+(document (directive (name) (value)) (body (directive (name) (value))))
 
 ==============
-Directive.4  - Attached
+Directive.4a - Attached
 ==============
 
 #+a: b
-hello there
+c
 ----------
 
-(document (body (paragraph (directive))))
+(document (body (paragraph (directive (name) (value)))))
+
+==============
+Directive.4b - Attached
+==============
+#+a: b
+c
+----------
+
+(document (body (paragraph (directive (name) (value)))))
 
 ==============
 Directive.5  - No empty lines
@@ -1165,19 +1222,8 @@ c
 (document
   (section
     (headline (stars) (item))
-    (body (paragraph (directive)))
+    (body (paragraph (directive (name) (value))))
     ))
-
-==============
-Directive.5  - Precedences
-==============
-
-c
-#+a: b
-d
-----------
-
-(document (body (paragraph) (paragraph (directive))))
 
 ==============
 Directive.6a - List
@@ -1187,7 +1233,7 @@ Directive.6a - List
   - c
 ----------
 
-(document (body (list (directive) (listitem))))
+(document (body (list (directive (name) (value)) (listitem))))
 
 ==============
 Directive.6b - Sublist
@@ -1200,7 +1246,7 @@ Directive.6b - Sublist
 
 ----------
 
-(document (body (list (directive) (listitem (list (directive) (listitem))))))
+(document (body (list (directive (name) (value)) (listitem (list (directive (name) (value)) (listitem))))))
 
 =============
 LatexEnv.1  -
@@ -1335,11 +1381,111 @@ Combined.1  -
 ----------
 
 (document
-  (directive)
+  (directive (name) (value))
   (section
     (headline (stars) (item))
     (property_drawer (property))
     ))
+
+=============
+Combined.2  -
+=============
+a
+# a
+----------
+
+(document (body
+  (paragraph)
+  (comment)
+  ))
+
+=============
+Combined.3  -
+=============
+a
+# a
+a
+----------
+
+(document (body
+  (paragraph)
+  (comment)
+  (paragraph)
+  ))
+
+=============
+Combined.4  -
+=============
+# a
+a
+----------
+
+(document (body
+  (comment)
+  (paragraph)
+  ))
+
+=============
+Combined.5  -
+=============
+# a
+a
+# a
+----------
+
+(document (body
+  (comment)
+  (paragraph)
+  (comment)
+  ))
+
+=============
+Combined.6a -
+=============
+[fn:a] b
+a
+----------
+
+(document (body (fndef)))
+
+=============
+Combined.6b -
+=============
+a
+[fn:a] b
+----------
+
+(document (body
+  (paragraph
+    (footnote))
+  ))
+
+=============
+Combined.6c -
+=============
+a
+
+[fn:a] b
+----------
+
+(document (body
+  (paragraph)
+  (fndef)
+  ))
+
+=============
+Combined.7  -
+=============
+a
+:AB:
+c
+:END:
+----------
+
+(document (body
+  (paragraph)
+  (drawer)
+  ))
 
 ==================
 Miscellaneous.1  -
