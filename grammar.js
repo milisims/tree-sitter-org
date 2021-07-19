@@ -1,3 +1,4 @@
+// Dynamic precedence constants ========================== {{{1
 DYN = {
   multiline: -10,
   tablefm: 1,         // over directive
@@ -567,3 +568,4 @@ function sep1(rule, separator) {                 // {{{1
 // }}}
 
 module.exports = grammar(org_grammar);
+// vim: set fm=marker sw=2

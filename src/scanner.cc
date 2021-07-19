@@ -346,3 +346,5 @@ void tree_sitter_org_external_scanner_destroy(void *payload) {
 }
 
 }
+
+// vim: set fm=marker sw=2
