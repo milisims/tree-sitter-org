@@ -1,5 +1,7 @@
 # tree-sitter-org
 
+**Unstable**: This build will change.
+
 Org grammar for tree-sitter. It is not meant to implement emacs' orgmode
 parser, but to implement a grammar that can usefully parse org files to be used
 in neovim and any library that uses tree-sitter parsers.
