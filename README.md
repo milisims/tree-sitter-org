@@ -9,14 +9,14 @@ in neovim and any library that uses tree-sitter parsers.
 This section is meant to be a quick reference, not a thorough description.
 Refer to the tests in `corpus` for examples.
 
-Top level node: `(document)`
-Document contains: `(directive)* (body)? (section)*`
-Section contains: `(headline) (plan)? (property_drawer)? (body)?`
-headline contains: (stars, title, tag?+)
-body contains: `(element)+`
-element contains: (directive?, choose(paragraph, drawer, comment, footnote def, list, block, dynamic block, table))
-paragraph contains: (textelement)+
-text element: choose(unmarked text, markup text, timestamps, footnotes, links, latex fragments)
+- Top level node: `(document)`
+- Document contains: `(directive)* (body)? (section)*`
+- Section contains: `(headline) (plan)? (property_drawer)? (body)?`
+- headline contains: (stars, title, tag?+)
+- body contains: `(element)+`
+- element contains: `(directive)* choose(paragraph, drawer, comment, footnote def, list, block, dynamic block, table)`
+- paragraph contains: (textelement)+
+- text element: choose(unmarked text, markup text, timestamps, footnotes, links, latex fragments)
 
 Like in many regex systems, `*/+` is read as "0/1 or more", and `?` is 0 or 1.
 
@@ -41,6 +41,7 @@ Some *marked up* words
 Text
 ```
 
+Parses as:
 ```
 (document [0, 0] - [16, 0]
   (directive [0, 0] - [0, 16]
@@ -78,6 +79,14 @@ Text
 To compile the parser library for use in neovim & others:
 
 `gcc -o org.so -I./src src/parser.c src/scanner.cc -shared -Os -lstdc++`
+
+
+To build the parser using npm and run tests:
+
+1. Install node.js as mentioned in the [tree-sitter documentation](https://tree-sitter.github.io/tree-sitter/creating-parsers#dependencies)
+2. Clone this repository: `git clone https://github.com/milisims/tree-sitter-org` and `cd` into it
+2. Install tree-sitter using npm: `npm install tree-sitter-cli`
+
 
 ## TODO
 
