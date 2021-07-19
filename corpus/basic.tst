@@ -1164,6 +1164,13 @@ List.8b  - Whitespace after text
 ----------
 
 (document (body (list (listitem))))
+==========
+List.9   - With markup
+==========
+  - A *b* c
+----------
+
+(document (body (list (listitem (bold)))))
 
 ==============
 Directive.1  - Document
