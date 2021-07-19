@@ -1,13 +1,14 @@
 // Dynamic precedence constants ========================== {{{1
 DYN = {
   multiline: -10,
-  tablefm: 1,         // over directive
+  tablefm: 1,       // over directive
   paragraphnl: -1,
   paragraphtext: 1,
-  nonparagraph: 10,   // not sure why this needs to be so high
+  nonparagraph: 10, // not sure why this needs to be so high
   hltags: 1,
   listtag: 1,
   conflicts: -1,
+  footnote: 1,      // paragraph\nfn -> continued paragraph (footnote) instead of fndef
 }
 
 org_grammar = {
@@ -369,17 +370,17 @@ org_grammar = {
         $._fn_label,
         ']',
         $._paragraph_body,
-      )),
+    )),
 
     footnote: $ => prec('footnote',
-      seq(
+      prec.dynamic(DYN.footnote, seq(
         $._fn,
         choice(
           $._fn_label,
           seq(optional($._fn_label), token.immediate(':'), $._paragraph_body),
         ),
         ']',
-      )),
+      ))),
 
     // Directive & Comments================================= {{{1
 
