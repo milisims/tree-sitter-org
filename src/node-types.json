@@ -698,6 +698,11 @@
     }
   },
   {
+    "type": "stars",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "subscript",
     "named": true,
     "fields": {}
@@ -915,10 +920,6 @@
   },
   {
     "type": "repeater",
-    "named": true
-  },
-  {
-    "type": "stars",
     "named": true
   },
   {

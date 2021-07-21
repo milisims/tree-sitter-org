@@ -428,16 +428,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_stars"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "\\*+"
-          },
-          "named": true,
-          "value": "stars"
+          "name": "stars"
         },
         {
           "type": "CHOICE",
@@ -475,6 +466,19 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "stars": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_stars"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\*+"
         }
       ]
     },

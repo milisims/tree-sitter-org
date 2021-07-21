@@ -130,13 +130,15 @@ org_grammar = {
     // Headlines =========================================== {{{1
 
     headline: $ => seq(
-      $._stars, alias(/\*+/, $.stars),
+      $.stars,
       optional(seq(
         /[ \t]+/, // so it's not part of title
         $.item,
       )),
       optional(field('tags', $._taglist)),
     ),
+
+    stars: $ => seq(prec.dynamic(10, $._stars), /\*+/),
 
     // the choice with ':' allows for the conflict of $.title to operate
     item: $ => seq(

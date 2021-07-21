@@ -191,6 +191,25 @@ c*
     (body (paragraph))
     ))
 
+==============
+Headlines.10 - Precedences
+==============
+* a
+  b
+
+* c
+  d
+----------
+
+(document
+  (section
+    (headline (stars) (item))
+    (body (paragraph)))
+  (section
+    (headline (stars) (item))
+    (body (paragraph)))
+    )
+
 ===================
 PropertyDrawer.1  -
 ===================
