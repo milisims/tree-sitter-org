@@ -1,14 +1,9 @@
 // Dynamic precedence constants ========================== {{{1
 DYN = {
-  multiline: -10,
-  tablefm: 1,       // over directive
-  paragraphnl: -1,
-  paragraphtext: 1,
-  nonparagraph: 10, // not sure why this needs to be so high
+  multiline: -1,
   hltags: 1,
   listtag: 1,
   conflicts: -1,
-  footnote: 1,      // paragraph\nfn -> continued paragraph (footnote) instead of fndef
 }
 
 org_grammar = {
@@ -25,6 +20,7 @@ org_grammar = {
     $.stars,
     $._sectionend,
     $._markup,
+    $._eof,  // Basically just '\0', but allows multiple to be matched
   ],
 
   inline: $ => [
@@ -38,12 +34,11 @@ org_grammar = {
 
   precedences: _ => [
     ['fn_definition', 'footnote'],
-    ['eol', 'nl'],
   ],
 
   conflicts: $ => [
     [$._itemtag, $._textelement], // textelement in $._itemtext
-    [$.item], // :tags: in headlines
+    [$.item],                    // :tags: in headlines
 
     // Markup
     [$._conflicts, $.bold],
@@ -53,26 +48,11 @@ org_grammar = {
     [$._conflicts, $.code],
     [$._conflicts, $.verbatim],
 
-    // For deciding where the newlines go
-    [$._nl, $._eol],
+    // Multiline -- continue the item or start a new one?
     [$.body],
-    [$._paragraph_body],
-    [$._text_body],
     [$.paragraph],
-    [$.comment],
-    [$.section],
     [$.table],
-
-    // _text_body conflicts
-    [$.drawer],
-    [$.block],
-    [$.dynamic_block],
-    [$.latex_env],
     [$.fndef],
-
-    // directives
-    // [$.document, $.paragraph, $._element, $.fndef, $.drawer, $.block, $.dynamic_block, $.list, $.table, $.latex_env],
-    // [$.paragraph, $._element, $.fndef, $.drawer, $.block, $.dynamic_block, $.list, $.table, $.latex_env],
 
     // Subscript and underlines
     [$._textelement, $.subscript, $._conflicts],
@@ -82,49 +62,50 @@ org_grammar = {
   rules: {
     // Document, sections, body, & paragraph =============== {{{1
 
+    // prec over body -> element for directive list
     document: $ => prec(1, seq(
       optional(choice(
-        seq($._directive_list, $._eol),
-        seq($._directive_list, $._nl, repeat1($._nl), $.body),
+        $._directive_list,              // required in combination with:
+        seq($._directive_list, $._eof), // equal precedence with _element
         seq(repeat($._nl), $.body),
+        seq($._directive_list, repeat1($._nl), $.body),
       )),
       repeat($._nl),
-      optional(sep1($.section, $._nl))
+      repeat($.section),
     )),
 
     _nl: _ => choice('\n', '\r'),
-    _eol: _ => choice('\n', '\r', '\0'),
+    _eol: $ => choice('\n', '\r', $._eof),
 
     section: $ => seq(
-      $.headline,
-      optional(seq($._nl, field('plan', $.plan))),
-      optional(seq($._nl, field('property_drawer', $.property_drawer))),
-      optional(seq(repeat1($._nl), $.body)),
-      optional(choice(
-        repeat1($._nl),
-        repeat1(seq(repeat1($._nl), $.section)),
-      )),
+      $.headline, $._eol,
+      optional(seq($.plan)),
+      optional(seq($.property_drawer)),
+      repeat($._nl),
+      optional(seq($.body, repeat($._nl))),
+      repeat($.section),
       $._sectionend,
     ),
 
-    body: $ =>  sep1($._element, repeat1($._nl)),
-    _paragraph_body: $ => sep1(repeat1($._textelement), $._nl),
-    // _paragraph_body: $ => sep1(prec.dynamic(1, repeat1($._textelement)), prec.dynamic(-1, $._nl)),
-    _text_body: $ => sep1(repeat1($._text), $._nl),
+    body: $ => choice(
+      seq(sep1($._element, repeat($._nl))),
+      seq(sep1($._element, repeat($._nl)), $._directive_list),
+      $._directive_list,
+    ),  // the directive list + choice Solves Directive.7
 
     // Element and textelement ============================= {{{1
 
     _element: $ => choice(
-      seq($._directive_list, $._eol),
+      seq($._directive_list, $._eof),
       $.comment,
 
       // Have attached directive
+      $.paragraph,
       $.fndef,
       $.drawer,
       $.list,
       $.block,
       $.dynamic_block,
-      $.paragraph,
       $.table,
       $.latex_env,
     ),
@@ -153,11 +134,8 @@ org_grammar = {
 
     // Prec prefers one paragraph over multiple for multi-line
     paragraph: $ => prec.dynamic(DYN.multiline, seq(
-      optional(seq($._directive_list, $._nl)),
-      sep1(
-        prec.dynamic(DYN.paragraphtext, repeat1($._textelement)),
-        prec.dynamic(DYN.paragraphnl, $._nl)
-      ),
+      optional($._directive_list),
+      repeat1(seq(repeat1($._textelement), $._eol)),
     )),
 
     // Headlines =========================================== {{{1
@@ -190,7 +168,7 @@ org_grammar = {
       ':PROPERTIES:',
       sep1(repeat1($._nl), $.property),
       ':END:',
-      optional(':'), // FIXME: report bug
+      $._eol,
     ),
 
     property: $ => seq(
@@ -206,13 +184,16 @@ org_grammar = {
     _deadline:      _ => 'DEADLINE:',
     _closed:        _ => 'CLOSED:',
 
-    plan: $ => repeat1(prec(1, // precedence over paragraph→timestamp
-      choice(
-        $.timestamp,
-        $.scheduled,
-        $.deadline,
-        $.closed,
-      ))),
+    plan: $ => seq(
+      repeat1(prec(1, // precedence over paragraph→timestamp
+        choice(
+          $.timestamp,
+          $.scheduled,
+          $.deadline,
+          $.closed,
+        ))),
+      $._eol,
+    ),
 
     scheduled: $ => seq($._scheduled, $.timestamp),
     deadline: $ => seq($._deadline, $.timestamp),
@@ -365,56 +346,62 @@ org_grammar = {
 
     fndef: $ => prec('fn_definition',
       seq(
-        optional(seq($._directive_list, $._nl)),
+        optional($._directive_list),
         $._fn,
         $._fn_label,
         ']',
-        $._paragraph_body,
+        repeat1(seq(repeat1($._textelement), $._eol)),
+      )),
+
+    footnote: $ => prec('footnote', seq(
+      $._fn,
+      choice(
+        $._fn_label,
+        seq(
+          optional($._fn_label),
+          token.immediate(':'),
+          sep1(repeat1($._textelement), $._eol)
+        ),
+      ),
+      ']',
     )),
 
-    footnote: $ => prec('footnote',
-      prec.dynamic(DYN.footnote, seq(
-        $._fn,
-        choice(
-          $._fn_label,
-          seq(optional($._fn_label), token.immediate(':'), $._paragraph_body),
-        ),
-        ']',
-      ))),
+    // Directive & Comment ================================= {{{1
 
-    // Directive & Comments================================= {{{1
-
-    _directive_list: $ => sep1($.directive, $._nl),
+    _directive_list: $ => repeat1($.directive),
 
     directive: $ => seq(
       '#+',
       field('name', alias(token.immediate(/[^\p{Z}\n\r:]+/), $.name)),
       token.immediate(':'),
       field('value', alias(repeat($._text), $.value)),
+      $._eol
     ),
 
-    comment: $ => sep1(seq(prec.dynamic(DYN.nonparagraph, /#[^+\n\r]/), repeat($._text)), $._nl),
+    comment: $ => prec.right(repeat1(seq(/#[^+\n\r]/, repeat($._text), $._eol))),
 
     // Drawer ============================================== {{{1
 
+    // precedence over :
     drawer: $ => seq(
-      optional(seq($._directive_list, $._nl)),
+      optional($._directive_list),
       $._drawer_begin,
-      sep1(repeat1($._nl), $._paragraph_body),
+      repeat($._nl),
+      repeat(seq(repeat1($._textelement), repeat1($._nl))),
       $._drawer_end,
     ),
 
-    _drawer_begin: $ => seq( ':', $._drawername, token.immediate(':')),
-    // FIXME: report bug about optional(':')
-    _drawer_end: $ => seq( ':END:', optional(':')),
+    _drawer_begin: $ => seq(':', $._drawername, token.immediate(':'), $._nl),
+    _drawer_end: $ => seq(':END:', $._eol),
     _drawername: _ => token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
 
     // Block =============================================== {{{1
 
     block: $ => seq(
-      optional(seq($._directive_list, $._nl)),
+      optional($._directive_list),
       $._block_begin,
-      sep1(repeat1($._nl), $._text_body),
+      repeat($._nl),
+      repeat(seq(repeat1($._text), repeat1($._nl))),
       $._block_end,
     ),
 
@@ -422,11 +409,12 @@ org_grammar = {
       '#+BEGIN_',
       alias($._name, $.name),
       optional(alias(repeat1($._text), $.parameters)),
+      $._eol,
     ),
 
     _block_end: $ => seq(
       '#+END_', $._name,
-      optional('_'), // FIXME: report bug
+      $._eol,
     ),
 
     _name: _ => token.immediate(/[^\p{Z}\n\r]+/),
@@ -434,9 +422,10 @@ org_grammar = {
     // Dynamic block ======================================= {{{1
 
     dynamic_block: $ => seq(
-      optional(seq($._directive_list, $._nl)),
+      optional($._directive_list),
       $._dynamic_begin,
-      sep1(repeat1($._nl), $._text_body),
+      repeat($._nl),
+      repeat(seq(repeat1($._text), repeat1($._nl))),
       $._dynamic_end,
     ),
 
@@ -444,18 +433,19 @@ org_grammar = {
       '#+BEGIN:',
       alias(/[^\p{Z}\n\r]+/, $.name),
       optional(alias(repeat1($._text), $.parameters)),
+      $._eol,
     ),
 
     _dynamic_end: $ => seq(
       '#+END:',
-      optional(':'), // FIXME: report bug
+      $._eol,
     ),
 
     // Lists =============================================== {{{1
 
     list: $ => seq(
-      optional(seq($._directive_list, $._nl)),
-      $._liststart,  // captures indent length and bullet
+      optional($._directive_list),
+      $._liststart,  // captures indent length and bullet type
       repeat(seq($.listitem, $._listitemend, repeat1($._nl))),
       seq($.listitem, $._listend)
     ),
@@ -487,28 +477,28 @@ org_grammar = {
 
     // prec so a new row is higher precedence than a new table
     table: $ => prec.dynamic(DYN.multiline, seq(
-      optional(seq($._directive_list, $._nl)),
-      sep1(choice($.row, $._hrule), $._nl),
-      repeat(seq($._nl, $.formula)),
+      optional($._directive_list),
+      repeat1(choice($.row, $._hrule)),
+      repeat($.formula),
     )),
 
-    row: $ => seq(repeat1($.cell), '|'),
+    row: $ => seq(repeat1($.cell), '|', $._eol),
     cell: $ => seq('|', field('contents', repeat($._text))),
-    _hrule: _ => seq(
+    _hrule: $ => seq(
       '|',
       repeat1(seq(/[-+]+/, '|')),
-      optional('-'), // FIXME
+      $._eol,
     ),
 
-    // prec over directive. Not sure why it needs to be 2 over 1.
-    formula: $ => prec.dynamic(DYN.tablefm, seq('#+TBLFM:', field('formula', repeat($._text)))),
+    formula: $ => seq('#+TBLFM:', field('formula', repeat($._text)), $._eol),
 
     // Latex environment =================================== {{{1
 
     latex_env: $ => seq(
-      optional(seq($._directive_list, $._nl)),
+      optional($._directive_list),
       $._env_begin,
-      sep1(repeat1($._nl), $._text_body),
+      repeat($._nl),
+      repeat(seq(repeat1($._text), repeat1($._nl))),
       $._env_end,
     ),
 
@@ -516,13 +506,14 @@ org_grammar = {
       '\\begin{',
       field('name', /[\p{L}\p{N}]+/),
       token.immediate('}'),
+      $._eol
     ),
 
     _env_end: $ => seq(
       '\\end{',
       /[\p{L}\p{N}]+/,
       token.immediate('}'),
-      optional('}'), // FIXME: report bug
+      $._eol
     ),
 
     // Text ================================================ {{{1

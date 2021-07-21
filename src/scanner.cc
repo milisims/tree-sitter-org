@@ -18,6 +18,7 @@ enum TokenType {                                                       // {{{1
   HLSTARS,
   SECTIONEND,
   MARKUP,
+  ENDOFFILE,
 };
 
 enum Bullet {                                                          // {{{1
@@ -151,152 +152,136 @@ struct Scanner {                                                       // {{{1
     return NOTABULLET;
   }
 
-  bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
+bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
 
-    // - Section ends                                                     {{{1
-    // I think section back > 0 is implied by it being valid
-    // TEST: listitemend/listitemend should be mutually exclusive with sectionend
-    if (valid_symbols[SECTIONEND] && lexer->lookahead == '\n') {
-      lexer->mark_end(lexer);
-      skip(lexer);
-      int stars = 0;
-      while (lexer->lookahead == '*') {
-        stars++;
+
+  // - Section ends                                                     {{{2
+
+  int16_t indent_length = 0;
+  lexer->mark_end(lexer);
+  for (;;) {
+    if (lexer->lookahead == ' ') {
+      indent_length++;
+    } else if (lexer->lookahead == '\t') {
+      indent_length += 8;
+    } else if (lexer->lookahead == '\0') {
+
+      // if (valid_symbols[LISTITEMEND])     { lexer->result_symbol = LISTITEMEND; }
+      // else
+      if (valid_symbols[LISTEND])    { lexer->result_symbol = LISTEND; }
+      else if (valid_symbols[SECTIONEND]) { lexer->result_symbol = SECTIONEND; }
+      else if (valid_symbols[ENDOFFILE])  { lexer->result_symbol = ENDOFFILE; }
+      else return false;
+
+      return true;
+    } else {
+      break;
+    }
+    skip(lexer);
+  }
+
+  // - Listiem ends                                                     {{{2
+  // Listend -> end of a line, looking for:
+  // 1. dedent
+  // 2. same indent, not a bullet
+  // 3. three eols
+  if (lexer->lookahead == '\n') {
+    if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
+      int16_t newlines = 0;
+      for (;;) {
+        if (lexer->lookahead == ' ') {
+          indent_length++;
+        } else if (lexer->lookahead == '\t') {
+          indent_length += 8;
+        } else if (lexer->lookahead == '\0') {
+          return dedent(lexer);
+        } else if (lexer->lookahead == '\n') {
+          if (++newlines > 2) return dedent(lexer);
+          indent_length = 0;
+        } else {
+          break;
+        }
         skip(lexer);
       }
-      if (stars > 0 && stars <= section_stack.back()) {
-        section_stack.pop_back();
-        lexer->result_symbol = SECTIONEND;
-        return true;
-      }
-      return false;
-    }
 
-    // - Count whitespace                                                 {{{1
-    int16_t indent_length = 0;
+      if (indent_length < indent_length_stack.back()) {
+        return dedent(lexer);
+      } else if (indent_length == indent_length_stack.back()) {
+        if (getbullet(lexer) == bullet_stack.back()) {
+          lexer->result_symbol = LISTITEMEND;
+          return true;
+        }
+        return dedent(lexer);
+      }
+    }
+    return false;
+  }
+
+  // - Col=0 star                                                       {{{2
+  if (indent_length == 0 && lexer->lookahead == '*') {
     lexer->mark_end(lexer);
-    for (;;) {
-      if (lexer->lookahead == ' ') {
-        indent_length++;
-      } else if (lexer->lookahead == '\t') {
-        indent_length += 8;
-      } else {
-        break;
-      }
+    int16_t stars = 1;
+    skip(lexer);
+    while (lexer->lookahead == '*') {
+      stars++;
       skip(lexer);
     }
 
-    if (valid_symbols[SECTIONEND] && lexer->lookahead == '\0' && section_stack.back() > 0) {
-      lexer->result_symbol = SECTIONEND;
-      lexer->mark_end(lexer);
+    if (valid_symbols[SECTIONEND] && iswspace(lexer->lookahead) && stars > 0 && stars <= section_stack.back()) {
       section_stack.pop_back();
+      lexer->result_symbol = SECTIONEND;
+      return true;
+    } else if (valid_symbols[HLSTARS] && iswspace(lexer->lookahead)) {
+      section_stack.push_back(stars);
+      lexer->mark_end(lexer);
+      lexer->result_symbol = HLSTARS;
+      return true;
+    } else if (valid_symbols[MARKUP] && stars == 1 && (!iswspace(lexer->lookahead) && lexer->lookahead != '\0')) {
+      lexer->result_symbol = MARKUP;
       return true;
     }
+    return false;
+  }
 
-    if (valid_symbols[LISTEND] && lexer->lookahead == '\0') {
-      lexer->result_symbol = LISTEND;
+  // - Liststart and bullets                                            {{{2
+
+  if (valid_symbols[LISTSTART] || valid_symbols[BULLET]) {
+
+    // + and * need processing here, getbullet skips characters.
+    bool markup = lexer->lookahead == '+' || lexer->lookahead == '*';
+    Bullet bullet = getbullet(lexer);
+
+    if (valid_symbols[BULLET] && bullet == bullet_stack.back() && indent_length == indent_length_stack.back()) {
       lexer->mark_end(lexer);
+      lexer->result_symbol = BULLET;
       return true;
-    }
-
-    // - Listiem ends                                                     {{{1
-    // Listend -> end of a line, looking for:
-    // 1. dedent
-    // 2. same indent, not a bullet
-    // 3. three eols
-    if (lexer->lookahead == '\n') {
-      if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
-        int16_t newlines = 0;
-        for (;;) {
-          if (lexer->lookahead == ' ') {
-            indent_length++;
-          } else if (lexer->lookahead == '\t') {
-            indent_length += 8;
-          } else if (lexer->lookahead == '\0') {
-            return dedent(lexer);
-          } else if (lexer->lookahead == '\n') {
-            if (++newlines > 2) return dedent(lexer);
-            indent_length = 0;
-          } else {
-            break;
-          }
-          skip(lexer);
-        }
-
-        if (indent_length < indent_length_stack.back()) {
-          return dedent(lexer);
-        } else if (indent_length == indent_length_stack.back()) {
-          if (getbullet(lexer) == bullet_stack.back()) {
-            lexer->result_symbol = LISTITEMEND;
-            return true;
-          }
-          return dedent(lexer);
-        }
-      }
-      return false;
-    }
-
-    // - Col=0 star                                                       {{{1
-    if (indent_length == 0 && lexer->lookahead == '*') {
-      lexer->mark_end(lexer);
-      int16_t stars = 1;
-      skip(lexer);
-      while (lexer->lookahead == '*') {
-        stars++;
-        skip(lexer);
-      }
-
-      if (valid_symbols[HLSTARS] && lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-        section_stack.push_back(stars);
-        lexer->mark_end(lexer);
-        lexer->result_symbol = HLSTARS;
-        return true;
-      } else if (valid_symbols[MARKUP] && stars == 1 && (!iswspace(lexer->lookahead) && lexer->lookahead != '\0')) {
-        lexer->result_symbol = MARKUP;
-        return true;
-      }
-      return false;
-    }
-
-    // - Liststart and bullets                                            {{{1
-
-    if (valid_symbols[LISTSTART] || valid_symbols[BULLET]) {
-
-      // + and * need processing here, getbullet skips characters.
-      bool markup = lexer->lookahead == '+' || lexer->lookahead == '*';
-      Bullet bullet = getbullet(lexer);
-
-      if (valid_symbols[BULLET] && bullet == bullet_stack.back() && indent_length == indent_length_stack.back()) {
-        lexer->mark_end(lexer);
-        lexer->result_symbol = BULLET;
-        return true;
-      } else if (valid_symbols[LISTSTART] && bullet != NOTABULLET && indent_length > indent_length_stack.back()) {
-        indent_length_stack.push_back(indent_length);
-        bullet_stack.push_back(bullet);
-        lexer->result_symbol = LISTSTART;
-        return true;
-      } else if (valid_symbols[MARKUP] && bullet == NOTABULLET && markup) {
-        lexer->result_symbol = MARKUP;
-        return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
-      }
-    }
-
-    // - Markup                                                           {{{1
-    if (valid_symbols[MARKUP] && (indent_length > 0 || lexer->get_column(lexer) == 0)
-      && (lexer->lookahead == '*'
-      || lexer->lookahead == '/'
-      || lexer->lookahead == '_'
-      || lexer->lookahead == '+'
-      || lexer->lookahead == '~'
-      || lexer->lookahead == '=')) {
-      lexer->mark_end(lexer);
-      skip(lexer);
+    } else if (valid_symbols[LISTSTART] && bullet != NOTABULLET && indent_length > indent_length_stack.back()) {
+      indent_length_stack.push_back(indent_length);
+      bullet_stack.push_back(bullet);
+      lexer->result_symbol = LISTSTART;
+      return true;
+    } else if (valid_symbols[MARKUP] && bullet == NOTABULLET && markup) {
       lexer->result_symbol = MARKUP;
       return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
     }
-    // - Default                                                          {{{1
-    return false;
   }
+
+  // - Markup                                                           {{{2
+  if (valid_symbols[MARKUP] && (indent_length > 0 || lexer->get_column(lexer) == 0)
+    && (lexer->lookahead == '*'
+    || lexer->lookahead == '/'
+    || lexer->lookahead == '_'
+    || lexer->lookahead == '+'
+    || lexer->lookahead == '~'
+    || lexer->lookahead == '=')) {
+    lexer->mark_end(lexer);
+    skip(lexer);
+    lexer->result_symbol = MARKUP;
+    return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
+  }
+  // - Default                                                          {{{2
+  return false;
+}
 };
 
 }

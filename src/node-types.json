@@ -818,28 +818,7 @@
   {
     "type": "section",
     "named": true,
-    "fields": {
-      "plan": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "plan",
-            "named": true
-          }
-        ]
-      },
-      "property_drawer": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "property_drawer",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
@@ -850,6 +829,14 @@
         },
         {
           "type": "headline",
+          "named": true
+        },
+        {
+          "type": "plan",
+          "named": true
+        },
+        {
+          "type": "property_drawer",
           "named": true
         },
         {
@@ -1065,10 +1052,6 @@
     "type": "verbatim",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "\u0000",
-    "named": false
   },
   {
     "type": "\n",

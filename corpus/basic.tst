@@ -856,11 +856,9 @@ Markup.5c - Junk
 ===========
 Markup.5d - Junk
 ===========
-
 b *a
 
 * b* a
-
 ----------
 
 (document
@@ -1176,6 +1174,7 @@ List.9   - With markup
 Directive.1  - Document
 ==============
 #+a: b
+
 ----------
 
 (document (directive (name) (value)))
@@ -1254,6 +1253,16 @@ Directive.6b - Sublist
 ----------
 
 (document (body (list (directive (name) (value)) (listitem (list (directive (name) (value)) (listitem))))))
+
+==============
+Directive.7  - Directive unrelated to section
+==============
+
+#+a: b
+* c
+----------
+
+(document (body (directive (name) (value))) (section (headline (stars) (item))))
 
 =============
 LatexEnv.1  -
