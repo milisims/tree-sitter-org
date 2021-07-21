@@ -707,62 +707,62 @@ Comment.2
     ))
 
 ===========
-Markup.1a - Bold
+Markup.1a - markup
 ===========
 a *b*
 ----------
 
 (document
   (body
-    (paragraph (bold))
+    (paragraph (markup))
     ))
 
 ===========
-Markup.1b - Italics
+Markup.1b - markups
 ===========
 a /b/
 ----------
 
 (document
   (body
-    (paragraph (italic))
+    (paragraph (markup))
     ))
 
 ===========
-Markup.1c - Code
+Markup.1c - markup
 ===========
 a ~b~
 ----------
 
 (document
   (body
-    (paragraph (code))
+    (paragraph (markup))
     ))
 
 ===========
-Markup.1d - Underline
+Markup.1d - markup
 ===========
 a _b_
 ----------
 
 (document
   (body
-    (paragraph (underline))
+    (paragraph (markup))
     ))
 
 ===========
-Markup.1e - Verbatim
+Markup.1e - markup
 ===========
 a =b=
 ----------
 
 (document
   (body
-    (paragraph (verbatim))
+    (paragraph (markup))
     ))
 
 ===========
-Markup.1f - Strikethrough
+Markup.1f - markup
 ===========
 a +b+
 
@@ -770,7 +770,7 @@ a +b+
 
 (document
   (body
-    (paragraph (strikethrough))
+    (paragraph (markup))
     ))
 
 ===========
@@ -779,7 +779,7 @@ Markup.2a - start of line
 *b*
 ----------
 
-(document (body (paragraph (bold))))
+(document (body (paragraph (markup))))
 
 ===========
 Markup.2b - start of line
@@ -787,7 +787,7 @@ Markup.2b - start of line
 /b/
 ----------
 
-(document (body (paragraph (italic))))
+(document (body (paragraph (markup))))
 
 ===========
 Markup.2c - start of line
@@ -795,7 +795,7 @@ Markup.2c - start of line
 +b+
 ----------
 
-(document (body (paragraph (strikethrough))))
+(document (body (paragraph (markup))))
 
 ==========
 Markup.3a - Within
@@ -803,7 +803,7 @@ Markup.3a - Within
 a *b /c d/ e*
 ----------
 
-(document (body (paragraph (bold (italic)))))
+(document (body (paragraph (markup (markup)))))
 
 ==========
 Markup.3b - Within
@@ -811,7 +811,7 @@ Markup.3b - Within
 a _b ~c d~ e_
 ----------
 
-(document (body (paragraph (underline (code)))))
+(document (body (paragraph (markup (markup)))))
 
 ==========
 Markup.3c - Within
@@ -819,7 +819,7 @@ Markup.3c - Within
 a =b +c d+ e=
 ----------
 
-(document (body (paragraph (verbatim))))
+(document (body (paragraph (markup (markup)))))
 
 ==========
 Markup.4 - Multi
@@ -827,7 +827,7 @@ Markup.4 - Multi
 +a /b/ b+
 ----------
 
-(document (body (paragraph (strikethrough (italic)))))
+(document (body (paragraph (markup (markup)))))
 
 ===========
 Markup.5a - Junk
@@ -867,7 +867,7 @@ b *a
   )
 
 ===========
-Markup.6 - Bold section
+Markup.6 - markup section
 ===========
 * a
  *b*
@@ -876,7 +876,7 @@ Markup.6 - Bold section
 (document
   (section
     (headline (stars) (item))
-    (body (paragraph (bold)))
+    (body (paragraph (markup)))
     ))
 
 ===========
@@ -885,7 +885,7 @@ Markup.7 - Parens
 (/a/)
 ----------
 
-(document (body (paragraph (italics))))
+(document (body (paragraph (markup))))
 
 ===========
 Markup.8 - Not markup
@@ -905,8 +905,8 @@ a =b=
 
 (document
   (body
-    (paragraph (underline))
-    (paragraph (verbatim))
+    (paragraph (markup))
+    (paragraph (markup))
     ))
 
 ==========
@@ -1168,7 +1168,7 @@ List.9   - With markup
   - A *b* c
 ----------
 
-(document (body (list (listitem (bold)))))
+(document (body (list (listitem (markup)))))
 
 ==============
 Directive.1  - Document
@@ -1362,7 +1362,7 @@ a $b+c$ d
 (document (body (paragraph (latex_fragment))))
 
 ==================
-LatexFragment.5  -
+LatexFragment.5  - Not a fragment -- use query
 ==================
 a$b+c$d
 ----------

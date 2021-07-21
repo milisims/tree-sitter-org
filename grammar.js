@@ -41,12 +41,7 @@ org_grammar = {
     [$.item],                    // :tags: in headlines
 
     // Markup
-    [$._conflicts, $.bold],
-    [$._conflicts, $.italic],
-    [$._conflicts, $.underline],
-    [$._conflicts, $.strikethrough],
-    [$._conflicts, $.code],
-    [$._conflicts, $.verbatim],
+    [$._conflicts, $.markup],
 
     // Multiline -- continue the item or start a new one?
     [$.body],
@@ -118,13 +113,7 @@ org_grammar = {
       $.footnote,
       $.link,
 
-      $.bold,
-      $.code,
-      $.italic,
-      $.verbatim,
-      $.underline,
-      $.strikethrough,
-
+      $.markup,
       $.subscript,
       $.superscript,
       $.latex_fragment,
@@ -271,12 +260,15 @@ org_grammar = {
 
     // Markup ============================================== {{{1
 
-    bold:          make_markup('*'),
-    italic:        make_markup('/'),
-    underline:     make_markup('_'),
-    strikethrough: make_markup('+'),
-    code:          make_markup('~', true),
-    verbatim:      make_markup('=', true),
+    markup: $ => seq(prec(1, $._markup), choice(
+      seq(field('type', '*'), sep1(repeat1($._textelement), $._nl), token.immediate('*')),
+      seq(field('type', '/'), sep1(repeat1($._textelement), $._nl), token.immediate('/')),
+      seq(field('type', '_'), sep1(repeat1($._textelement), $._nl), token.immediate('_')),
+      seq(field('type', '+'), sep1(repeat1($._textelement), $._nl), token.immediate('+')),
+      seq(field('type', '~'), sep1(repeat1($._textelement), $._nl), token.immediate('~')),
+      seq(field('type', '='), sep1(repeat1($._textelement), $._nl), token.immediate('=')),
+      seq(field('type', '`'), sep1(repeat1($._textelement), $._nl), token.immediate('`')),
+    )),
 
     subscript: $ => seq(
       $._text,
@@ -527,12 +519,7 @@ org_grammar = {
     _conflicts: $ => prec.dynamic(DYN.conflicts, choice(
       $._active_start,
       $._inactive_start,
-      seq($._markup, '*'),
-      seq($._markup, '/'),
-      seq($._markup, '_'),
-      seq($._markup, '+'),
-      seq($._markup, '~'),
-      seq($._markup, '='),
+      seq($._markup, choice('*', '/', '_', '+', '~', '=', '`')),
       seq(':', optional($._drawername)),
       seq('\\', /[^\p{L}]+/),
       seq($._text, '^', /[^{]/),
@@ -543,16 +530,6 @@ org_grammar = {
 
   }
 };
-
-function make_markup(delim, textonly = false) {  // {{{1
-  return $ => prec.left(seq(
-    $._markup,
-    delim,
-    sep1(repeat1(textonly ? $._text : $._textelement), $._nl),
-    token.immediate(delim),
-    // delim == '_' ? prec.dynamic(1, token.immediate(delim)) : token.immediate(delim),
-  ))  // Dynamic prec on _ deals with subscript conflicts
-}
 
 function sep1(rule, separator) {                 // {{{1
   return seq(rule, repeat(seq(separator, rule)))

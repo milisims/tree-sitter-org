@@ -273,7 +273,8 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     || lexer->lookahead == '_'
     || lexer->lookahead == '+'
     || lexer->lookahead == '~'
-    || lexer->lookahead == '=')) {
+    || lexer->lookahead == '='
+    || lexer->lookahead == '`')) {
     lexer->mark_end(lexer);
     skip(lexer);
     lexer->result_symbol = MARKUP;
