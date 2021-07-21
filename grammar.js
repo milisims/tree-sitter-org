@@ -17,7 +17,7 @@ org_grammar = {
     $._listend,
     $._listitemend,
     $._bullet,
-    $.stars,
+    $._stars,
     $._sectionend,
     $._markup,
     $._eof,  // Basically just '\0', but allows multiple to be matched
@@ -130,7 +130,7 @@ org_grammar = {
     // Headlines =========================================== {{{1
 
     headline: $ => seq(
-      $.stars,
+      $._stars, alias(/\*+/, $.stars),
       optional(seq(
         /[ \t]+/, // so it's not part of title
         $.item,

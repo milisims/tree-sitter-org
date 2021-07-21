@@ -233,7 +233,6 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
       return true;
     } else if (valid_symbols[HLSTARS] && iswspace(lexer->lookahead)) {
       section_stack.push_back(stars);
-      lexer->mark_end(lexer);
       lexer->result_symbol = HLSTARS;
       return true;
     } else if (valid_symbols[MARKUP] && stars == 1 && (!iswspace(lexer->lookahead) && lexer->lookahead != '\0')) {

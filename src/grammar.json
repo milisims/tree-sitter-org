@@ -428,7 +428,16 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "stars"
+          "name": "_stars"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PATTERN",
+            "value": "\\*+"
+          },
+          "named": true,
+          "value": "stars"
         },
         {
           "type": "CHOICE",
@@ -3021,7 +3030,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "stars"
+      "name": "_stars"
     },
     {
       "type": "SYMBOL",
