@@ -490,8 +490,7 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "FIELD",
-          "name": "first",
+          "type": "REPEAT1",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -504,26 +503,6 @@
                 "value": "[ \\t]:"
               }
             ]
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "rest",
-          "content": {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_text"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[ \\t]:"
-                }
-              ]
-            }
           }
         }
       ]
