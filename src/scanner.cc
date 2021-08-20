@@ -4,7 +4,6 @@
 #include <cstring>
 #include <cassert>
 #include <stdio.h>
-// #include <iostream> // std::cout
 
 namespace {
 
@@ -107,7 +106,6 @@ struct Scanner {                                                       // {{{1
     indent_length_stack.pop_back();
     bullet_stack.pop_back();
     lexer->result_symbol = LISTEND;
-    // std::cout << " == Dedent~" << std::endl;
     return true;
   }
 
@@ -156,14 +154,6 @@ struct Scanner {                                                       // {{{1
 
 bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
 
-  // std::cout << " == ls:" << valid_symbols[LISTSTART];
-  // std::cout << ", le:" << valid_symbols[LISTEND];
-  // std::cout << ", lie:" << valid_symbols[LISTITEMEND];
-  // std::cout << ", bl:" << valid_symbols[BULLET];
-  // std::cout << ", st:" << valid_symbols[HLSTARS];
-  // std::cout << ", se:" << valid_symbols[SECTIONEND];
-  // std::cout << ", eof:" << valid_symbols[ENDOFFILE];
-  // std::cout << ", mu:" << valid_symbols[MARKUP] << std::endl;
 
   // - Section ends                                                     {{{2
 
@@ -218,7 +208,6 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
         return dedent(lexer);
       } else if (indent_length == indent_length_stack.back()) {
         if (getbullet(lexer) == bullet_stack.back()) {
-          // std::cout << " == Item end~" << std::endl;
           lexer->result_symbol = LISTITEMEND;
           return true;
         }
@@ -228,7 +217,6 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     return false;
   }
 
-  // std::cout << " == indent: " << indent_length << " next: '" << char(lexer->lookahead) << "'" << std::endl;
   // - Col=0 star                                                       {{{2
   if (indent_length == 0 && lexer->lookahead == '*') {
     lexer->mark_end(lexer);
@@ -242,16 +230,13 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     if (valid_symbols[SECTIONEND] && iswspace(lexer->lookahead) && stars > 0 && stars <= section_stack.back()) {
       section_stack.pop_back();
       lexer->result_symbol = SECTIONEND;
-      // std::cout << " == Section End~" << std::endl;
       return true;
     } else if (valid_symbols[HLSTARS] && iswspace(lexer->lookahead)) {
       section_stack.push_back(stars);
       lexer->result_symbol = HLSTARS;
-      // std::cout << " == Stars~" << std::endl;
       return true;
     } else if (valid_symbols[MARKUP] && stars == 1 && (!iswspace(lexer->lookahead) && lexer->lookahead != '\0')) {
       lexer->result_symbol = MARKUP;
-      // std::cout << " == Bold~" << std::endl;
       return true;
     }
     return false;
@@ -265,28 +250,22 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     bool markup = lexer->lookahead == '+' || lexer->lookahead == '*';
     Bullet bullet = getbullet(lexer);
 
-    // std::cout << " == bullet: " << bullet << " back indent: " << indent_length_stack.back() << std::endl;
-    // std::cout << " == il gt back: " << (indent_length > indent_length_stack.back()) << std::endl;
     if (valid_symbols[BULLET] && bullet == bullet_stack.back() && indent_length == indent_length_stack.back()) {
       lexer->mark_end(lexer);
       lexer->result_symbol = BULLET;
-      // std::cout << " == Bullet~" << std::endl;
       return true;
     } else if (valid_symbols[LISTSTART] && bullet != NOTABULLET && indent_length > indent_length_stack.back()) {
       indent_length_stack.push_back(indent_length);
       bullet_stack.push_back(bullet);
       lexer->result_symbol = LISTSTART;
-      // std::cout << " == Liststart~" << std::endl;
       return true;
     } else if (valid_symbols[MARKUP] && bullet == NOTABULLET && markup) {
       lexer->result_symbol = MARKUP;
-      // std::cout << " == Markup~" << std::endl;
       return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
     }
   }
 
   // - Markup                                                           {{{2
-  // std::cout << " == MUvalid: " << valid_symbols[MARKUP] << std::endl;
   if (valid_symbols[MARKUP] && (indent_length > 0 || lexer->get_column(lexer) == 0)
     && (lexer->lookahead == '*'
     || lexer->lookahead == '/'
@@ -298,11 +277,9 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     lexer->mark_end(lexer);
     skip(lexer);
     lexer->result_symbol = MARKUP;
-    // std::cout << " == Markup~" << std::endl;
     return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
   }
   // - Default                                                          {{{2
-  // std::cout << " == False~" << std::endl;
   return false;
 }
 };
