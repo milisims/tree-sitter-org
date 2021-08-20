@@ -617,6 +617,22 @@ a
 
 (document (body (block (name) (parameters) )))
 
+==========
+Block.2  -
+==========
+* a
+
+#+BEGIN_SRC ABC
+a
+#+END_ABC
+----------
+
+(document (section
+            (headline (stars) (item))
+            (body
+              (block (name) (parameters))
+              )))
+
 =================
 DynamicBlock.1  -
 =================
