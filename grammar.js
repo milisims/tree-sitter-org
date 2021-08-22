@@ -392,7 +392,7 @@ org_grammar = {
       optional($._directive_list),
       $._block_begin,
       repeat($._nl),
-      repeat(seq(repeat1($._text), repeat1($._nl))),
+      alias(repeat(seq(repeat1($._text), repeat1($._nl))), $.content),
       $._block_end,
     ),
 

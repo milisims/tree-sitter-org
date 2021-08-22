@@ -8,6 +8,10 @@
       "required": true,
       "types": [
         {
+          "type": "content",
+          "named": true
+        },
+        {
           "type": "directive",
           "named": true
         },
@@ -95,6 +99,11 @@
   },
   {
     "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "content",
     "named": true,
     "fields": {}
   },

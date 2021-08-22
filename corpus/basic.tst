@@ -615,7 +615,7 @@ a
 #+END_ABC
 ----------
 
-(document (body (block (name) (parameters) )))
+(document (body (block (name) (parameters) (content))))
 
 ==========
 Block.2  -
@@ -630,7 +630,7 @@ a
 (document (section
             (headline (stars) (item))
             (body
-              (block (name) (parameters))
+              (block (name) (parameters) (content))
               )))
 
 =================
@@ -1185,7 +1185,7 @@ List.7a  - changing
 ==========
 List.8a  - Whitespace
 ==========
-  - 
+  -
 ----------
 
 (document (body (list (listitem))))
@@ -1193,7 +1193,7 @@ List.8a  - Whitespace
 ==========
 List.8b  - Whitespace after text
 ==========
-  - a 
+  - a
 ----------
 
 (document (body (list (listitem))))

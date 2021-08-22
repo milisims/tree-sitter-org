@@ -2160,26 +2160,31 @@
           }
         },
         {
-          "type": "REPEAT",
+          "type": "ALIAS",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_text"
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_text"
+                  }
+                },
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_nl"
+                  }
                 }
-              },
-              {
-                "type": "REPEAT1",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_nl"
-                }
-              }
-            ]
-          }
+              ]
+            }
+          },
+          "named": true,
+          "value": "content"
         },
         {
           "type": "SYMBOL",
