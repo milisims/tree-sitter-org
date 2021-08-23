@@ -141,7 +141,10 @@ org_grammar = {
     stars: $ => seq(prec.dynamic(10, $._stars), /\*+/),
 
     // the choice with ':' allows for the conflict of $.title to operate
-    item: $ => seq(repeat1(choice($._text, /[ \t]:/))),
+    item: $ => seq(
+      alias(choice($._text, /[ \t]:/), $.first),
+      alias(repeat(choice($._text, /[ \t]:/)), $.rest),
+    ),
 
     _taglist: $ => prec.dynamic(DYN.hltags,  // over title text
       seq(/[ \t]:/,

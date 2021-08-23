@@ -247,6 +247,11 @@
     }
   },
   {
+    "type": "first",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "fndef",
     "named": true,
     "fields": {},
@@ -370,7 +375,21 @@
   {
     "type": "item",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "first",
+          "named": true
+        },
+        {
+          "type": "rest",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "latex_env",
@@ -652,6 +671,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "rest",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "row",

@@ -1185,7 +1185,7 @@ List.7a  - changing
 ==========
 List.8a  - Whitespace
 ==========
-  -
+  - 
 ----------
 
 (document (body (list (listitem))))
@@ -1193,7 +1193,7 @@ List.8a  - Whitespace
 ==========
 List.8b  - Whitespace after text
 ==========
-  - a
+  - a 
 ----------
 
 (document (body (list (listitem))))
