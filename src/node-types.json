@@ -8,7 +8,7 @@
       "required": true,
       "types": [
         {
-          "type": "content",
+          "type": "contents",
           "named": true
         },
         {
@@ -103,7 +103,7 @@
     "fields": {}
   },
   {
-    "type": "content",
+    "type": "contents",
     "named": true,
     "fields": {}
   },
@@ -227,6 +227,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "contents",
+          "named": true
+        },
         {
           "type": "directive",
           "named": true
@@ -376,6 +380,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "contents",
+          "named": true
+        },
         {
           "type": "directive",
           "named": true
