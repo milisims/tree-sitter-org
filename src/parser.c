@@ -210,7 +210,7 @@ enum {
   aux_sym_row_repeat1 = 183,
   aux_sym__hrule_repeat1 = 184,
   aux_sym_contents_repeat1 = 185,
-  alias_sym_first = 186,
+  anon_alias_sym_keyword_QMARK = 186,
   alias_sym_parameters = 187,
   alias_sym_value = 188,
 };
@@ -402,7 +402,7 @@ static const char * const ts_symbol_names[] = {
   [aux_sym_row_repeat1] = "row_repeat1",
   [aux_sym__hrule_repeat1] = "_hrule_repeat1",
   [aux_sym_contents_repeat1] = "contents_repeat1",
-  [alias_sym_first] = "first",
+  [anon_alias_sym_keyword_QMARK] = "keyword\?",
   [alias_sym_parameters] = "parameters",
   [alias_sym_value] = "value",
 };
@@ -594,7 +594,7 @@ static const TSSymbol ts_symbol_map[] = {
   [aux_sym_row_repeat1] = aux_sym_row_repeat1,
   [aux_sym__hrule_repeat1] = aux_sym__hrule_repeat1,
   [aux_sym_contents_repeat1] = aux_sym_contents_repeat1,
-  [alias_sym_first] = alias_sym_first,
+  [anon_alias_sym_keyword_QMARK] = anon_alias_sym_keyword_QMARK,
   [alias_sym_parameters] = alias_sym_parameters,
   [alias_sym_value] = alias_sym_value,
 };
@@ -1344,9 +1344,9 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = false,
     .named = false,
   },
-  [alias_sym_first] = {
+  [anon_alias_sym_keyword_QMARK] = {
     .visible = true,
-    .named = true,
+    .named = false,
   },
   [alias_sym_parameters] = {
     .visible = true,
@@ -1423,7 +1423,7 @@ static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE
     [1] = aux_sym__dynamic_begin_token1,
   },
   [5] = {
-    [0] = alias_sym_first,
+    [0] = anon_alias_sym_keyword_QMARK,
   },
   [7] = {
     [1] = aux_sym__dynamic_begin_token1,
@@ -1456,7 +1456,7 @@ static const uint16_t ts_non_terminal_alias_map[] = {
     sym_timestamp,
   sym__text, 2,
     sym__text,
-    alias_sym_first,
+    anon_alias_sym_keyword_QMARK,
   aux_sym_property_repeat1, 3,
     aux_sym_property_repeat1,
     alias_sym_parameters,

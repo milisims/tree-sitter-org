@@ -247,11 +247,6 @@
     }
   },
   {
-    "type": "first",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "fndef",
     "named": true,
     "fields": {},
@@ -375,17 +370,12 @@
   {
     "type": "item",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "first",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
+  },
+  {
+    "type": "keyword?",
+    "named": false,
+    "fields": {}
   },
   {
     "type": "latex_env",
@@ -941,6 +931,10 @@
   {
     "type": "delay",
     "named": true
+  },
+  {
+    "type": "keyword?",
+    "named": false
   },
   {
     "type": "linktext",

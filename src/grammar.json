@@ -504,8 +504,8 @@
               }
             ]
           },
-          "named": true,
-          "value": "first"
+          "named": false,
+          "value": "keyword?"
         },
         {
           "type": "REPEAT",

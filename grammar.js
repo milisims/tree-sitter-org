@@ -142,7 +142,7 @@ org_grammar = {
 
     // the choice with ':' allows for the conflict of $.title to operate
     item: $ => seq(
-      alias(choice($._text, /[ \t]:/), $.first),
+      alias(choice($._text, /[ \t]:/), 'keyword?'),
       repeat(choice($._text, /[ \t]:/)),
     ),
 
@@ -531,6 +531,7 @@ org_grammar = {
       repeat($._text),
       sep1(repeat1($._nl), repeat1($._text)),
     ),
+
   }
 };
 
