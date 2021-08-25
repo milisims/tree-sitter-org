@@ -391,8 +391,7 @@ org_grammar = {
     block: $ => seq(
       optional($._directive_list),
       $._block_begin,
-      repeat($._nl),
-      repeat(seq(repeat1($._text), repeat1($._nl))),
+      optional($.contents),
       $._block_end,
     ),
 
@@ -415,8 +414,7 @@ org_grammar = {
     dynamic_block: $ => seq(
       optional($._directive_list),
       $._dynamic_begin,
-      repeat($._nl),
-      repeat(seq(repeat1($._text), repeat1($._nl))),
+      optional($.contents),
       $._dynamic_end,
     ),
 
@@ -488,8 +486,7 @@ org_grammar = {
     latex_env: $ => seq(
       optional($._directive_list),
       $._env_begin,
-      repeat($._nl),
-      repeat(seq(repeat1($._text), repeat1($._nl))),
+      optional($.contents),
       $._env_end,
     ),
 
@@ -527,6 +524,10 @@ org_grammar = {
       seq($._text, token.immediate('_'), token.immediate(/[^\p{Z}]/))
     )),
 
+    contents: $ => seq(
+      repeat($._text),
+      sep1(repeat1($._nl), repeat1($._text)),
+    ),
   }
 };
 

@@ -8,6 +8,10 @@
       "required": true,
       "types": [
         {
+          "type": "contents",
+          "named": true
+        },
+        {
           "type": "directive",
           "named": true
         },
@@ -95,6 +99,11 @@
   },
   {
     "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "contents",
     "named": true,
     "fields": {}
   },
@@ -218,6 +227,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "contents",
+          "named": true
+        },
         {
           "type": "directive",
           "named": true
@@ -367,6 +380,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "contents",
+          "named": true
+        },
         {
           "type": "directive",
           "named": true

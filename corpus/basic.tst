@@ -615,7 +615,7 @@ a
 #+END_ABC
 ----------
 
-(document (body (block (name) (parameters) )))
+(document (body (block (name) (parameters) (contents))))
 
 ==========
 Block.2  -
@@ -630,7 +630,7 @@ a
 (document (section
             (headline (stars) (item))
             (body
-              (block (name) (parameters))
+              (block (name) (parameters) (contents))
               )))
 
 =================
@@ -650,7 +650,7 @@ c
 #+END:
 ----------
 
-(document (body (dynamic_block (name) )))
+(document (body (dynamic_block (name) (contents))))
 
 ==========
 Link.1   - Description only
@@ -1317,7 +1317,7 @@ a
 \end{1a}
 ----------
 
-(document (body (latex_env )))
+(document (body (latex_env (contents))))
 
 =============
 LatexEnv.3  -
@@ -1327,7 +1327,7 @@ LatexEnv.3  -
 \end{a}
 ----------
 
-(document (body (latex_env )))
+(document (body (latex_env (contents))))
 
 =============
 LatexEnv.4a -
@@ -1338,7 +1338,7 @@ a
 \end{a}
 ----------
 
-(document (body (latex_env )))
+(document (body (latex_env (contents))))
 
 =============
 LatexEnv.4b -
@@ -1349,7 +1349,7 @@ a
 \end{a}
 ----------
 
-(document (body (latex_env )))
+(document (body (latex_env (contents))))
 
 =============
 LatexEnv.4c -
@@ -1361,7 +1361,7 @@ a
 \end{a}
 ----------
 
-(document (body (latex_env )))
+(document (body (latex_env (contents))))
 
 ==================
 LatexFragment.1  -
