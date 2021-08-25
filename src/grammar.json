@@ -490,7 +490,25 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT1",
+          "type": "ALIAS",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_text"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]:"
+              }
+            ]
+          },
+          "named": true,
+          "value": "first"
+        },
+        {
+          "type": "REPEAT",
           "content": {
             "type": "CHOICE",
             "members": [
