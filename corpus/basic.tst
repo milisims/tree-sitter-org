@@ -4,7 +4,7 @@ Headlines.1a - No eols
 * l1
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.1b - pre eol
@@ -13,7 +13,7 @@ Headlines.1b - pre eol
 * l1
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.1c - Post eols (body)
@@ -23,7 +23,7 @@ Headlines.1c - Post eols (body)
 
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.1d - More eols
@@ -34,7 +34,7 @@ Headlines.1d - More eols
 
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.2  - level 2
@@ -43,7 +43,7 @@ Headlines.2  - level 2
 
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.3a - Two sections
@@ -54,8 +54,8 @@ Headlines.3a - Two sections
 ----------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (item (first))))
+  (section (headline (stars) (item (first))))
   )
 
 ==============
@@ -67,8 +67,8 @@ Headlines.3b - Two sections, eol
 ----------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (item (first))))
+  (section (headline (stars) (item (first))))
   )
 
 ==============
@@ -81,8 +81,8 @@ Headlines.4  - Subsection
 
 (document
   (section
-    (headline (stars) (item))
-    (section (headline (stars) (item))))
+    (headline (stars) (item (first)))
+    (section (headline (stars) (item (first)))))
   )
 
 ==============
@@ -96,8 +96,8 @@ Headlines.4a - Subsection eols
 
 (document
   (section
-    (headline (stars) (item))
-    (section (headline (stars) (item)))
+    (headline (stars) (item (first)))
+    (section (headline (stars) (item (first))))
     ))
 
 ==============
@@ -110,9 +110,9 @@ Headlines.5  - Subsection & continued section
 
 (document
   (section
-    (headline (stars) (item))
-    (section (headline (stars) (item))))
-  (section (headline (stars) (item)))
+    (headline (stars) (item (first)))
+    (section (headline (stars) (item (first)))))
+  (section (headline (stars) (item (first))))
   )
 
 ==============
@@ -123,8 +123,8 @@ Headlines.6  - Top high level section
 ----------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (item (first))))
+  (section (headline (stars) (item (first))))
   )
 
 ==============
@@ -133,7 +133,7 @@ Headlines.7a - Item/tag conflict (:)
 * a: b
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.7b - Item/tag conflict (:)
@@ -141,7 +141,7 @@ Headlines.7b - Item/tag conflict (:)
 * a: b:
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.8a - Tag
@@ -149,7 +149,7 @@ Headlines.8a - Tag
 * a :b:
 ----------
 
-(document (section (headline (stars) (item) (tag))))
+(document (section (headline (stars) (item (first)) (tag))))
 
 ==============
 Headlines.8b - Multitag
@@ -157,7 +157,7 @@ Headlines.8b - Multitag
 * a :b:c:
 ----------
 
-(document (section (headline (stars) (item) (tag) (tag))))
+(document (section (headline (stars) (item (first)) (tag) (tag))))
 
 ==============
 Headlines.8c - Junk
@@ -165,7 +165,7 @@ Headlines.8c - Junk
 * a :b: c:
 ----------
 
-(document (section (headline (stars) (item))))
+(document (section (headline (stars) (item (first)))))
 
 ==============
 Headlines.9a - Non-markup
@@ -175,7 +175,7 @@ Headlines.9a - Non-markup
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     ))
 
 ==============
@@ -187,7 +187,7 @@ c*
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (body (paragraph))
     ))
 
@@ -203,10 +203,10 @@ Headlines.10 - Precedences
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (body (paragraph)))
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (body (paragraph)))
     )
 
@@ -223,7 +223,7 @@ PropertyDrawer.1  -
   (section
     (headline
       (stars)
-      (item))
+      (item (first)))
     (property_drawer
       (property))
     ))
@@ -242,7 +242,7 @@ PropertyDrawer.2  -
   (section
     (headline
       (stars)
-      (item))
+      (item (first)))
     (property_drawer
       (property))
     ))
@@ -536,7 +536,7 @@ Plan.1
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (plan (timestamp (date)))
     ))
 
@@ -550,7 +550,7 @@ SCHEDULED: <1111-11-11 Day>
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (plan (scheduled (timestamp (date))))
     ))
 
@@ -564,7 +564,7 @@ DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (plan
       (deadline (timestamp (date)))
       (timestamp (date))
@@ -628,7 +628,7 @@ a
 ----------
 
 (document (section
-            (headline (stars) (item))
+            (headline (stars) (item (first)))
             (body
               (block (name) (parameters) (contents))
               )))
@@ -898,7 +898,7 @@ b *a
 
 (document
   (body (paragraph))
-  (section (headline (stars) (item)))
+  (section (headline (stars) (item (first))))
   )
 
 ===========
@@ -910,7 +910,7 @@ Markup.6 - markup section
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (body (paragraph (markup)))
     ))
 
@@ -1262,7 +1262,7 @@ c
 
 (document
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (body (paragraph (directive (name) (value))))
     ))
 
@@ -1297,7 +1297,7 @@ Directive.7  - Directive unrelated to section
 * c
 ----------
 
-(document (body (directive (name) (value))) (section (headline (stars) (item))))
+(document (body (directive (name) (value))) (section (headline (stars) (item (first)))))
 
 =============
 LatexEnv.1  -
@@ -1434,7 +1434,7 @@ Combined.1  -
 (document
   (directive (name) (value))
   (section
-    (headline (stars) (item))
+    (headline (stars) (item (first)))
     (property_drawer (property))
     ))
 

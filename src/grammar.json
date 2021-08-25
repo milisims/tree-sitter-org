@@ -508,25 +508,20 @@
           "value": "first"
         },
         {
-          "type": "ALIAS",
+          "type": "REPEAT",
           "content": {
-            "type": "REPEAT",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_text"
-                },
-                {
-                  "type": "PATTERN",
-                  "value": "[ \\t]:"
-                }
-              ]
-            }
-          },
-          "named": true,
-          "value": "rest"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_text"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[ \\t]:"
+              }
+            ]
+          }
         }
       ]
     },

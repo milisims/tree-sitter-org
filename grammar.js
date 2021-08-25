@@ -143,7 +143,7 @@ org_grammar = {
     // the choice with ':' allows for the conflict of $.title to operate
     item: $ => seq(
       alias(choice($._text, /[ \t]:/), $.first),
-      alias(repeat(choice($._text, /[ \t]:/)), $.rest),
+      repeat(choice($._text, /[ \t]:/)),
     ),
 
     _taglist: $ => prec.dynamic(DYN.hltags,  // over title text

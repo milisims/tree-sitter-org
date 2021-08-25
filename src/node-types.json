@@ -377,15 +377,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
           "type": "first",
-          "named": true
-        },
-        {
-          "type": "rest",
           "named": true
         }
       ]
@@ -671,11 +667,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "rest",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "row",
