@@ -111,41 +111,41 @@ struct Scanner {                                                       // {{{1
 
   Bullet getbullet(TSLexer *lexer) {                                   // {{{1
     if (lexer->lookahead == '-') {
-      skip(lexer);
+      advance(lexer);
       if (iswspace(lexer->lookahead)) return DASH;
     } else if (lexer->lookahead == '+') {
-      skip(lexer);
+      advance(lexer);
       if (iswspace(lexer->lookahead)) return PLUS;
     } else if (lexer->lookahead == '*') {
-      skip(lexer);
+      advance(lexer);
       if (iswspace(lexer->lookahead)) return STAR;
     } else if ('a' <= lexer->lookahead && lexer->lookahead <= 'z') {
-      skip(lexer);
+      advance(lexer);
       if (lexer->lookahead == '.') {
-        skip(lexer);
+        advance(lexer);
         if (iswspace(lexer->lookahead)) return LOWERDOT;
       } else if (lexer->lookahead == ')') {
-        skip(lexer);
+        advance(lexer);
         if (iswspace(lexer->lookahead)) return LOWERPAREN;
       }
     } else if ('A' <= lexer->lookahead && lexer->lookahead <= 'Z') {
-      skip(lexer);
+      advance(lexer);
       if (lexer->lookahead == '.') {
-        skip(lexer);
+        advance(lexer);
         if (iswspace(lexer->lookahead)) return UPPERDOT;
       } else if (lexer->lookahead == ')') {
-        skip(lexer);
+        advance(lexer);
         if (iswspace(lexer->lookahead)) return UPPERPAREN;
       }
     } else if ('0' <= lexer->lookahead && lexer->lookahead <= '9') {
       do {
-        skip(lexer);
+        advance(lexer);
       } while ('0' <= lexer->lookahead && lexer->lookahead <= '9');
       if (lexer->lookahead == '.') {
-        skip(lexer);
+        advance(lexer);
         if (iswspace(lexer->lookahead)) return NUMDOT;
       } else if (lexer->lookahead == ')') {
-        skip(lexer);
+        advance(lexer);
         if (iswspace(lexer->lookahead)) return NUMPAREN;
       }
     }

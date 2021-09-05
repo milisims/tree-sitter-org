@@ -16,7 +16,7 @@ org_grammar = {
     $._liststart,
     $._listend,
     $._listitemend,
-    $._bullet,
+    $.bullet,
     $._stars,
     $._sectionend,
     $._markup,
@@ -37,7 +37,7 @@ org_grammar = {
   ],
 
   conflicts: $ => [
-    [$._itemtag, $._textelement], // textelement in $._itemtext
+    [$.description, $._textelement], // textelement in $.itemtext
     [$.item],                    // :tags: in headlines
 
     // Markup
@@ -443,19 +443,19 @@ org_grammar = {
     ),
 
     listitem: $ => seq(
-      $._bullet,
-      optional($._checkbox),
-      optional($._itemtag),
-      optional($._itemtext),
+      $.bullet,
+      optional($.checkbox),
+      optional($.description),
+      optional($.itemtext),
     ),
 
-    _checkbox: _ => /\[[ xX-]\]/,
-    _itemtag: $ => seq(
+    checkbox: _ => /\[[ xX-]\]/,
+    description: $ => seq(
       repeat($._text),
       prec.dynamic(DYN.listtag, '::'), // precedence over itemtext
     ),
 
-    _itemtext: $ => seq(
+    itemtext: $ => seq(
       repeat1($._textelement),
       repeat(seq(
         $._nl,

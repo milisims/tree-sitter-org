@@ -952,7 +952,7 @@ List.1a  - Basic: dash [-]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -963,7 +963,7 @@ List.1b  - Basic: plus [+]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -974,7 +974,7 @@ List.1c  - Basic: star [*]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -985,7 +985,7 @@ List.1d  - Basic: count dot [1.]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -996,7 +996,7 @@ List.1e  - Basic: count paren [1)]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1007,7 +1007,7 @@ List.1f  - Basic: letter dot [a.]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1018,9 +1018,30 @@ List.1g  - Basic: letter paren [a)]
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
+==========
+List.1h  - Basic: checkbox
+==========
+ - [ ] a
+----------
+
+(document
+  (body
+    (list (listitem (bullet) (checkbox) (itemtext)))
+    ))
+
+==========
+List.1j  - Basic: description
+==========
+ - a :: description
+----------
+
+(document
+  (body
+    (list (listitem (bullet) (description) (itemtext)))
+    ))
 ==========
 List.2a  - two items
 ==========
@@ -1032,7 +1053,7 @@ List.2a  - two items
 
 (document
   (body
-    (list (listitem) (listitem))
+    (list (listitem (bullet) (itemtext)) (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1046,7 +1067,7 @@ List.2d  - two items
 
 (document
   (body
-    (list (listitem) (listitem))
+    (list (listitem (bullet) (itemtext)) (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1061,7 +1082,7 @@ List.2b  - two items
 
 (document
   (body
-    (list (listitem) (listitem))
+    (list (listitem (bullet) (itemtext)) (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1077,12 +1098,12 @@ List.2c  - two lists
 
 (document
   (body
-    (list (listitem))
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
-List.3   - sublist
+List.3a   - sublist
 ==========
 
   - a
@@ -1096,10 +1117,46 @@ List.3   - sublist
 (document
   (body
     (list
-      (listitem
-        (list (listitem)))
-      (listitem)
-      )))
+      (listitem (bullet) (itemtext
+        (list
+          (listitem (bullet) (itemtext)))))
+      (listitem (bullet) (itemtext))
+    )))
+
+==========
+List.3b   - sublist with checkboxs
+==========
+
+  - [ ] a
+    a
+    - b
+    - [ ] b
+    a
+  - a
+
+==========
+List.3b   - sublist with description and checkbox
+==========
+
+  - a :: description
+    a
+    - b :: description
+    - [ ] b
+    a
+  - a
+
+----------
+
+(document
+  (body
+    (list
+      (listitem (bullet) (description) (itemtext
+        (list
+          (listitem (bullet) (description) (itemtext))
+          (listitem (bullet) (checkbox) (itemtext))
+          )))
+      (listitem (bullet) (itemtext))
+    )))
 
 ==========
 List.4a  - multiline item
@@ -1112,7 +1169,7 @@ List.4a  - multiline item
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1127,7 +1184,65 @@ List.4b  - multiline item
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
+    ))
+
+==========
+List.4c  - multiline item checkbox
+==========
+
+  - [ ] a
+    b
+
+----------
+
+(document
+  (body
+    (list (listitem (bullet) (checkbox) (itemtext)))
+    ))
+
+==========
+List.4d  - multiline item checkbox
+==========
+
+  - [ ] a
+
+    b
+
+----------
+
+(document
+  (body
+    (list (listitem (bullet) (checkbox) (itemtext)))
+    ))
+
+==========
+List.4e  - multiline item description
+==========
+
+  - a :: description
+    b
+
+----------
+
+(document
+  (body
+    (list (listitem (bullet) (description) (itemtext)))
+    ))
+
+==========
+List.4f  - multiline item description
+==========
+
+  - a :: description
+
+    b
+
+----------
+
+(document
+  (body
+    (list (listitem (bullet) (description) (itemtext)))
     ))
 
 ==========
@@ -1142,9 +1257,9 @@ List.5   - dedent
 
 (document
   (body
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     (paragraph)
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1162,8 +1277,8 @@ b
   (body
     (paragraph)
     (list
-      (listitem
-        (list (listitem))))
+      (listitem (bullet) (itemtext
+        (list (listitem (bullet) (itemtext))))))
     (paragraph)
     ))
 
@@ -1178,8 +1293,8 @@ List.7a  - changing
 
 (document
   (body
-    (list (listitem))
-    (list (listitem))
+    (list (listitem (bullet) (itemtext)))
+    (list (listitem (bullet) (itemtext)))
     ))
 
 ==========
@@ -1188,7 +1303,7 @@ List.8a  - Whitespace
   - 
 ----------
 
-(document (body (list (listitem))))
+(document (body (list (listitem (bullet)))))
 
 ==========
 List.8b  - Whitespace after text
@@ -1196,14 +1311,14 @@ List.8b  - Whitespace after text
   - a 
 ----------
 
-(document (body (list (listitem))))
+(document (body (list (listitem (bullet) (itemtext)))))
 ==========
 List.9   - With markup
 ==========
   - A *b* c
 ----------
 
-(document (body (list (listitem (markup)))))
+(document (body (list (listitem (bullet) (itemtext (markup))))))
 
 ==============
 Directive.1  - Document
@@ -1274,7 +1389,7 @@ Directive.6a - List
   - c
 ----------
 
-(document (body (list (directive (name) (value)) (listitem))))
+(document (body (list (directive (name) (value)) (listitem (bullet) (itemtext)))))
 
 ==============
 Directive.6b - Sublist
@@ -1287,7 +1402,7 @@ Directive.6b - Sublist
 
 ----------
 
-(document (body (list (directive (name) (value)) (listitem (list (directive (name) (value)) (listitem))))))
+(document (body (list (directive (name) (value)) (listitem (bullet) (itemtext (list (directive (name) (value)) (listitem (bullet) (itemtext))))))))
 
 ==============
 Directive.7  - Directive unrelated to section
