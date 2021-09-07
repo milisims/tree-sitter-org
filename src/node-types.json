@@ -128,6 +128,11 @@
     }
   },
   {
+    "type": "description",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "directive",
     "named": true,
     "fields": {
@@ -373,6 +378,49 @@
     "fields": {}
   },
   {
+    "type": "itemtext",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "footnote",
+          "named": true
+        },
+        {
+          "type": "latex_fragment",
+          "named": true
+        },
+        {
+          "type": "link",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "markup",
+          "named": true
+        },
+        {
+          "type": "subscript",
+          "named": true
+        },
+        {
+          "type": "superscript",
+          "named": true
+        },
+        {
+          "type": "timestamp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "keyword?",
     "named": false,
     "fields": {}
@@ -452,38 +500,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "footnote",
+          "type": "bullet",
           "named": true
         },
         {
-          "type": "latex_fragment",
+          "type": "checkbox",
           "named": true
         },
         {
-          "type": "link",
+          "type": "description",
           "named": true
         },
         {
-          "type": "list",
-          "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
+          "type": "itemtext",
           "named": true
         }
       ]
@@ -927,6 +959,14 @@
   {
     "type": "`",
     "named": false
+  },
+  {
+    "type": "bullet",
+    "named": true
+  },
+  {
+    "type": "checkbox",
+    "named": true
   },
   {
     "type": "delay",
