@@ -445,14 +445,19 @@ org_grammar = {
     listitem: $ => seq(
       $.bullet,
       optional($.checkbox),
-      optional($.description),
       optional($.itemtext),
+      optional($.description),
     ),
 
     checkbox: _ => /\[[ xX-]\]/,
     description: $ => seq(
-      repeat($._text),
       prec.dynamic(DYN.listtag, '::'), // precedence over itemtext
+      repeat1($._textelement),
+      repeat(seq(
+        $._nl,
+        optional($._nl),
+        choice(repeat1($._textelement), $.list)
+      )),
     ),
 
     itemtext: $ => seq(

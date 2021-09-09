@@ -1040,7 +1040,7 @@ List.1j  - Basic: description
 
 (document
   (body
-    (list (listitem (bullet) (description) (itemtext)))
+    (list (listitem (bullet) (itemtext) (description)))
     ))
 ==========
 List.2a  - two items
@@ -1150,9 +1150,9 @@ List.3b   - sublist with description and checkbox
 (document
   (body
     (list
-      (listitem (bullet) (description) (itemtext
+      (listitem (bullet) (itemtext) (description
         (list
-          (listitem (bullet) (description) (itemtext))
+          (listitem (bullet) (itemtext) (description))
           (listitem (bullet) (checkbox) (itemtext))
           )))
       (listitem (bullet) (itemtext))
@@ -1227,7 +1227,7 @@ List.4e  - multiline item description
 
 (document
   (body
-    (list (listitem (bullet) (description) (itemtext)))
+    (list (listitem (bullet) (itemtext) (description)))
     ))
 
 ==========
@@ -1242,7 +1242,7 @@ List.4f  - multiline item description
 
 (document
   (body
-    (list (listitem (bullet) (description) (itemtext)))
+    (list (listitem (bullet) (itemtext) (description)))
     ))
 
 ==========

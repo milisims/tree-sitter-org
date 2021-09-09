@@ -2427,7 +2427,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "description"
+              "name": "itemtext"
             },
             {
               "type": "BLANK"
@@ -2439,7 +2439,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "itemtext"
+              "name": "description"
             },
             {
               "type": "BLANK"
@@ -2456,18 +2456,58 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_text"
-          }
-        },
-        {
           "type": "PREC_DYNAMIC",
           "value": 1,
           "content": {
             "type": "STRING",
             "value": "::"
+          }
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_textelement"
+          }
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_nl"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_nl"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "REPEAT1",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_textelement"
+                    }
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "list"
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
