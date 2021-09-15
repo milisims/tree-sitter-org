@@ -607,12 +607,31 @@ Block.1  -
 
 (document (body (block (name))))
 
+====================
+Block.1.lowercase  -
+====================
+#+begin_a
+#+end_b
+----------
+
+(document (body (block (name))))
+
 ==========
 Block.2  -
 ==========
 #+BEGIN_SRC ABC
 a
 #+END_ABC
+----------
+
+(document (body (block (name) (parameters) (contents))))
+
+====================
+Block.2.lowercase  -
+====================
+#+begin_src abc
+a
+#+end_abc
 ----------
 
 (document (body (block (name) (parameters) (contents))))
@@ -642,12 +661,31 @@ DynamicBlock.1  -
 
 (document (body (dynamic_block (name) (parameters))))
 
+===========================
+DynamicBlock.1.lowercase  -
+===========================
+#+begin: a b
+#+end:
+----------
+
+(document (body (dynamic_block (name) (parameters))))
+
 =================
 DynamicBlock.2  -
 =================
 #+BEGIN: a
 c
 #+END:
+----------
+
+(document (body (dynamic_block (name) (contents))))
+
+===========================
+DynamicBlock.2.lowercase  -
+===========================
+#+begin: a
+c
+#+end:
 ----------
 
 (document (body (dynamic_block (name) (contents))))

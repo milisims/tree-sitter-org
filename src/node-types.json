@@ -853,22 +853,6 @@
     "named": false
   },
   {
-    "type": "#+BEGIN:",
-    "named": false
-  },
-  {
-    "type": "#+BEGIN_",
-    "named": false
-  },
-  {
-    "type": "#+END:",
-    "named": false
-  },
-  {
-    "type": "#+END_",
-    "named": false
-  },
-  {
     "type": "#+TBLFM:",
     "named": false
   },

@@ -2192,8 +2192,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+BEGIN_"
+          "type": "PATTERN",
+          "value": "#\\+[Bb][Ee][Gg][Ii][Nn]_"
         },
         {
           "type": "ALIAS",
@@ -2234,8 +2234,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+END_"
+          "type": "PATTERN",
+          "value": "#\\+[Ee][Nn][Dd]_"
         },
         {
           "type": "SYMBOL",
@@ -2295,8 +2295,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+BEGIN:"
+          "type": "PATTERN",
+          "value": "#\\+[Bb][Ee][Gg][Ii][Nn]:"
         },
         {
           "type": "ALIAS",
@@ -2337,8 +2337,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+END:"
+          "type": "PATTERN",
+          "value": "#\\+[Ee][Nn][Dd]:"
         },
         {
           "type": "SYMBOL",

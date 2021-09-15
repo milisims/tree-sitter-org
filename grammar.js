@@ -399,14 +399,14 @@ org_grammar = {
     ),
 
     _block_begin: $ => seq(
-      '#+BEGIN_',
+      /#\+[Bb][Ee][Gg][Ii][Nn]_/,
       alias($._name, $.name),
       optional(alias(repeat1($._text), $.parameters)),
       $._eol,
     ),
 
     _block_end: $ => seq(
-      '#+END_', $._name,
+      /#\+[Ee][Nn][Dd]_/, $._name,
       $._eol,
     ),
 
@@ -422,14 +422,14 @@ org_grammar = {
     ),
 
     _dynamic_begin: $ => seq(
-      '#+BEGIN:',
+      /#\+[Bb][Ee][Gg][Ii][Nn]:/,
       alias(/[^\p{Z}\n\r]+/, $.name),
       optional(alias(repeat1($._text), $.parameters)),
       $._eol,
     ),
 
     _dynamic_end: $ => seq(
-      '#+END:',
+      /#\+[Ee][Nn][Dd]:/,
       $._eol,
     ),
 
