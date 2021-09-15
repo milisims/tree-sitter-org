@@ -568,8 +568,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": ":PROPERTIES:"
+          "type": "PATTERN",
+          "value": ":[Pp][Rr][Oo][Pp][Ee][Rr][Tt][Ii][Ee][Ss]:"
         },
         {
           "type": "SEQ",
@@ -603,8 +603,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": ":END:"
+          "type": "PATTERN",
+          "value": ":[Ee][Nn][Dd]:"
         },
         {
           "type": "SYMBOL",
@@ -643,16 +643,16 @@
       ]
     },
     "_scheduled": {
-      "type": "STRING",
-      "value": "SCHEDULED:"
+      "type": "PATTERN",
+      "value": "[Ss][Cc][Hh][Ee][Dd][Uu][Ll][Ee][Dd]:"
     },
     "_deadline": {
-      "type": "STRING",
-      "value": "DEADLINE:"
+      "type": "PATTERN",
+      "value": "[Dd][Ee][Aa][Dd][Ll][Ii][Nn][Ee]:"
     },
     "_closed": {
-      "type": "STRING",
-      "value": "CLOSED:"
+      "type": "PATTERN",
+      "value": "[Cc][Ll][Oo][Ss][Ee][Dd]:"
     },
     "plan": {
       "type": "SEQ",
@@ -1831,8 +1831,8 @@
       "value": "[\\p{L}\\p{N}_-]+"
     },
     "_fn": {
-      "type": "STRING",
-      "value": "[fn:"
+      "type": "PATTERN",
+      "value": "\\[[Ff][Nn]:"
     },
     "fndef": {
       "type": "PREC",
@@ -2135,8 +2135,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": ":END:"
+          "type": "PATTERN",
+          "value": ":[Ee][Nn][Dd]:"
         },
         {
           "type": "SYMBOL",
@@ -2192,8 +2192,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+BEGIN_"
+          "type": "PATTERN",
+          "value": "#\\+[Bb][Ee][Gg][Ii][Nn]_"
         },
         {
           "type": "ALIAS",
@@ -2234,8 +2234,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+END_"
+          "type": "PATTERN",
+          "value": "#\\+[Ee][Nn][Dd]_"
         },
         {
           "type": "SYMBOL",
@@ -2295,8 +2295,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+BEGIN:"
+          "type": "PATTERN",
+          "value": "#\\+[Bb][Ee][Gg][Ii][Nn]:"
         },
         {
           "type": "ALIAS",
@@ -2337,8 +2337,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+END:"
+          "type": "PATTERN",
+          "value": "#\\+[Ee][Nn][Dd]:"
         },
         {
           "type": "SYMBOL",
@@ -2641,8 +2641,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "#+TBLFM:"
+          "type": "PATTERN",
+          "value": "#\\+[Tt][Bb][Ll][Ff][Mm]:"
         },
         {
           "type": "FIELD",
@@ -2702,8 +2702,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\begin{"
+          "type": "PATTERN",
+          "value": "\\\\[Bb][Ee][Gg][Ii][Nn]\\{"
         },
         {
           "type": "FIELD",
@@ -2730,8 +2730,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "\\end{"
+          "type": "PATTERN",
+          "value": "\\\\[Ee][Nn][Dd]\\{"
         },
         {
           "type": "PATTERN",

@@ -156,9 +156,9 @@ org_grammar = {
     tag: _ => token.immediate(/[\p{L}\p{N}_@#%]+/),
 
     property_drawer: $ => seq(
-      ':PROPERTIES:',
+      caseInsensitive(':PROPERTIES:'),
       sep1(repeat1($._nl), $.property),
-      ':END:',
+      caseInsensitive(':END:'),
       $._eol,
     ),
 
@@ -171,9 +171,9 @@ org_grammar = {
 
     // Planning ============================================ {{{1
 
-    _scheduled:     _ => 'SCHEDULED:',
-    _deadline:      _ => 'DEADLINE:',
-    _closed:        _ => 'CLOSED:',
+    _scheduled:     _ => caseInsensitive('SCHEDULED:'),
+    _deadline:      _ => caseInsensitive('DEADLINE:'),
+    _closed:        _ => caseInsensitive('CLOSED:'),
 
     plan: $ => seq(
       repeat1(prec(1, // precedence over paragraph→timestamp
@@ -336,7 +336,7 @@ org_grammar = {
     // Footnote ============================================ {{{1
 
     _fn_label: _ => /[\p{L}\p{N}_-]+/,
-    _fn: _ => '[fn:',
+    _fn: _ => caseInsensitive('[fn:'),
 
     fndef: $ => prec('fn_definition',
       seq(
@@ -386,7 +386,7 @@ org_grammar = {
     ),
 
     _drawer_begin: $ => seq(':', $._drawername, token.immediate(':'), $._nl),
-    _drawer_end: $ => seq(':END:', $._eol),
+    _drawer_end: $ => seq(caseInsensitive(':END:'), $._eol),
     _drawername: _ => token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
 
     // Block =============================================== {{{1
@@ -399,16 +399,13 @@ org_grammar = {
     ),
 
     _block_begin: $ => seq(
-      '#+BEGIN_',
+      caseInsensitive('#+BEGIN_'),
       alias($._name, $.name),
       optional(alias(repeat1($._text), $.parameters)),
       $._eol,
     ),
 
-    _block_end: $ => seq(
-      '#+END_', $._name,
-      $._eol,
-    ),
+    _block_end: $ => seq(caseInsensitive('#+END_'), $._name, $._eol),
 
     _name: _ => token.immediate(/[^\p{Z}\n\r]+/),
 
@@ -422,14 +419,14 @@ org_grammar = {
     ),
 
     _dynamic_begin: $ => seq(
-      '#+BEGIN:',
+      caseInsensitive('#+BEGIN:'),
       alias(/[^\p{Z}\n\r]+/, $.name),
       optional(alias(repeat1($._text), $.parameters)),
       $._eol,
     ),
 
     _dynamic_end: $ => seq(
-      '#+END:',
+      caseInsensitive('#+END:'),
       $._eol,
     ),
 
@@ -482,7 +479,7 @@ org_grammar = {
       $._eol,
     ),
 
-    formula: $ => seq('#+TBLFM:', field('formula', repeat($._text)), $._eol),
+    formula: $ => seq(caseInsensitive('#+TBLFM:'), field('formula', repeat($._text)), $._eol),
 
     // Latex environment =================================== {{{1
 
@@ -494,14 +491,14 @@ org_grammar = {
     ),
 
     _env_begin: $ => seq(
-      '\\begin{',
+      caseInsensitive('\\begin{'),
       field('name', /[\p{L}\p{N}]+/),
       token.immediate('}'),
       $._eol
     ),
 
     _env_end: $ => seq(
-      '\\end{',
+      caseInsensitive('\\end{'),
       /[\p{L}\p{N}]+/,
       token.immediate('}'),
       $._eol
@@ -537,6 +534,19 @@ org_grammar = {
 
 function sep1(rule, separator) {                 // {{{1
   return seq(rule, repeat(seq(separator, rule)))
+}
+
+function caseInsensitive(str) {                 // {{{1
+  return new RegExp(str
+        .split('')
+        .map(caseInsensitiveChar)
+        .join('')
+      )
+}
+
+function caseInsensitiveChar(char) {
+  if (/[a-zA-Z]/.test(char)) return `[${char.toUpperCase()}${char.toLowerCase()}]`;
+  return char.replace(/[\[\]^$.|?*+()\\\{\}]/, '\\$&');
 }
 // }}}
 

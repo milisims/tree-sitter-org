@@ -247,6 +247,25 @@ PropertyDrawer.2  -
       (property))
     ))
 
+===================
+PropertyDrawer.2  - Lowercase
+===================
+* a
+:properties:
+:a: b
+:end:
+
+----------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item))
+    (property_drawer
+      (property))
+    ))
+
 ==========
 Body.1a
 ==========
@@ -572,6 +591,20 @@ DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
     ))
 
 ==========
+Plan.4  - Lowercase
+==========
+* headline
+scheduled: <1111-11-11 Day>
+
+----------
+
+(document
+  (section
+    (headline (stars) (item))
+    (plan (scheduled (timestamp (date))))
+    ))
+
+==========
 Drawer.1
 ==========
 :name:
@@ -632,6 +665,15 @@ a
             (body
               (block (name) (parameters) (contents))
               )))
+
+==========
+Block.4  - lowercase
+==========
+#+begin_b
+#+end_b
+----------
+
+(document (body (block (name))))
 
 =================
 DynamicBlock.1  -
@@ -1477,6 +1519,16 @@ a
 ----------
 
 (document (body (latex_env (contents))))
+
+=============
+LatexEnv.5  - Uppercase
+=============
+\begin{a}
+\end{a}
+
+----------
+
+(document (body (latex_env)))
 
 ==================
 LatexFragment.1  -

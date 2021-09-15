@@ -853,26 +853,6 @@
     "named": false
   },
   {
-    "type": "#+BEGIN:",
-    "named": false
-  },
-  {
-    "type": "#+BEGIN_",
-    "named": false
-  },
-  {
-    "type": "#+END:",
-    "named": false
-  },
-  {
-    "type": "#+END_",
-    "named": false
-  },
-  {
-    "type": "#+TBLFM:",
-    "named": false
-  },
-  {
     "type": "$",
     "named": false
   },
@@ -905,14 +885,6 @@
     "named": false
   },
   {
-    "type": ":END:",
-    "named": false
-  },
-  {
-    "type": ":PROPERTIES:",
-    "named": false
-  },
-  {
     "type": "=",
     "named": false
   },
@@ -934,14 +906,6 @@
   },
   {
     "type": "\\]",
-    "named": false
-  },
-  {
-    "type": "\\begin{",
-    "named": false
-  },
-  {
-    "type": "\\end{",
     "named": false
   },
   {
