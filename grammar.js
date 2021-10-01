@@ -46,7 +46,6 @@ org_grammar = {
     // Multiline -- continue the item or start a new one?
     [$.body],
     [$.paragraph],
-    [$.table],
     [$.fndef],
 
     // Subscript and underlines
@@ -465,15 +464,15 @@ org_grammar = {
     // Table =============================================== {{{1
 
     // prec so a new row is higher precedence than a new table
-    table: $ => prec.dynamic(DYN.multiline, seq(
+    table: $ => prec.right(seq(
       optional($._directive_list),
-      repeat1(choice($.row, $._hrule)),
+      repeat1(choice($.row, $.hr)),
       repeat($.formula),
     )),
 
     row: $ => seq(repeat1($.cell), '|', $._eol),
     cell: $ => seq('|', field('contents', repeat($._text))),
-    _hrule: $ => seq(
+    hr: $ => seq(
       '|',
       repeat1(seq(/[-+]+/, '|')),
       $._eol,

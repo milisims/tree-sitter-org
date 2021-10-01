@@ -373,6 +373,11 @@
     }
   },
   {
+    "type": "hr",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "item",
     "named": true,
     "fields": {}
@@ -772,7 +777,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "directive",
@@ -780,6 +785,10 @@
         },
         {
           "type": "formula",
+          "named": true
+        },
+        {
+          "type": "hr",
           "named": true
         },
         {

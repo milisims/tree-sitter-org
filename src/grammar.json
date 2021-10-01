@@ -2525,8 +2525,8 @@
       ]
     },
     "table": {
-      "type": "PREC_DYNAMIC",
-      "value": -1,
+      "type": "PREC_RIGHT",
+      "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
@@ -2553,7 +2553,7 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "_hrule"
+                  "name": "hr"
                 }
               ]
             }
@@ -2608,7 +2608,7 @@
         }
       ]
     },
-    "_hrule": {
+    "hr": {
       "type": "SEQ",
       "members": [
         {
@@ -2986,9 +2986,6 @@
     ],
     [
       "paragraph"
-    ],
-    [
-      "table"
     ],
     [
       "fndef"

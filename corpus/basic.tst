@@ -1724,7 +1724,7 @@ a c=a+d
 (document (body (paragraph)))
 
 ==========
-Table.1  -
+Table.1  - 1x1
 ==========
 |a|
 ----------
@@ -1732,7 +1732,7 @@ Table.1  -
 (document (body (table (row (cell)))))
 
 ==========
-Table.2  -
+Table.2  - 1x2
 ==========
 |a|b|
 ----------
@@ -1742,7 +1742,7 @@ Table.2  -
                   )))
 
 ==========
-Table.3  -
+Table.3  - 2x2
 ==========
 |a|b|
 |c|d|
@@ -1754,7 +1754,7 @@ Table.3  -
                   )))
 
 ==========
-Table.4  -
+Table.4  - empty cell
 ==========
 |a|b|
 | |d|
@@ -1767,7 +1767,7 @@ Table.4  -
 
 
 ==========
-Table.5  -
+Table.5  - empty cells
 ==========
 || |
 ----------
@@ -1777,15 +1777,15 @@ Table.5  -
                   )))
 
 ==========
-Table.6  -
+Table.6  - simple hr
 ==========
 |-|
 ----------
 
-(document (body (table)))
+(document (body (table (hr))))
 
 ==========
-Table.7  -
+Table.7  - words
 ==========
 |a | b |  c|
 |--+---+---|
@@ -1794,12 +1794,13 @@ Table.7  -
 
 (document (body (table
                   (row (cell) (cell) (cell))
+                  (hr)
                   (row (cell) (cell))
                   )))
 
 
 ==========
-Table.8  -
+Table.8  - Formula
 ==========
 |a|b|
 |c|d|
@@ -1814,7 +1815,7 @@ Table.8  -
                   )))
 
 ==========
-Table.9  -
+Table.9  - Multiple formula
 ==========
 |a|b|
 |c|d|
@@ -1830,4 +1831,26 @@ Table.9  -
                   (formula)
                   (formula)
                   (formula)
+                  )))
+
+==========
+Table.10 - Multiline
+==========
+
+| 1 |
+| 2 |
+| 3 |
+| 4 |
+| 5 |
+| 6 |
+
+----------
+
+(document (body (table
+                  (row (cell))
+                  (row (cell))
+                  (row (cell))
+                  (row (cell))
+                  (row (cell))
+                  (row (cell))
                   )))

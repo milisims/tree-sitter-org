@@ -8,12 +8,12 @@
     "lexer"
   ],
   "dependencies": {
-    "nan": "^2.14.2",
+    "nan": "^2.15.0",
     "prebuild-install": "^5.3.3"
   },
   "devDependencies": {
     "prebuild": "^10.0.0",
-    "tree-sitter-cli": "^0.19.4"
+    "tree-sitter-cli": "^0.19.5"
   },
   "scripts": {
     "install": "prebuild-install || node-gyp rebuild",
