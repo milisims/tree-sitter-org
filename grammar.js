@@ -7,10 +7,11 @@ DYN = {
 }
 
 org_grammar = {
-  // Externals, inline =================================== {{{1
   name: 'org',
   // Treat newlines explicitly, all other whitespace is extra
   extras: _ => [/[ \f\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]/],
+
+  // Externals =========================================== {{{1
 
   externals: $ => [
     $._liststart,
@@ -23,78 +24,91 @@ org_grammar = {
     $._eof,  // Basically just '\0', but allows multiple to be matched
   ],
 
+  // Inline ============================================== {{{1
+
   inline: $ => [
+    $._nl,
+    $._eol,
+    $._body_body,
     $._ts_contents,
     $._ts_contents_range,
-    $._docbody,
-    $._directive_list,
+    $._fnref_label,
+    $._fnref_definition,
+    $._start_of_paragraph,
+    $._start_of_textline,
   ],
 
-  // Precedences, conflict =============================== {{{1
+  // Precedences ========================================= {{{1
 
   precedences: _ => [
     ['fn_definition', 'footnote'],
+    ['document_directive', 'body_directive'],
   ],
+
+  // Conflicts =========================================== {{{1
 
   conflicts: $ => [
     [$.description, $._textelement], // textelement in $.itemtext
-    [$.item],                    // :tags: in headlines
+    [$.item],                        // :tags: in headlines
 
-    // Markup
-    [$._conflicts, $.markup],
+    // Unresolved markup: _markup  '*'  •  '_active_start'  …
+    // Unfinished markup is not an error
+    [$._te_conflicts, $.markup],
 
-    // Multiline -- continue the item or start a new one?
-    [$.body],
-    [$.paragraph],
-    [$.fndef],
-
-    // Subscript and underlines
-    [$._textelement, $.subscript, $._conflicts],
-
+    // Subscript and underlines: _markup  '_'  _text  •  '_'  …
+    [$._textelement, $.subscript, $._te_conflicts],
   ],
 
   rules: {
-    // Document, sections, body, & paragraph =============== {{{1
+    // Document ============================================ {{{1
 
-    // prec over body -> element for directive list
-    document: $ => prec(1, seq(
+    document: $ => prec('document_directive', seq(
       optional(choice(
-        $._directive_list,              // required in combination with:
-        seq($._directive_list, $._eof), // equal precedence with _element
+        seq($._directive_list, repeat(prec('document_directive', $._nl))),
         seq(repeat($._nl), $.body),
-        seq($._directive_list, repeat1($._nl), $.body),
+        seq($._directive_list, $._nl, $.body),
+        repeat1($._nl),
       )),
-      repeat($._nl),
       repeat($.section),
     )),
 
     _nl: _ => choice('\n', '\r'),
     _eol: $ => choice('\n', '\r', $._eof),
 
+    // Body ================================================ {{{1
+
+    // Set up to prevent lexing conflicts of having two paragraphs in a row
+    body: $ => prec('body_directive', choice(
+      seq($._body_body, optional(choice($.paragraph, $._directive_list))),
+      seq(choice($.paragraph, $._directive_list)),
+    )),
+
+    _body_body: $ => repeat1(prec('body_directive', seq(
+      choice(
+        seq($.paragraph, $._nl),
+        seq($._directive_list, $._nl),
+        seq(optional($.paragraph), $._element),
+      ),
+      prec('body_directive', repeat($._nl)),
+    ))),
+
+    // Section ============================================= {{{1
+
     section: $ => seq(
       $.headline, $._eol,
-      optional(seq($.plan)),
-      optional(seq($.property_drawer)),
+      optional($.plan),
+      optional($.property_drawer),
       repeat($._nl),
-      optional(seq($.body, repeat($._nl))),
+      optional($.body),
       repeat($.section),
       $._sectionend,
     ),
 
-    body: $ => choice(
-      seq(sep1($._element, repeat($._nl))),
-      seq(sep1($._element, repeat($._nl)), $._directive_list),
-      $._directive_list,
-    ),  // the directive list + choice Solves Directive.7
-
-    // Element and textelement ============================= {{{1
+    // Element ============================================= {{{1
 
     _element: $ => choice(
-      seq($._directive_list, $._eof),
       $.comment,
-
-      // Have attached directive
-      $.paragraph,
+      // Have attached directive:
       $.fndef,
       $.drawer,
       $.list,
@@ -104,9 +118,11 @@ org_grammar = {
       $.latex_env,
     ),
 
+    // Textelement ========================================= {{{1
+
     _textelement: $ => choice(
       $._text,
-      $._conflicts,
+      $._te_conflicts,
       $.timestamp,
 
       $.footnote,
@@ -120,11 +136,41 @@ org_grammar = {
 
     // Paragraph =========================================== {{{1
 
-    // Prec prefers one paragraph over multiple for multi-line
-    paragraph: $ => prec.dynamic(DYN.multiline, seq(
+    paragraph: $ => prec.right(seq(
       optional($._directive_list),
-      repeat1(seq(repeat1($._textelement), $._eol)),
+      $._start_of_paragraph, repeat($._textelement), $._eol,
+      repeat(seq($._start_of_textline, repeat($._textelement), $._eol)),
     )),
+
+    _start_of_paragraph: $ => choice(
+      $._sol_conflicts,
+      $._te_conflicts,
+      $._text,
+      $.timestamp,
+
+      $.link,
+
+      $.markup,
+      $.subscript,
+      $.superscript,
+      $.latex_fragment,
+    ),
+
+    _start_of_textline: $ => choice(
+      $._sol_conflicts,
+      $._te_conflicts,
+      $._text,
+      $.timestamp,
+
+      $.footnote,
+      $.link,
+
+      $.markup,
+      $.subscript,
+      $.superscript,
+      $.latex_fragment,
+    ),
+
 
     // Headlines =========================================== {{{1
 
@@ -334,30 +380,30 @@ org_grammar = {
 
     // Footnote ============================================ {{{1
 
-    _fn_label: _ => /[\p{L}\p{N}_-]+/,
-    _fn: _ => caseInsensitive('[fn:'),
+    _fn_textline: $ => prec.right(repeat1(seq(repeat1($._textelement), $._eol))),
+    _fn: $ => caseInsensitive('[fn:'),
 
-    fndef: $ => prec('fn_definition',
+    fndef: $ => seq(
+      optional($._directive_list),
       seq(
-        optional($._directive_list),
         $._fn,
-        $._fn_label,
-        ']',
-        repeat1(seq(repeat1($._textelement), $._eol)),
-      )),
+        /[\p{L}\p{N}_-]+/,
+        ']'
+      ),
+      $._fn_textline
+    ),
 
-    footnote: $ => prec('footnote', seq(
+    footnote: $ => seq(
       $._fn,
       choice(
-        $._fn_label,
+        seq(':', sep1(repeat1($._textelement), $._nl)),
         seq(
-          optional($._fn_label),
-          token.immediate(':'),
-          sep1(repeat1($._textelement), $._eol)
+          /[\p{L}\p{N}_-]+/,
+          optional(seq(':', sep1(repeat1($._textelement), $._nl)))
         ),
       ),
-      ']',
-    )),
+      ']'
+    ),
 
     // Directive & Comment ================================= {{{1
 
@@ -375,7 +421,6 @@ org_grammar = {
 
     // Drawer ============================================== {{{1
 
-    // precedence over :
     drawer: $ => seq(
       optional($._directive_list),
       $._drawer_begin,
@@ -384,9 +429,8 @@ org_grammar = {
       $._drawer_end,
     ),
 
-    _drawer_begin: $ => seq(':', $._drawername, token.immediate(':'), $._nl),
+    _drawer_begin: $ => seq(/:[\p{L}\p{N}\p{Pd}\p{Pc}]+:/, $._nl),
     _drawer_end: $ => seq(caseInsensitive(':END:'), $._eol),
-    _drawername: _ => token.immediate(/[\p{L}\p{N}\p{Pd}\p{Pc}]+/),
 
     // Block =============================================== {{{1
 
@@ -511,16 +555,19 @@ org_grammar = {
       /[^\p{Z}\p{L}\p{N}\n\r]/,   // Everything else, minus whitespace
     ),
 
-    _conflicts: $ => prec.dynamic(DYN.conflicts, choice(
+    _te_conflicts: $ => prec.dynamic(DYN.conflicts, choice(
       $._active_start,
       $._inactive_start,
       seq($._markup, choice('*', '/', '_', '+', '~', '=', '`')),
-      seq(':', optional($._drawername)),
-      seq('\\', /[^\p{L}]+/),
       seq($._text, '^', /[^{]/),
       seq('$', token.immediate(/[^\p{Z}\n\r$]+/)),
       // seq($._text, '^', /[^{]/),
-      seq($._text, token.immediate('_'), token.immediate(/[^\p{Z}]/))
+      seq($._text, token.immediate('_'), token.immediate(/[^\p{Z}]/)),
+    )),
+
+    _sol_conflicts: $ => prec.dynamic(DYN.conflicts, choice(
+      /:[\p{L}\p{N}\p{Pd}\p{Pc}]+/,
+      seq('\\', /[^\p{L}]+/),
     )),
 
     contents: $ => seq(
@@ -529,18 +576,18 @@ org_grammar = {
     ),
 
   }
-};
+}; // }}}
 
-function sep1(rule, separator) {                 // {{{1
+function sep1(rule, separator) {                 // === {{{1
   return seq(rule, repeat(seq(separator, rule)))
 }
 
-function caseInsensitive(str) {                 // {{{1
+function caseInsensitive(str) {                 // === {{{1
   return new RegExp(str
-        .split('')
-        .map(caseInsensitiveChar)
-        .join('')
-      )
+    .split('')
+    .map(caseInsensitiveChar)
+    .join('')
+  )
 }
 
 function caseInsensitiveChar(char) {
@@ -550,4 +597,3 @@ function caseInsensitiveChar(char) {
 // }}}
 
 module.exports = grammar(org_grammar);
-// vim: set fm=marker sw=2

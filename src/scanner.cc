@@ -154,7 +154,6 @@ struct Scanner {                                                       // {{{1
 
 bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
 
-
   // - Section ends                                                     {{{2
 
   int16_t indent_length = 0;
@@ -166,8 +165,6 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
       indent_length += 8;
     } else if (lexer->lookahead == '\0') {
 
-      // if (valid_symbols[LISTITEMEND])     { lexer->result_symbol = LISTITEMEND; }
-      // else
       if (valid_symbols[LISTEND])    { lexer->result_symbol = LISTEND; }
       else if (valid_symbols[SECTIONEND]) { lexer->result_symbol = SECTIONEND; }
       else if (valid_symbols[ENDOFFILE])  { lexer->result_symbol = ENDOFFILE; }

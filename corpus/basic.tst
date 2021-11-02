@@ -444,6 +444,25 @@ a
     )
 
 ==============
+Paragraph.6  - Long paragraph
+==============
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+----------
+
+(document (body (paragraph)))
+
+==============
 Timestamp.1  - Basic
 ==============
 <1-1-1 a>
@@ -626,7 +645,7 @@ a
 ==========
 Drawer.3 - Junk
 ==========
-:l 1
+:l
 ----------
 
 (document (body (paragraph)))
@@ -757,6 +776,51 @@ words
 ----------
 
 (document (body (fndef)))
+
+=============
+Footnote.5a -
+=============
+[fn:a] b
+a
+----------
+
+(document (body (fndef)))
+
+=============
+Footnote.5b -
+=============
+a
+[fn:a] b
+----------
+
+(document (body
+  (paragraph
+    (footnote))
+  ))
+
+=============
+Footnote.5c -
+=============
+a
+
+[fn:a] b
+----------
+
+(document (body
+  (paragraph)
+  (fndef)
+  ))
+
+=============
+Footnote.5d -
+=============
+[fn:a] b
+:a:
+:end:
+----------
+
+(document (body (fndef) (drawer)))
+
 
 ==========
 Comment.1
@@ -1658,41 +1722,7 @@ a
   ))
 
 =============
-Combined.6a -
-=============
-[fn:a] b
-a
-----------
-
-(document (body (fndef)))
-
-=============
-Combined.6b -
-=============
-a
-[fn:a] b
-----------
-
-(document (body
-  (paragraph
-    (footnote))
-  ))
-
-=============
-Combined.6c -
-=============
-a
-
-[fn:a] b
-----------
-
-(document (body
-  (paragraph)
-  (fndef)
-  ))
-
-=============
-Combined.7  -
+Combined.6  -
 =============
 a
 :AB:
