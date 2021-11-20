@@ -1426,6 +1426,30 @@ List.9   - With markup
 
 (document (body (list (listitem (bullet) (itemtext (markup))))))
 
+==========
+List.9a   - With src block
+==========
+  - A
+    - B
+      #+BEGIN_SRC
+        Block content
+      #+END_SRC
+----------
+
+(document (body (list (listitem (bullet) (itemtext (list (listitem (bullet) (itemtext (block (name) (contents))))))))))
+
+==========
+List.9b   - With dynamic block
+==========
+  - A
+    - B
+      #+BEGIN: testblock
+        Dynamic block content
+      #+END:
+----------
+
+(document (body (list (listitem (bullet) (itemtext (list (listitem (bullet) (itemtext (dynamic_block (name) (contents))))))))))
+
 ==============
 Directive.1  - Document
 ==============

@@ -2619,7 +2619,7 @@
           "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
-            "name": "_textelement"
+            "name": "_itemtextcontent"
           }
         },
         {
@@ -2650,7 +2650,7 @@
                     "type": "REPEAT1",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "_textelement"
+                      "name": "_itemtextcontent"
                     }
                   },
                   {
@@ -2661,6 +2661,23 @@
               }
             ]
           }
+        }
+      ]
+    },
+    "_itemtextcontent": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_textelement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dynamic_block"
         }
       ]
     },

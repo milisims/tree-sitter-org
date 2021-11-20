@@ -391,6 +391,14 @@
       "required": false,
       "types": [
         {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "dynamic_block",
+          "named": true
+        },
+        {
           "type": "footnote",
           "named": true
         },
