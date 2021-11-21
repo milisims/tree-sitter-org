@@ -496,15 +496,13 @@ org_grammar = {
     ),
 
     itemtext: $ => seq(
-      repeat1($._itemtextcontent),
+      repeat1($._textelement),
       repeat(seq(
         $._nl,
         optional($._nl),
-        choice(repeat1($._itemtextcontent), $.list)
+        choice(repeat1(choice($._textelement, $.block, $.dynamic_block)), $.list)
       )),
     ),
-
-    _itemtextcontent: $ => choice($._textelement, $.block, $.dynamic_block),
 
     // Table =============================================== {{{1
 
