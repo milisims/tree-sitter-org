@@ -589,7 +589,7 @@ SCHEDULED: <1111-11-11 Day>
 (document
   (section
     (headline (stars) (item))
-    (plan (scheduled (timestamp (date))))
+    (plan (name) (timestamp (date)))
     ))
 
 =================
@@ -604,9 +604,9 @@ DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
   (section
     (headline (stars) (item))
     (plan
-      (deadline (timestamp (date)))
+      (name) (timestamp (date))
       (timestamp (date))
-      (closed (timestamp (date))))
+      (name) (timestamp (date)))
     ))
 
 ==========
@@ -620,7 +620,7 @@ scheduled: <1111-11-11 Day>
 (document
   (section
     (headline (stars) (item))
-    (plan (scheduled (timestamp (date))))
+    (plan (name) (timestamp (date)))
     ))
 
 ==========

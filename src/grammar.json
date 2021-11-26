@@ -761,18 +761,6 @@
         }
       ]
     },
-    "_scheduled": {
-      "type": "PATTERN",
-      "value": "[Ss][Cc][Hh][Ee][Dd][Uu][Ll][Ee][Dd]:"
-    },
-    "_deadline": {
-      "type": "PATTERN",
-      "value": "[Dd][Ee][Aa][Dd][Ll][Ii][Nn][Ee]:"
-    },
-    "_closed": {
-      "type": "PATTERN",
-      "value": "[Cc][Ll][Oo][Ss][Ee][Dd]:"
-    },
     "plan": {
       "type": "SEQ",
       "members": [
@@ -782,23 +770,36 @@
             "type": "PREC",
             "value": 1,
             "content": {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "SYMBOL",
-                  "name": "timestamp"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "type",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "\\p{L}+:"
+                        },
+                        "named": true,
+                        "value": "name"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "scheduled"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "deadline"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "closed"
+                  "type": "FIELD",
+                  "name": "datetime",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "timestamp"
+                  }
                 }
               ]
             }
@@ -809,87 +810,6 @@
           "name": "_eol"
         }
       ]
-    },
-    "scheduled": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_scheduled"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "timestamp"
-        }
-      ]
-    },
-    "deadline": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_deadline"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "timestamp"
-        }
-      ]
-    },
-    "closed": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_closed"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_inactive_ts"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_inactive_ts_trange"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "_inactive_ts_range"
-              }
-            ]
-          },
-          "named": true,
-          "value": "timestamp"
-        }
-      ]
-    },
-    "_active_start": {
-      "type": "STRING",
-      "value": "<"
-    },
-    "_active_end": {
-      "type": "STRING",
-      "value": ">"
-    },
-    "_inactive_start": {
-      "type": "STRING",
-      "value": "["
-    },
-    "_inactive_end": {
-      "type": "STRING",
-      "value": "]"
-    },
-    "_active_separator": {
-      "type": "STRING",
-      "value": ">--<"
-    },
-    "_inactive_separator": {
-      "type": "STRING",
-      "value": "]--["
     },
     "_day": {
       "type": "PATTERN",
@@ -953,32 +873,126 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_active_ts"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_active_ts_trange"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents_range"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_active_ts_range"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents"
+            },
+            {
+              "type": "STRING",
+              "value": ">--<"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_inactive_ts"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_inactive_ts_trange"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents_range"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_inactive_ts_range"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents"
+            },
+            {
+              "type": "STRING",
+              "value": "]--["
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_timestamp_contents"
+            },
+            {
+              "type": "STRING",
+              "value": "]"
+            }
+          ]
         }
       ]
     },
-    "_ts_contents": {
+    "_timestamp_contents": {
       "type": "SEQ",
       "members": [
         {
@@ -1023,7 +1037,7 @@
         }
       ]
     },
-    "_ts_contents_range": {
+    "_timestamp_contents_range": {
       "type": "SEQ",
       "members": [
         {
@@ -1057,124 +1071,6 @@
               "type": "BLANK"
             }
           ]
-        }
-      ]
-    },
-    "_active_ts": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_active_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_active_end"
-        }
-      ]
-    },
-    "_active_ts_trange": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_active_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents_range"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_active_end"
-        }
-      ]
-    },
-    "_active_ts_range": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_active_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_active_separator"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_active_end"
-        }
-      ]
-    },
-    "_inactive_ts": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_end"
-        }
-      ]
-    },
-    "_inactive_ts_trange": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents_range"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_end"
-        }
-      ]
-    },
-    "_inactive_ts_range": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_start"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_separator"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ts_contents"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_inactive_end"
         }
       ]
     },
@@ -2914,12 +2810,12 @@
         "type": "CHOICE",
         "members": [
           {
-            "type": "SYMBOL",
-            "name": "_active_start"
+            "type": "STRING",
+            "value": "<"
           },
           {
-            "type": "SYMBOL",
-            "name": "_inactive_start"
+            "type": "STRING",
+            "value": "["
           },
           {
             "type": "SEQ",
@@ -3179,8 +3075,8 @@
     "_nl",
     "_eol",
     "_body_body",
-    "_ts_contents",
-    "_ts_contents_range",
+    "ReferenceError",
+    "ReferenceError",
     "ReferenceError",
     "ReferenceError",
     "_start_of_paragraph",

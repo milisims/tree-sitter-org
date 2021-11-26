@@ -216,94 +216,36 @@ org_grammar = {
 
     // Planning ============================================ {{{1
 
-    _scheduled:     _ => caseInsensitive('SCHEDULED:'),
-    _deadline:      _ => caseInsensitive('DEADLINE:'),
-    _closed:        _ => caseInsensitive('CLOSED:'),
-
     plan: $ => seq(
-      repeat1(prec(1, // precedence over paragraph→timestamp
-        choice(
-          $.timestamp,
-          $.scheduled,
-          $.deadline,
-          $.closed,
-        ))),
-      $._eol,
-    ),
-
-    scheduled: $ => seq($._scheduled, $.timestamp),
-    deadline: $ => seq($._deadline, $.timestamp),
-    closed: $ => seq(
-      $._closed,
-      alias(choice(
-        $._inactive_ts,
-        $._inactive_ts_trange,
-        $._inactive_ts_range,
-      ), $.timestamp),
-    ),
+      // precedence over paragraph→timestamp
+      repeat1(prec(1, seq(
+        optional(field('type', alias(/\p{L}+:/, $.name))),
+        field('datetime', $.timestamp),
+      ))), $._eol),
 
     // Timestamp =========================================== {{{1
 
-    _active_start:        _ => '<',
-    _active_end:          _ => '>',
-    _inactive_start:      _ => '[',
-    _inactive_end:        _ => ']',
-    _active_separator:   _ => '>--<',
-    _inactive_separator: _ => ']--[',
-    _day:                _ => /\p{L}+/,
-    _ymd:                _ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
-    time:                _ => /\p{N}?\p{N}:\p{N}\p{N}/,
-    repeater:            _ => /[.+]?\+\p{N}+\p{L}/,
-    delay:               _ => /--?\p{N}+\p{L}/,
+    _day:     _ => /\p{L}+/,
+    _ymd:     _ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
+    time:     _ => /\p{N}?\p{N}:\p{N}\p{N}/,
+    repeater: _ => /[.+]?\+\p{N}+\p{L}/,
+    delay:    _ => /--?\p{N}+\p{L}/,
 
     date: $ => seq($._ymd, optional($._day)),
 
     timerange: $ => seq($.time, '-', $.time),
 
     timestamp: $ => choice(
-      $._active_ts,
-      $._active_ts_trange,
-      $._active_ts_range,
-      $._inactive_ts,
-      $._inactive_ts_trange,
-      $._inactive_ts_range,
+      seq('<', $._timestamp_contents, '>'),
+      seq('<', $._timestamp_contents_range, '>'),
+      seq('<', $._timestamp_contents, '>--<', $._timestamp_contents, '>'),
+      seq('[', $._timestamp_contents, ']'),
+      seq('[', $._timestamp_contents_range, ']'),
+      seq('[', $._timestamp_contents, ']--[', $._timestamp_contents, ']'),
     ),
 
-    _ts_contents: $ => seq(
-      $.date,
-      optional($.time),
-      optional($.repeater),
-      optional($.delay),
-    ),
-
-    _ts_contents_range: $ => seq(
-      $.date,
-      $.timerange,
-      optional($.repeater),
-      optional($.delay),
-    ),
-
-    _active_ts: $ => seq($._active_start, $._ts_contents, $._active_end),
-    _active_ts_trange: $ => seq($._active_start, $._ts_contents_range, $._active_end),
-
-    _active_ts_range: $ => seq(
-      $._active_start,
-      $._ts_contents,
-      $._active_separator,
-      $._ts_contents,
-      $._active_end
-    ),
-
-    _inactive_ts: $ => seq($._inactive_start, $._ts_contents, $._inactive_end),
-    _inactive_ts_trange: $ => seq($._inactive_start, $._ts_contents_range, $._inactive_end),
-
-    _inactive_ts_range: $ => seq(
-      $._inactive_start,
-      $._ts_contents,
-      $._inactive_separator,
-      $._ts_contents,
-      $._inactive_end
-    ),
+    _timestamp_contents: $ => seq($.date, optional($.time), optional($.repeater), optional($.delay)),
+    _timestamp_contents_range: $ => seq($.date, $.timerange, optional($.repeater), optional($.delay)),
 
     // Markup ============================================== {{{1
 
@@ -556,8 +498,8 @@ org_grammar = {
     ),
 
     _te_conflicts: $ => prec.dynamic(DYN.conflicts, choice(
-      $._active_start,
-      $._inactive_start,
+      "<",
+      "[",
       seq($._markup, choice('*', '/', '_', '+', '~', '=', '`')),
       seq($._text, '^', /[^{]/),
       seq('$', token.immediate(/[^\p{Z}\n\r$]+/)),
