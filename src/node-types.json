@@ -2,37 +2,67 @@
   {
     "type": "block",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "contents",
-          "named": true
-        },
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "parameters",
-          "named": true
-        }
-      ]
+    "fields": {
+      "contents": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "contents",
+            "named": true
+          }
+        ]
+      },
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      },
+      "parameter": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "body",
     "named": true,
-    "fields": {},
+    "fields": {
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "block",
@@ -40,10 +70,6 @@
         },
         {
           "type": "comment",
-          "named": true
-        },
-        {
-          "type": "directive",
           "named": true
         },
         {
@@ -80,27 +106,91 @@
   {
     "type": "cell",
     "named": true,
-    "fields": {}
+    "fields": {
+      "contents": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "contents",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "checkbox",
+    "named": true,
+    "fields": {
+      "status": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": " ",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "X",
+            "named": false
+          },
+          {
+            "type": "x",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "contents",
     "named": true,
-    "fields": {}
-  },
-  {
-    "type": "date",
-    "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "description",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "directive",
@@ -111,7 +201,7 @@
         "required": true,
         "types": [
           {
-            "type": "name",
+            "type": "expr",
             "named": true
           }
         ]
@@ -141,10 +231,6 @@
           "named": true
         },
         {
-          "type": "directive",
-          "named": true
-        },
-        {
           "type": "section",
           "named": true
         }
@@ -154,192 +240,202 @@
   {
     "type": "drawer",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "footnote",
-          "named": true
-        },
-        {
-          "type": "latex_fragment",
-          "named": true
-        },
-        {
-          "type": "link",
-          "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
-          "named": true
-        }
-      ]
+    "fields": {
+      "contents": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "contents",
+            "named": true
+          }
+        ]
+      },
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "dynamic_block",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "contents",
-          "named": true
-        },
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "parameters",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "fndef",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "footnote",
-          "named": true
-        },
-        {
-          "type": "latex_fragment",
-          "named": true
-        },
-        {
-          "type": "link",
-          "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "footnote",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "footnote",
-          "named": true
-        },
-        {
-          "type": "latex_fragment",
-          "named": true
-        },
-        {
-          "type": "link",
-          "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "formula",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "headline",
-    "named": true,
     "fields": {
-      "tags": {
+      "contents": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "contents",
+            "named": true
+          }
+        ]
+      },
+      "directive": {
         "multiple": true,
         "required": false,
         "types": [
           {
-            "type": ":",
-            "named": false
-          },
+            "type": "directive",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "tag",
+            "type": "expr",
+            "named": true
+          }
+        ]
+      },
+      "parameter": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "entry",
+    "named": true,
+    "fields": {
+      "timestamp": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "timestamp",
             "named": true
           }
         ]
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "item",
-          "named": true
-        },
-        {
-          "type": "stars",
+          "type": "entry_name",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "expr",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "fndef",
+    "named": true,
+    "fields": {
+      "description": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "description",
+            "named": true
+          }
+        ]
+      },
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      },
+      "label": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "formula",
+    "named": true,
+    "fields": {
+      "formula": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "headline",
+    "named": true,
+    "fields": {
+      "item": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "item",
+            "named": true
+          }
+        ]
+      },
+      "stars": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "stars",
+            "named": true
+          }
+        ]
+      },
+      "tags": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "tag_list",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -350,7 +446,17 @@
   {
     "type": "item",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "itemtext",
@@ -358,110 +464,84 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "footnote",
-          "named": true
-        },
-        {
-          "type": "latex_fragment",
-          "named": true
-        },
-        {
-          "type": "link",
+          "type": "expr",
           "named": true
         },
         {
           "type": "list",
           "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
-          "named": true
         }
       ]
     }
-  },
-  {
-    "type": "keyword?",
-    "named": false,
-    "fields": {}
   },
   {
     "type": "latex_env",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "contents",
-          "named": true
-        },
-        {
-          "type": "directive",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "latex_fragment",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "link",
-    "named": true,
     "fields": {
-      "description": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "linktext",
-            "named": true
-          }
-        ]
-      },
-      "uri": {
+      "contents": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "linktext",
+            "type": "contents",
+            "named": true
+          }
+        ]
+      },
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
             "named": true
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "list",
     "named": true,
-    "fields": {},
+    "fields": {
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "directive",
-          "named": true
-        },
         {
           "type": "listitem",
           "named": true
@@ -472,17 +552,24 @@
   {
     "type": "listitem",
     "named": true,
-    "fields": {},
+    "fields": {
+      "checkbox": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "checkbox",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "bullet",
-          "named": true
-        },
-        {
-          "type": "checkbox",
           "named": true
         },
         {
@@ -497,40 +584,16 @@
     }
   },
   {
-    "type": "markup",
+    "type": "paragraph",
     "named": true,
     "fields": {
-      "type": {
-        "multiple": false,
-        "required": true,
+      "directive": {
+        "multiple": true,
+        "required": false,
         "types": [
           {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "/",
-            "named": false
-          },
-          {
-            "type": "=",
-            "named": false
-          },
-          {
-            "type": "_",
-            "named": false
-          },
-          {
-            "type": "`",
-            "named": false
-          },
-          {
-            "type": "~",
-            "named": false
+            "type": "directive",
+            "named": true
           }
         ]
       }
@@ -540,114 +603,52 @@
       "required": false,
       "types": [
         {
-          "type": "footnote",
-          "named": true
-        },
-        {
-          "type": "latex_fragment",
-          "named": true
-        },
-        {
-          "type": "link",
-          "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
+          "type": "expr",
           "named": true
         }
       ]
     }
-  },
-  {
-    "type": "paragraph",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "footnote",
-          "named": true
-        },
-        {
-          "type": "latex_fragment",
-          "named": true
-        },
-        {
-          "type": "link",
-          "named": true
-        },
-        {
-          "type": "markup",
-          "named": true
-        },
-        {
-          "type": "subscript",
-          "named": true
-        },
-        {
-          "type": "superscript",
-          "named": true
-        },
-        {
-          "type": "timestamp",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parameters",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "plan",
     "named": true,
-    "fields": {
-      "datetime": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "timestamp",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "name",
-            "named": true
-          }
-        ]
-      }
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "entry",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "property",
     "named": true,
-    "fields": {}
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "value",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "property_drawer",
@@ -716,27 +717,24 @@
     "fields": {}
   },
   {
-    "type": "subscript",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "superscript",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "table",
     "named": true,
-    "fields": {},
+    "fields": {
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "directive",
-          "named": true
-        },
         {
           "type": "formula",
           "named": true
@@ -753,18 +751,24 @@
     }
   },
   {
-    "type": "timerange",
+    "type": "tag",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "time",
-          "named": true
-        }
-      ]
+    "fields": {}
+  },
+  {
+    "type": "tag_list",
+    "named": true,
+    "fields": {
+      "tag": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "tag",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -780,11 +784,19 @@
           "named": true
         },
         {
+          "type": "day",
+          "named": true
+        },
+        {
           "type": "delay",
           "named": true
         },
         {
-          "type": "repeater",
+          "type": "duration",
+          "named": true
+        },
+        {
+          "type": "repeat",
           "named": true
         },
         {
@@ -792,7 +804,22 @@
           "named": true
         },
         {
-          "type": "timerange",
+          "type": "tsexp",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tsexp",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         }
       ]
@@ -801,7 +828,17 @@
   {
     "type": "value",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "\n",
@@ -812,7 +849,43 @@
     "named": false
   },
   {
+    "type": " ",
+    "named": false
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
     "type": "#+",
+    "named": false
+  },
+  {
+    "type": "#+begin:",
+    "named": false
+  },
+  {
+    "type": "#+begin_",
+    "named": false
+  },
+  {
+    "type": "#+end:",
+    "named": false
+  },
+  {
+    "type": "#+end_",
+    "named": false
+  },
+  {
+    "type": "#+tblfm:",
     "named": false
   },
   {
@@ -820,7 +893,23 @@
     "named": false
   },
   {
-    "type": "$$",
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
     "named": false
   },
   {
@@ -832,7 +921,15 @@
     "named": false
   },
   {
+    "type": ",",
+    "named": false
+  },
+  {
     "type": "-",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
@@ -848,7 +945,23 @@
     "named": false
   },
   {
+    "type": ":end:",
+    "named": false
+  },
+  {
+    "type": ":properties:",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "<%%",
     "named": false
   },
   {
@@ -864,7 +977,27 @@
     "named": false
   },
   {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "X",
+    "named": false
+  },
+  {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "[%%",
+    "named": false
+  },
+  {
+    "type": "[fn:",
     "named": false
   },
   {
@@ -872,19 +1005,11 @@
     "named": false
   },
   {
-    "type": "\\(",
+    "type": "\\begin{",
     "named": false
   },
   {
-    "type": "\\)",
-    "named": false
-  },
-  {
-    "type": "\\[",
-    "named": false
-  },
-  {
-    "type": "\\]",
+    "type": "\\end{",
     "named": false
   },
   {
@@ -912,7 +1037,11 @@
     "named": true
   },
   {
-    "type": "checkbox",
+    "type": "date",
+    "named": true
+  },
+  {
+    "type": "day",
     "named": true
   },
   {
@@ -920,11 +1049,11 @@
     "named": true
   },
   {
-    "type": "keyword?",
-    "named": false
+    "type": "duration",
+    "named": true
   },
   {
-    "type": "linktext",
+    "type": "entry_name",
     "named": true
   },
   {
@@ -932,16 +1061,28 @@
     "named": true
   },
   {
-    "type": "repeater",
+    "type": "num",
+    "named": false
+  },
+  {
+    "type": "repeat",
     "named": true
   },
   {
-    "type": "tag",
-    "named": true
+    "type": "str",
+    "named": false
+  },
+  {
+    "type": "sym",
+    "named": false
   },
   {
     "type": "time",
     "named": true
+  },
+  {
+    "type": "x",
+    "named": false
   },
   {
     "type": "{",

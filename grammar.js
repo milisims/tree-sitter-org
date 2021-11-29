@@ -1,17 +1,11 @@
-// Dynamic precedence constants ========================== {{{1
-DYN = {
-  multiline: -1,
-  hltags: 1,
-  listtag: 1,
-  conflicts: -1,
-}
+asciiSymbols = [ '!', '"', '#', '$', '%', '&', "'", '(', ')', '*',
+  '+', ',', '-', '.', '/',  ':', ';', '<', '=', '>', '?', '@', '[', ']',
+  '\\', '^', '_', '`', '{', '|', '}', '~' ]
 
 org_grammar = {
   name: 'org',
   // Treat newlines explicitly, all other whitespace is extra
   extras: _ => [/[ \f\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]/],
-
-  // Externals =========================================== {{{1
 
   externals: $ => [
     $._liststart,
@@ -20,96 +14,71 @@ org_grammar = {
     $.bullet,
     $._stars,
     $._sectionend,
-    $._markup,
     $._eof,  // Basically just '\0', but allows multiple to be matched
   ],
-
-  // Inline ============================================== {{{1
 
   inline: $ => [
     $._nl,
     $._eol,
-    $._body_body,
     $._ts_contents,
-    $._ts_contents_range,
-    $._fnref_label,
-    $._fnref_definition,
-    $._start_of_paragraph,
-    $._start_of_textline,
+    $._directive_list,
   ],
-
-  // Precedences ========================================= {{{1
 
   precedences: _ => [
-    ['fn_definition', 'footnote'],
     ['document_directive', 'body_directive'],
+    ['special', 'immediate', 'non-immediate'],
   ],
 
-  // Conflicts =========================================== {{{1
-
   conflicts: $ => [
-    [$.description, $._textelement], // textelement in $.itemtext
-    [$.item],                        // :tags: in headlines
 
-    // Unresolved markup: _markup  '*'  •  '_active_start'  …
-    // Unfinished markup is not an error
-    [$._te_conflicts, $.markup],
+    // stars  'headline_token1'  item_repeat1  •  ':'  …
+    // Should we start the tag?
+    [$.item],
 
-    // Subscript and underlines: _markup  '_'  _text  •  '_'  …
-    [$._textelement, $.subscript, $._te_conflicts],
+    // _multiline_text  •  ':'  …
+    // Is the ':' continued multiline text or is it a drawer?
+    [$.paragraph],
+    [$.fndef],
+    // ':'  'str'  …
+    // Continue the conflict from above
+    [$.expr, $.drawer],
+
+    // headline  'entry_token1'  ':'  •  '<'  …
+    [$.entry, $.expr]
+
   ],
 
   rules: {
-    // Document ============================================ {{{1
 
-    document: $ => prec('document_directive', seq(
-      optional(choice(
-        seq($._directive_list, repeat(prec('document_directive', $._nl))),
-        seq(repeat($._nl), $.body),
-        seq($._directive_list, $._nl, $.body),
-        repeat1($._nl),
-      )),
-      repeat($.section),
-    )),
-
-    _nl: _ => choice('\n', '\r'),
-    _eol: $ => choice('\n', '\r', $._eof),
-
-    // Body ================================================ {{{1
+    document: $ => seq(optional($.body), repeat($.section)),
 
     // Set up to prevent lexing conflicts of having two paragraphs in a row
-    body: $ => prec('body_directive', choice(
-      seq($._body_body, optional(choice($.paragraph, $._directive_list))),
-      seq(choice($.paragraph, $._directive_list)),
-    )),
-
-    _body_body: $ => repeat1(prec('body_directive', seq(
-      choice(
-        seq($.paragraph, $._nl),
-        seq($._directive_list, $._nl),
-        seq(optional($.paragraph), $._element),
+    body: $ => choice(
+      repeat1($._nl),
+      seq(repeat($._nl), $._multis),
+      seq(
+        repeat($._nl),
+        repeat1(seq(
+          choice(
+            seq($._multis, $._nl),
+            seq(optional(choice($.paragraph, $.fndef)), $._element),
+          ),
+          repeat($._nl),
+        )),
+        optional($._multis)
       ),
-      prec('body_directive', repeat($._nl)),
-    ))),
-
-    // Section ============================================= {{{1
-
-    section: $ => seq(
-      $.headline, $._eol,
-      optional($.plan),
-      optional($.property_drawer),
-      repeat($._nl),
-      optional($.body),
-      repeat($.section),
-      $._sectionend,
     ),
 
-    // Element ============================================= {{{1
+    // Can't have multiple in a row
+    _multis: $ => choice(
+      $.paragraph,
+      $._directive_list,
+      $.fndef,
+    ),
 
     _element: $ => choice(
       $.comment,
       // Have attached directive:
-      $.fndef,
       $.drawer,
       $.list,
       $.block,
@@ -118,304 +87,143 @@ org_grammar = {
       $.latex_env,
     ),
 
-    // Textelement ========================================= {{{1
-
-    _textelement: $ => choice(
-      $._text,
-      $._te_conflicts,
-      $.timestamp,
-
-      $.footnote,
-      $.link,
-
-      $.markup,
-      $.subscript,
-      $.superscript,
-      $.latex_fragment,
+    section: $ => seq(
+      $.headline,
+      optional($.plan),
+      optional($.property_drawer),
+      optional($.body),
+      repeat($.section),
+      $._sectionend,
     ),
 
-    // Paragraph =========================================== {{{1
-
-    paragraph: $ => prec.right(seq(
-      optional($._directive_list),
-      $._start_of_paragraph, repeat($._textelement), $._eol,
-      repeat(seq($._start_of_textline, repeat($._textelement), $._eol)),
-    )),
-
-    _start_of_paragraph: $ => choice(
-      $._sol_conflicts,
-      $._te_conflicts,
-      $._text,
-      $.timestamp,
-
-      $.link,
-
-      $.markup,
-      $.subscript,
-      $.superscript,
-      $.latex_fragment,
-    ),
-
-    _start_of_textline: $ => choice(
-      $._sol_conflicts,
-      $._te_conflicts,
-      $._text,
-      $.timestamp,
-
-      $.footnote,
-      $.link,
-
-      $.markup,
-      $.subscript,
-      $.superscript,
-      $.latex_fragment,
-    ),
-
-
-    // Headlines =========================================== {{{1
+    stars: $ => seq($._stars, /\*+/),
 
     headline: $ => seq(
-      $.stars,
-      optional(seq(
-        /[ \t]+/, // so it's not part of title
-        $.item,
+      field('stars', $.stars),
+      /[ \t]+/, // so it's not part of (item)
+      optional(field('item', $.item)),
+      optional(field('tags', $.tag_list)),
+      $._eol,
+    ),
+
+    item: $ => repeat1($.expr),
+
+    tag_list: $ => prec.dynamic(1, seq(
+      token(prec('non-immediate', ':')),
+      repeat1(seq(
+        field('tag', alias($._noc_expr, $.tag)),
+        token.immediate(prec('special', ':')),
       )),
-      optional(field('tags', $._taglist)),
-    ),
-
-    stars: $ => seq(prec.dynamic(10, $._stars), /\*+/),
-
-    // the choice with ':' allows for the conflict of $.title to operate
-    item: $ => seq(
-      alias(choice($._text, /[ \t]:/), 'keyword?'),
-      repeat(choice($._text, /[ \t]:/)),
-    ),
-
-    _taglist: $ => prec.dynamic(DYN.hltags,  // over title text
-      seq(/[ \t]:/,
-        repeat1(seq(
-          $.tag,
-          token.immediate(':')
-        )))),
-
-    tag: _ => token.immediate(/[\p{L}\p{N}_@#%]+/),
+    )),
 
     property_drawer: $ => seq(
-      caseInsensitive(':PROPERTIES:'),
-      sep1(repeat1($._nl), $.property),
-      caseInsensitive(':END:'),
+      caseInsensitive(':properties:'),
+      repeat1($._nl),
+      repeat(seq($.property, repeat1($._nl))),
+      caseInsensitive(':end:'),
       $._eol,
     ),
 
     property: $ => seq(
       ':',
-      token.immediate(/[^\p{Z}\n\r:]+/),
+      field('name', alias($._immediate_expr, $.expr)),
       token.immediate(':'),
-      repeat($._text),
+      field('value', optional(alias($._expr_line, $.value)))
     ),
 
-    // Planning ============================================ {{{1
+    plan: $ => seq(repeat1($.entry), prec.dynamic(1, $._eol)),
 
-    plan: $ => seq(
-      // precedence over paragraph→timestamp
-      repeat1(prec(1, seq(
-        optional(field('type', alias(/\p{L}+:/, $.name))),
-        field('datetime', $.timestamp),
-      ))), $._eol),
-
-    // Timestamp =========================================== {{{1
-
-    _day:     _ => /\p{L}+/,
-    _ymd:     _ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
-    time:     _ => /\p{N}?\p{N}:\p{N}\p{N}/,
-    repeater: _ => /[.+]?\+\p{N}+\p{L}/,
-    delay:    _ => /--?\p{N}+\p{L}/,
-
-    date: $ => seq($._ymd, optional($._day)),
-
-    timerange: $ => seq($.time, '-', $.time),
+    entry: $ => seq(
+      optional(seq(
+        alias(token(prec('non-immediate', /\p{L}+/)), $.entry_name),
+        token.immediate(prec('immediate', ':'))
+      )),
+      field('timestamp', $.timestamp)
+    ),
 
     timestamp: $ => choice(
-      seq('<', $._timestamp_contents, '>'),
-      seq('<', $._timestamp_contents_range, '>'),
-      seq('<', $._timestamp_contents, '>--<', $._timestamp_contents, '>'),
-      seq('[', $._timestamp_contents, ']'),
-      seq('[', $._timestamp_contents_range, ']'),
-      seq('[', $._timestamp_contents, ']--[', $._timestamp_contents, ']'),
+      seq(token(prec('non-immediate', '<')), $._ts_contents, '>'),
+      seq(token(prec('non-immediate', '<')), $._ts_contents, '>--<', $._ts_contents, '>'),
+      seq(token(prec('non-immediate', '[')), $._ts_contents, ']'),
+      seq(token(prec('non-immediate', '[')), $._ts_contents, ']'),
+      seq(token(prec('non-immediate', '[')), $._ts_contents, ']--[', $._ts_contents, ']'),
+      seq('<%%', $.tsexp, token(prec('special', '>'))),
+      seq('[%%', $.tsexp, token(prec('special', ']'))),
+    ),
+    tsexp: $ => repeat1(alias($._ts_expr, $.expr)),
+
+    _ts_contents: $ => seq(
+      repeat($._ts_element),
+      $.date,
+      repeat($._ts_element),
     ),
 
-    _timestamp_contents: $ => seq($.date, optional($.time), optional($.repeater), optional($.delay)),
-    _timestamp_contents_range: $ => seq($.date, $.timerange, optional($.repeater), optional($.delay)),
+    date: $ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
 
-    // Markup ============================================== {{{1
-
-    markup: $ => seq(prec(1, $._markup), choice(
-      seq(field('type', '*'), sep1(repeat1($._textelement), $._nl), token.immediate('*')),
-      seq(field('type', '/'), sep1(repeat1($._textelement), $._nl), token.immediate('/')),
-      seq(field('type', '_'), sep1(repeat1($._textelement), $._nl), token.immediate('_')),
-      seq(field('type', '+'), sep1(repeat1($._textelement), $._nl), token.immediate('+')),
-      seq(field('type', '~'), sep1(repeat1($._textelement), $._nl), token.immediate('~')),
-      seq(field('type', '='), sep1(repeat1($._textelement), $._nl), token.immediate('=')),
-      seq(field('type', '`'), sep1(repeat1($._textelement), $._nl), token.immediate('`')),
-    )),
-
-    subscript: $ => seq(
-      $._text,
-      token.immediate('_'),
-      choice(
-        /\p{L}+/,
-        /\p{N}+/,
-        $._bracket_expr,
-      ),
+    _ts_element: $ => choice(
+      alias(/\p{L}+/, $.day),
+      alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.time),
+      alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?-\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.duration),
+      alias(/[.+]?\+\p{N}+\p{L}/, $.repeat),
+      alias(/--?\p{N}+\p{L}/, $.delay),
     ),
 
-    superscript: $ => seq(
-      $._text,
-      token.immediate('^'),
-      choice(
-        token.immediate(/\p{L}+/),
-        token.immediate(/\p{N}+/),
-        $._bracket_expr
-      ),
-    ),
-
-    _bracket_expr: $ => seq(
-      token.immediate('{'),
-      optional(sep1(repeat1($._text), $._nl)),
-      '}',
-    ),
-
-    // Latex fragments ===================================== {{{1
-
-    latex_fragment: $ => choice(
-      $._latex_named,
-      $._latex_expr,
-      $._latex_snip,
-      $._latex_round,
-      $._latex_square,
-    ),
-
-    _latex_expr: $ => seq('$$', sep1(repeat1($._text), $._nl), '$$'),
-    _latex_snip: _ => seq('$', token.immediate(/[^\p{Z}\n\r$]+/), token.immediate('$')),
-    _latex_round: $ => seq('\\(', sep1(repeat1($._text), $._nl), '\\)'),
-    _latex_square: $ => seq('\\[', sep1(repeat1($._text), $._nl), '\\]'),
-
-    _latex_named: $ => seq(
-      '\\',
-      token.immediate(/[\p{L}]+/),
-      repeat($._bracket_expr),
-    ),
-
-    // Link ================================================ {{{1
-
-    _linkstart:     _ => '[[',
-    _linksep:       _ => '][',
-    _linkend:       _ => ']]',
-
-    link: $ => seq(
-      $._linkstart,
-      optional(seq(field('uri', $.linktext), $._linksep)),
-      field('description', $.linktext),
-      $._linkend,
-    ),
-    linktext: _ => /[^\]]*/,
-
-    // Footnote ============================================ {{{1
-
-    _fn_textline: $ => prec.right(repeat1(seq(repeat1($._textelement), $._eol))),
-    _fn: $ => caseInsensitive('[fn:'),
+    paragraph: $ => seq(optional($._directive_list), $._multiline_text),
 
     fndef: $ => seq(
       optional($._directive_list),
       seq(
-        $._fn,
-        /[\p{L}\p{N}_-]+/,
-        ']'
+        caseInsensitive('[fn:'),
+        field('label', alias(/[^\p{Z}\n\r\]]+/, $.expr)),
+        ']',
       ),
-      $._fn_textline
+      field('description', alias($._multiline_text, $.description))
     ),
 
-    footnote: $ => seq(
-      $._fn,
-      choice(
-        seq(':', sep1(repeat1($._textelement), $._nl)),
-        seq(
-          /[\p{L}\p{N}_-]+/,
-          optional(seq(':', sep1(repeat1($._textelement), $._nl)))
-        ),
-      ),
-      ']'
-    ),
-
-    // Directive & Comment ================================= {{{1
-
-    _directive_list: $ => repeat1($.directive),
-
+    _directive_list: $ => repeat1(field('directive', $.directive)),
     directive: $ => seq(
       '#+',
-      field('name', alias(token.immediate(/[^\p{Z}\n\r:]+/), $.name)),
+      field('name', alias($._immediate_expr, $.expr)),
       token.immediate(':'),
-      field('value', alias(repeat($._text), $.value)),
-      $._eol
+      field('value', optional(alias($._expr_line, $.value))),
+      $._eol,
     ),
 
-    comment: $ => prec.right(repeat1(seq(/#[^+\n\r]/, repeat($._text), $._eol))),
-
-    // Drawer ============================================== {{{1
+    comment: $ => prec.right(repeat1(seq(/#[^+\n\r]/, repeat($.expr), $._eol))),
 
     drawer: $ => seq(
       optional($._directive_list),
-      $._drawer_begin,
-      repeat($._nl),
-      repeat(seq(repeat1($._textelement), repeat1($._nl))),
-      $._drawer_end,
+      token(prec('non-immediate', ':')),
+      field('name', alias($._noc_expr, $.expr)),
+      token.immediate(prec('special', ':')),
+      $._nl,
+      optional(field('contents', $.contents)),
+      prec.dynamic(1, caseInsensitive(':end:')),
+      $._eol,
     ),
-
-    _drawer_begin: $ => seq(/:[\p{L}\p{N}\p{Pd}\p{Pc}]+:/, $._nl),
-    _drawer_end: $ => seq(caseInsensitive(':END:'), $._eol),
-
-    // Block =============================================== {{{1
 
     block: $ => seq(
       optional($._directive_list),
-      $._block_begin,
-      optional($.contents),
-      $._block_end,
-    ),
-
-    _block_begin: $ => seq(
-      caseInsensitive('#+BEGIN_'),
-      alias($._name, $.name),
-      optional(alias(repeat1($._text), $.parameters)),
+      caseInsensitive('#+begin_'),
+      field('name', $.expr),
+      optional(repeat1(field('parameter', $.expr))),
+      $._nl,
+      optional(field('contents', $.contents)),
+      caseInsensitive('#+end_'),
+      $._immediate_expr,
       $._eol,
     ),
-
-    _block_end: $ => seq(caseInsensitive('#+END_'), $._name, $._eol),
-
-    _name: _ => token.immediate(/[^\p{Z}\n\r]+/),
-
-    // Dynamic block ======================================= {{{1
 
     dynamic_block: $ => seq(
       optional($._directive_list),
-      $._dynamic_begin,
-      optional($.contents),
-      $._dynamic_end,
-    ),
-
-    _dynamic_begin: $ => seq(
-      caseInsensitive('#+BEGIN:'),
-      alias(/[^\p{Z}\n\r]+/, $.name),
-      optional(alias(repeat1($._text), $.parameters)),
+      caseInsensitive('#+begin:'),
+      field('name', $.expr),
+      repeat(field('parameter', $.expr)),
+      $._nl,
+      optional(field('contents', $.contents)),
+      caseInsensitive('#+end:'),
       $._eol,
     ),
-
-    _dynamic_end: $ => seq(
-      caseInsensitive('#+END:'),
-      $._eol,
-    ),
-
-    // Lists =============================================== {{{1
 
     list: $ => seq(
       optional($._directive_list),
@@ -426,116 +234,119 @@ org_grammar = {
 
     listitem: $ => seq(
       $.bullet,
-      optional($.checkbox),
-      optional($.description),
+      optional(field('checkbox', $.checkbox)),
+      optional(seq(alias(optional($._expr_line), $.description), '::')),
       optional($.itemtext),
     ),
 
-    checkbox: _ => /\[[ xX-]\]/,
-    description: $ => seq(
-      repeat($._text),
-      prec.dynamic(DYN.listtag, '::'), // precedence over itemtext
+    checkbox: _ => seq(
+      token(prec('non-immediate', '[')), // ]
+      field(
+        'status',
+        choice(
+          token.immediate(' '),
+          token.immediate('-'),
+          token.immediate('x'),
+          token.immediate('X'),
+          token.immediate(/./),
+        )),
+      token(prec('special', ']')),  // [.] could be an (expr)
     ),
 
     itemtext: $ => seq(
-      repeat1($._textelement),
+      $._expr_line,
       repeat(seq(
         $._nl,
         optional($._nl),
-        choice(repeat1($._textelement), $.list)
+        choice($._expr_line, $.list)
       )),
     ),
 
-
-    // Table =============================================== {{{1
-
-    // prec so a new row is higher precedence than a new table
     table: $ => prec.right(seq(
       optional($._directive_list),
       repeat1(choice($.row, $.hr)),
       repeat($.formula),
     )),
 
-    row: $ => seq(repeat1($.cell), '|', $._eol),
-    cell: $ => seq('|', field('contents', repeat($._text))),
+    row: $ => prec(1, seq(repeat1($.cell), optional(token(prec(1, '|'))), $._eol)),
+    cell: $ => seq(
+      token(prec(1, '|')), // Table > paragraph (expr)
+      optional(field('contents', alias($._expr_line, $.contents)))),
     hr: $ => seq(
-      '|',
-      repeat1(seq(/[-+]+/, '|')),
+      token(prec(1, '|')),
+      repeat1(seq(token(prec(1, /[-+]+/)), optional('|'))),
       $._eol,
     ),
 
-    formula: $ => seq(caseInsensitive('#+TBLFM:'), field('formula', repeat($._text)), $._eol),
-
-    // Latex environment =================================== {{{1
+    formula: $ => seq(
+      caseInsensitive('#+tblfm:'),
+      field('formula', optional($._expr_line)),
+      $._eol,
+    ),
 
     latex_env: $ => seq(
       optional($._directive_list),
-      $._env_begin,
-      optional($.contents),
-      $._env_end,
-    ),
-
-    _env_begin: $ => seq(
       caseInsensitive('\\begin{'),
-      field('name', /[\p{L}\p{N}]+/),
+      field('name', alias(/[\p{L}\p{N}]+/, $.name)),
       token.immediate('}'),
-      $._eol
-    ),
-
-    _env_end: $ => seq(
+      $._eol,
+      optional(field('contents', $.contents)),
       caseInsensitive('\\end{'),
-      /[\p{L}\p{N}]+/,
+      alias(/[\p{L}\p{N}]+/, $.name),
       token.immediate('}'),
-      $._eol
+      $._eol,
     ),
-
-    // Text ================================================ {{{1
-
-    _text: _ => choice(
-      /\p{L}+/,                   // Letters
-      /\p{N}+/,                   // Numbers
-      /[^\p{Z}\p{L}\p{N}\n\r]/,   // Everything else, minus whitespace
-    ),
-
-    _te_conflicts: $ => prec.dynamic(DYN.conflicts, choice(
-      "<",
-      "[",
-      seq($._markup, choice('*', '/', '_', '+', '~', '=', '`')),
-      seq($._text, '^', /[^{]/),
-      seq('$', token.immediate(/[^\p{Z}\n\r$]+/)),
-      // seq($._text, '^', /[^{]/),
-      seq($._text, token.immediate('_'), token.immediate(/[^\p{Z}]/)),
-    )),
-
-    _sol_conflicts: $ => prec.dynamic(DYN.conflicts, choice(
-      /:[\p{L}\p{N}\p{Pd}\p{Pc}]+/,
-      seq('\\', /[^\p{L}]+/),
-    )),
 
     contents: $ => seq(
-      repeat($._text),
-      sep1(repeat1($._nl), repeat1($._text)),
+      optional($._expr_line),
+      repeat1($._nl),
+      repeat(seq($._expr_line, repeat1($._nl))),
+    ),
+
+    _nl: _ => choice('\n', '\r'),
+    _eol: $ => choice('\n', '\r', $._eof),
+
+    _expr_line: $ => repeat1($.expr),
+    _multiline_text: $ => repeat1(seq(repeat1($.expr), $._eol)),
+
+    _immediate_expr: $ => repeat1(expr('immediate', token.immediate)),
+    _noc_expr: $ => repeat1(expr('immediate', token.immediate, ':')),
+
+    _ts_expr: $ => seq(
+      expr('non-immediate', token, '>]'),
+      repeat(expr('immediate', token.immediate, '>]'))
+    ),
+
+    expr: $ => seq(
+      expr('non-immediate', token),
+      repeat(expr('immediate', token.immediate))
     ),
 
   }
-}; // }}}
+};
 
-function sep1(rule, separator) {                 // === {{{1
-  return seq(rule, repeat(seq(separator, rule)))
-}
-
-function caseInsensitive(str) {                 // === {{{1
-  return new RegExp(str
-    .split('')
-    .map(caseInsensitiveChar)
-    .join('')
+function expr(pr, tfunc, skip = '') {
+  skip = skip.split("")
+  return choice(
+    ...asciiSymbols.filter(c => !skip.includes(c)).map(c => tfunc(prec(pr, c))),
+    alias(tfunc(prec(pr, /\p{L}+/)), 'str'),
+    alias(tfunc(prec(pr, /\p{N}+/)), 'num'),
+    alias(tfunc(prec(pr, /[^\p{Z}\p{L}\p{N}\n\r]/)), 'sym'),
   )
 }
 
+function caseInsensitive(str) {
+  return alias(new RegExp(str
+    .split('')
+    .map(caseInsensitiveChar)
+    .join('')
+  ), str.toLowerCase())
+}
+
 function caseInsensitiveChar(char) {
-  if (/[a-zA-Z]/.test(char)) return `[${char.toUpperCase()}${char.toLowerCase()}]`;
+  if (/[a-zA-Z]/.test(char))
+    return `[${char.toUpperCase()}${char.toLowerCase()}]`;
   return char.replace(/[\[\]^$.|?*+()\\\{\}]/, '\\$&');
 }
-// }}}
 
 module.exports = grammar(org_grammar);

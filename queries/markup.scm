@@ -1,0 +1,47 @@
+(paragraph [
+ ((expr "*" @bold.start) (expr "*" @bold.end))
+ (expr "*" @bold.start "*" @bold.end)
+ ((expr "~" @code.start) (expr "~" @code.end))
+ (expr "~" @code.start "~" @code.end)
+ ((expr "/" @italic.start) (expr "/" @italic.end))
+ (expr "/" @italic.start "/" @italic.end)
+ ((expr "_" @underline.start) (expr "_" @underline.end))
+ (expr "_" @underline.start "_" @underline.end)
+ ((expr "=" @verbatim.start) (expr "=" @verbatim.end))
+ (expr "=" @verbatim.start "=" @verbatim.end)
+ ((expr "+" @strikethrough.start) (expr "+" @strikethrough.end))
+ (expr "+" @strikethrough.start "+" @strikethrough.end)
+])
+
+; listitem text
+(itemtext [
+ ((expr "*" @bold.start) (expr "*" @bold.end))
+ (expr "*" @bold.start "*" @bold.end)
+ ((expr "~" @code.start) (expr "~" @code.end))
+ (expr "~" @code.start "~" @code.end)
+ ((expr "/" @italic.start) (expr "/" @italic.end))
+ (expr "/" @italic.start "/" @italic.end)
+ ((expr "_" @underline.start) (expr "_" @underline.end))
+ (expr "_" @underline.start "_" @underline.end)
+ ((expr "=" @verbatim.start) (expr "=" @verbatim.end))
+ (expr "=" @verbatim.start "=" @verbatim.end)
+ ((expr "+" @strikethrough.start) (expr "+" @strikethrough.end))
+ (expr "+" @strikethrough.start "+" @strikethrough.end)
+])
+
+; headline item
+(item [
+ ((expr "*" @bold.start) (expr "*" @bold.end))
+ (expr "*" @bold.start "*" @bold.end)
+ ((expr "~" @code.start) (expr "~" @code.end))
+ (expr "~" @code.start "~" @code.end)
+ ((expr "/" @italic.start) (expr "/" @italic.end))
+ (expr "/" @italic.start "/" @italic.end)
+ ((expr "_" @underline.start) (expr "_" @underline.end))
+ (expr "_" @underline.start "_" @underline.end)
+ ((expr "=" @verbatim.start) (expr "=" @verbatim.end))
+ (expr "=" @verbatim.start "=" @verbatim.end)
+ ((expr "+" @strikethrough.start) (expr "+" @strikethrough.end))
+ (expr "+" @strikethrough.start "+" @strikethrough.end)
+])
+

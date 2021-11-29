@@ -1,1248 +1,740 @@
-==============
-Headlines.1a - No eols
-==============
-* l1
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.1b - pre eol
-==============
-
-* l1
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.1c - Post eols (body)
-==============
-* l1
-
-
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.1d - More eols
-==============
-
-* l1
-
-
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.2  - level 2
-==============
-** l2
-
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.3a - Two sections
-==============
-* l1
-* l1
-
-----------
+================================================================================
+Body.1 - Paragraph, no newlines
+================================================================================
+a
+--------------------------------------------------------------------------------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
-  )
+  (body
+    (paragraph
+      (expr))))
 
-==============
-Headlines.3b - Two sections, eol
-==============
-* l1
+================================================================================
+Body.2 - Paragraph, pre newline
+================================================================================
 
-* l1
-----------
-
-(document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
-  )
-
-==============
-Headlines.4  - Subsection
-==============
-* l1
-** l2
-
-----------
+a
+--------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline (stars) (item))
-    (section (headline (stars) (item))))
-  )
+  (body
+    (paragraph
+      (expr))))
 
-==============
-Headlines.4a - Subsection eols
-==============
-* l1
+================================================================================
+Body.3 - Paragraph, post newline
+================================================================================
+a
 
-** l2
 
-----------
+--------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline (stars) (item))
-    (section (headline (stars) (item)))
-    ))
+  (body
+    (paragraph
+      (expr))))
 
-==============
-Headlines.5  - Subsection & continued section
-==============
-* l1
-** l2
-* l1
-----------
+================================================================================
+Body.4 - Paragraph, pre & post newline
+================================================================================
 
-(document
-  (section
-    (headline (stars) (item))
-    (section (headline (stars) (item))))
-  (section (headline (stars) (item)))
-  )
 
-==============
-Headlines.6  - Top high level section
-==============
-*** l3
-* l1
-----------
+a
+
+
+--------------------------------------------------------------------------------
 
 (document
-  (section (headline (stars) (item)))
-  (section (headline (stars) (item)))
-  )
+  (body
+    (paragraph
+      (expr))))
 
-==============
-Headlines.7a - Item/tag conflict (:)
-==============
-* a: b
-----------
+================================================================================
+Body.5 - Multiple elements (paragraphs)
+================================================================================
+a
 
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.7b - Item/tag conflict (:)
-==============
-* a: b:
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.8a - Tag
-==============
-* a :b:
-----------
-
-(document (section (headline (stars) (item) (tag))))
-
-==============
-Headlines.8b - Multitag
-==============
-* a :b:c:
-----------
-
-(document (section (headline (stars) (item) (tag) (tag))))
-
-==============
-Headlines.8c - Junk
-==============
-* a :b: c:
-----------
-
-(document (section (headline (stars) (item))))
-
-==============
-Headlines.9a - Non-markup
-==============
-* a *b
-----------
+a
+--------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline (stars) (item))
-    ))
+  (body
+    (paragraph
+      (expr))
+    (paragraph
+      (expr))))
 
-==============
-Headlines.9b - Non-markup over newline
-==============
-* a *b
-c*
-----------
+================================================================================
+Body.6 - Multiple mixed elements
+================================================================================
+a
 
-(document
-  (section
-    (headline (stars) (item))
-    (body (paragraph))
-    ))
-
-==============
-Headlines.10 - Precedences
-==============
-* a
-  b
-
-* c
-  d
-----------
+# a
+--------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline (stars) (item))
-    (body (paragraph)))
-  (section
-    (headline (stars) (item))
-    (body (paragraph)))
-    )
+  (body
+    (paragraph
+      (expr))
+    (comment
+      (expr))))
 
-===================
-PropertyDrawer.1  -
-===================
-* b
-:PROPERTIES:
-:a: c
-:END:
-----------
+================================================================================
+Paragraph.1 - Multiline
+================================================================================
+a
+a
+
+--------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item))
-    (property_drawer
-      (property))
-    ))
+  (body
+    (paragraph
+      (expr)
+      (expr))))
 
-===================
-PropertyDrawer.2  -
-===================
-* C
-:PROPERTIES:
-:ab: [2021-02-21 Sun 13:30]
-:END:
+================================================================================
+Paragraph.2 - Many multiline
+================================================================================
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
+a
 
-----------
+--------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item))
-    (property_drawer
-      (property))
-    ))
+  (body
+    (paragraph
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr)
+      (expr))))
 
-===================
-PropertyDrawer.2  - Lowercase
-===================
-* a
-:properties:
-:a: b
+================================================================================
+Paragraph.3 - Multiline & separate
+================================================================================
+
+a
+a
+a
+
+a
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (paragraph
+      (expr)
+      (expr)
+      (expr))
+    (paragraph
+      (expr))))
+
+================================================================================
+Paragraph.4 - Multi multiline
+================================================================================
+
+a
+a
+a
+
+a
+a
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (paragraph
+      (expr)
+      (expr)
+      (expr))
+    (paragraph
+      (expr)
+      (expr))))
+
+================================================================================
+Footnote.1 - Simple
+================================================================================
+[fn:a] b
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (fndef
+      (expr)
+      (description
+        (expr)))))
+
+================================================================================
+Footnote.2 - Brackets
+================================================================================
+[fn:a]]
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (fndef
+      (expr)
+      (description
+        (expr)))))
+
+================================================================================
+Footnote.3 - Precedence
+================================================================================
+[fn:a] b
+:d:
 :end:
-
-----------
-
-(document
-  (section
-    (headline
-      (stars)
-      (item))
-    (property_drawer
-      (property))
-    ))
-
-==========
-Body.1a
-==========
-a
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.1b
-==========
-a
-a
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.1c
-==========
-
-a
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.1d
-==========
-a
-
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.1e
-==========
-
-
-a
-
-
-----------
-
-(document (body (paragraph)))
-
-==========
-Body.2
-==========
-
-# a
-----------
-
-(document (body (comment)))
-
-
-==========
-Body.6
-==========
-a
-
-a
-----------
-
-(document (body (paragraph) (paragraph)))
-
-==========
-Body.7
-==========
-
-a
-
-# a
-----------
-
-(document (body (paragraph) (comment)))
-
-==========
-Body.8
-==========
-# a
-
-a
-
-----------
-
-(document (body (comment) (paragraph)))
-
-==========
-Body.9
-==========
-
-a
-
-a
-
-----------
-
-(document (body (paragraph) (paragraph)))
-
-==========
-Paragraph.1
-==========
-
-a
-
-----------
-
-(document (body (paragraph)))
-
-==========
-Paragraph.2
-==========
-a
-
-a
-----------
-
-(document (body (paragraph) (paragraph)))
-
-
-==========
-Paragraph.3a
-==========
-a
-a
-
-----------
-
-(document (body (paragraph)))
-
-==========
-Paragraph.3b
-==========
-a
-a
-
-a
-
-----------
-
-(document (body (paragraph) (paragraph)))
-
-==========
-Paragraph.4
-==========
-
-a
-a
-a
-
-a
-
-----------
-
-(document
-    (body (paragraph) (paragraph))
-    )
-
-==========
-Paragraph.5
-==========
-
-a
-a
-a
-
-a
-a
-
-----------
-
-(document
-    (body (paragraph) (paragraph))
-    )
-
-==============
-Paragraph.6  - Long paragraph
-==============
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-a
-----------
-
-(document (body (paragraph)))
-
-==============
-Timestamp.1  - Basic
-==============
-<1-1-1 a>
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (paragraph
-      (timestamp (date)))
-    ))
+    (fndef
+      (expr)
+      (description
+        (expr)))
+    (drawer
+      (expr))))
 
-==============
-Timestamp.2  - Repeater
-==============
-<1-1-1 a +1h>
-----------
-
-(document
-  (body
-    (paragraph
-      (timestamp (date) (repeater)))
-    ))
-
-==============
-Timestamp.3  - Delay
-==============
-<1-1-1 a -1d>
-----------
-
-(document
-  (body
-    (paragraph
-      (timestamp (date) (delay)))
-    ))
-
-==============
-Timestamp.4  - Repdel
-==============
-<1-1-1 a +1w -1m>
-----------
-
-(document
-  (body
-    (paragraph
-      (timestamp (date) (repeater) (delay)))
-    ))
-
-==============
-Timestamp.5  - Time
-==============
-<1-1-1 a 1:11>
-----------
-
-(document
-  (body
-    (paragraph
-      (timestamp (date) (time)))
-    ))
-
-==============
-Timestamp.6  - Time range
-==============
-<1-1-1 a 1:11-11:11>
-
-----------
-
-(document
-  (body
-    (paragraph
-      (timestamp (date) (timerange (time) (time))))
-    ))
-
-==============
-Timestamp.7  - Date range
-==============
-<1-1-1 a>--<1-1-1 a>
-----------
-
-(document (body (paragraph (timestamp (date) (date)))))
-
-==============
-Timestamp.8a - Junk
-==============
-[b]
----------------
-
-(document
-  (body
-    (paragraph)
-    ))
-
-==============
-Timestamp.8b - Junk
-==============
-<b>
----------------
-
-(document
-  (body
-    (paragraph)
-    ))
-
-==========
-Plan.1
-==========
-* headline
-[1111-11-11 Day]
-----------
-
-(document
-  (section
-    (headline (stars) (item))
-    (plan (timestamp (date)))
-    ))
-
-==========
-Plan.2
-==========
-* headline
-SCHEDULED: <1111-11-11 Day>
-
-----------
-
-(document
-  (section
-    (headline (stars) (item))
-    (plan (name) (timestamp (date)))
-    ))
-
-=================
-Plan.3
-=================
-* headline
-DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
-
------------------
-
-(document
-  (section
-    (headline (stars) (item))
-    (plan
-      (name) (timestamp (date))
-      (timestamp (date))
-      (name) (timestamp (date)))
-    ))
-
-==========
-Plan.4  - Lowercase
-==========
-* headline
-scheduled: <1111-11-11 Day>
-
-----------
-
-(document
-  (section
-    (headline (stars) (item))
-    (plan (name) (timestamp (date)))
-    ))
-
-==========
-Drawer.1
-==========
+================================================================================
+Drawer.1 - Basic
+================================================================================
 :name:
+:end:
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (drawer
+      (expr))))
+
+================================================================================
+Drawer.2 - Empty
+================================================================================
+:a:
+
 :END:
-----------
+--------------------------------------------------------------------------------
 
-(document (body (drawer)))
+(document
+  (body
+    (drawer
+      (expr)
+      (contents))))
 
-==========
-Drawer.2
-==========
+================================================================================
+Drawer.3 - Multiple
+================================================================================
+:a:
+
+:END:
+
+:b:
+:END:
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (drawer
+      (expr)
+      (contents))
+    (drawer
+      (expr))))
+
+================================================================================
+Drawer.4 Contents
+================================================================================
 :name:
 a
 :END:
-----------
+--------------------------------------------------------------------------------
 
-(document (body (drawer)))
+(document
+  (body
+    (drawer
+      (expr)
+      (contents
+        (expr)))))
 
-==========
-Drawer.3 - Junk
-==========
+================================================================================
+Drawer.5 - Junk
+================================================================================
 :l
-----------
+--------------------------------------------------------------------------------
 
-(document (body (paragraph)))
+(document
+  (body
+    (paragraph
+      (expr))))
 
-==========
-Block.1  -
-==========
+================================================================================
+Drawer.6a - Junk
+================================================================================
+a
+:b
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (paragraph
+      (expr)
+      (expr))))
+
+================================================================================
+Drawer.6b - Junk
+================================================================================
+[fn:a] b
+:c
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (fndef
+      (expr)
+      (description
+        (expr)
+        (expr)))))
+
+================================================================================
+Drawer.7 - Junk
+================================================================================
+a
+:b
+c
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (paragraph
+      (expr)
+      (expr)
+      (expr))))
+
+================================================================================
+Drawer.8 - Junk
+================================================================================
+:a
+b
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (paragraph
+      (expr)
+      (expr))))
+
+================================================================================
+Block.1  - Empty
+================================================================================
 #+BEGIN_A
 #+END_B
-----------
+--------------------------------------------------------------------------------
 
-(document (body (block (name))))
+(document
+  (body
+    (block
+      (expr))))
 
-==========
-Block.2  -
-==========
+================================================================================
+Block.2  - Contents
+================================================================================
 #+BEGIN_SRC ABC
 a
 #+END_ABC
-----------
+--------------------------------------------------------------------------------
 
-(document (body (block (name) (parameters) (contents))))
+(document
+  (body
+    (block
+      (expr)
+      (expr)
+      (contents
+        (expr)))))
 
-==========
-Block.2  -
-==========
+================================================================================
+Block.3  - In section
+================================================================================
 * a
 
 #+BEGIN_SRC ABC
 a
 #+END_ABC
-----------
+--------------------------------------------------------------------------------
 
-(document (section
-            (headline (stars) (item))
-            (body
-              (block (name) (parameters) (contents))
-              )))
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body
+      (block
+        (expr)
+        (expr)
+        (contents
+          (expr))))))
 
-==========
+================================================================================
 Block.4  - lowercase
-==========
+================================================================================
 #+begin_b
 #+end_b
-----------
+--------------------------------------------------------------------------------
 
-(document (body (block (name))))
+(document
+  (body
+    (block
+      (expr))))
 
-=================
-DynamicBlock.1  -
-=================
+================================================================================
+DynamicBlock.1  - Empty
+================================================================================
 #+BEGIN: a b
 #+END:
-----------
+--------------------------------------------------------------------------------
 
-(document (body (dynamic_block (name) (parameters))))
+(document
+  (body
+    (dynamic_block
+      name: (expr)
+      parameter: (expr))))
 
-=================
-DynamicBlock.2  -
-=================
+================================================================================
+DynamicBlock.2  - Contents
+================================================================================
 #+BEGIN: a
 c
 #+END:
-----------
-
-(document (body (dynamic_block (name) (contents))))
-
-==========
-Link.1   - Description only
-==========
-[[link]]
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (paragraph (link (linktext)))
-    ))
+    (dynamic_block
+      name: (expr)
+      contents: (contents
+        (expr)))))
 
-==========
-Link.2   - Complete
-==========
-[[uri][link]]
-----------
-
-(document
-  (body
-    (paragraph (link (linktext) (linktext)))
-    ))
-
-==========
-Link.3   - Junk
-==========
-[not [a link]]
-----------
-
-(document (body (paragraph)))
-
-=============
-Footnote.1  -
-=============
-a [fn:b]
-----------
-
-(document (body (paragraph (footnote))))
-
-=============
-Footnote.2  -
-=============
-inline def [fn:name:definition]
-----------
-
-(document (body (paragraph (footnote))))
-
-=============
-Footnote.3  -
-=============
-a [fn::b c]
-----------
-
-(document (body (paragraph (footnote))))
-
-
-=============
-Footnote.4  -
-=============
-[fn:name] definition
-words
-----------
-
-(document (body (fndef)))
-
-=============
-Footnote.5a -
-=============
-[fn:a] b
-a
-----------
-
-(document (body (fndef)))
-
-=============
-Footnote.5b -
-=============
-a
-[fn:a] b
-----------
-
-(document (body
-  (paragraph
-    (footnote))
-  ))
-
-=============
-Footnote.5c -
-=============
-a
-
-[fn:a] b
-----------
-
-(document (body
-  (paragraph)
-  (fndef)
-  ))
-
-=============
-Footnote.5d -
-=============
-[fn:a] b
-:a:
-:end:
-----------
-
-(document (body (fndef) (drawer)))
-
-
-==========
-Comment.1
-==========
+================================================================================
+Comment.1 - Basic
+================================================================================
 # a
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (comment)
-    ))
+    (comment
+      (expr))))
 
-==========
-Comment.2
-==========
+================================================================================
+Comment.2 - Two lines
+================================================================================
+# a
+# a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (comment
+      (expr)
+      (expr))))
+
+================================================================================
+Comment.3 - Two separate
+================================================================================
 # a
 
 # a
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (comment)
-    (comment)
-    ))
+    (comment
+      (expr))
+    (comment
+      (expr))))
 
-===========
-Markup.1a - markup
-===========
-a *b*
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    ))
-
-===========
-Markup.1b - markups
-===========
-a /b/
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    ))
-
-===========
-Markup.1c - markup
-===========
-a ~b~
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    ))
-
-===========
-Markup.1d - markup
-===========
-a _b_
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    ))
-
-===========
-Markup.1e - markup
-===========
-a =b=
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    ))
-
-===========
-Markup.1f - markup
-===========
-a +b+
-
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    ))
-
-===========
-Markup.2a - start of line
-===========
-*b*
-----------
-
-(document (body (paragraph (markup))))
-
-===========
-Markup.2b - start of line
-===========
-/b/
-----------
-
-(document (body (paragraph (markup))))
-
-===========
-Markup.2c - start of line
-===========
-+b+
-----------
-
-(document (body (paragraph (markup))))
-
-==========
-Markup.3a - Within
-==========
-a *b /c d/ e*
-----------
-
-(document (body (paragraph (markup (markup)))))
-
-==========
-Markup.3b - Within
-==========
-a _b ~c d~ e_
-----------
-
-(document (body (paragraph (markup (markup)))))
-
-==========
-Markup.3c - Within
-==========
-a =b +c d+ e=
-----------
-
-(document (body (paragraph (markup (markup)))))
-
-==========
-Markup.4 - Multi
-==========
-+a /b/ b+
-----------
-
-(document (body (paragraph (markup (markup)))))
-
-===========
-Markup.5a - Junk
-===========
-*b * a
-----------
-
-(document (body (paragraph)))
-
-===========
-Markup.5b - Junk
-===========
-+b + a
-----------
-
-(document (body (paragraph)))
-
-===========
-Markup.5c - Junk
-===========
-/b / a
-----------
-
-(document (body (paragraph)))
-
-===========
-Markup.5d - Junk
-===========
-b *a
-
-* b* a
-----------
-
-(document
-  (body (paragraph))
-  (section (headline (stars) (item)))
-  )
-
-===========
-Markup.6 - markup section
-===========
-* a
- *b*
-----------
-
-(document
-  (section
-    (headline (stars) (item))
-    (body (paragraph (markup)))
-    ))
-
-===========
-Markup.7 - Parens
-===========
-(/a/)
-----------
-
-(document (body (paragraph (markup))))
-
-===========
-Markup.8 - Not markup
-===========
-a/a/ b
-----------
-
-(document (body (paragraph)))
-
-===========
-Markup.9  - Together
-===========
-a _b_
-
-a =b=
-----------
-
-(document
-  (body
-    (paragraph (markup))
-    (paragraph (markup))
-    ))
-
-==========
+================================================================================
 List.1a  - Basic: dash [-]
-==========
+================================================================================
  - a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1b  - Basic: plus [+]
-==========
- + a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1c  - Basic: star [*]
-==========
- * a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1d  - Basic: count dot [1.]
-==========
- 1. a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1e  - Basic: count paren [1)]
-==========
- 1) a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1f  - Basic: letter dot [a.]
-==========
- 1. a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1g  - Basic: letter paren [a)]
-==========
- 1) a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.1h  - Basic: checkbox
-==========
- - [ ] a
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (checkbox) (itemtext)))
-    ))
-
-==========
-List.1j  - Basic: description
-==========
- - a :: description
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (description) (itemtext)))
-    ))
-==========
-List.2a  - two items
-==========
-
-  - a
-  - a
-
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)) (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.2d  - two items
-==========
-
-  1. a
-  2. a
-
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)) (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.2b  - two items
-==========
-
-  - a
-
-  - a
-
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)) (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.2c  - two lists
-==========
-
-  - a
-
-
-  - a
-
-----------
-
-(document
-  (body
-    (list (listitem (bullet) (itemtext)))
-    (list (listitem (bullet) (itemtext)))
-    ))
-
-==========
-List.3a   - sublist
-==========
-
-  - a
-    a
-    - b
-    a
-  - a
-
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
     (list
-      (listitem (bullet) (itemtext
-        (list
-          (listitem (bullet) (itemtext)))))
-      (listitem (bullet) (itemtext))
-    )))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
 
-==========
-List.3b   - sublist with checkboxs
-==========
+================================================================================
+List.1b  - Basic: plus [+]
+================================================================================
+ + a
+--------------------------------------------------------------------------------
 
-  - [ ] a
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1c  - Basic: star [*]
+================================================================================
+ * a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1d  - Basic: count dot [1.]
+================================================================================
+ 1. a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1e  - Basic: count paren [1)]
+================================================================================
+ 1) a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1f  - Basic: letter dot [a.]
+================================================================================
+ 1. a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1g  - Basic: letter paren [a)]
+================================================================================
+ 1) a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1h  - Basic: checkbox
+================================================================================
+ - [ ] a
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (checkbox)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.1i  - Basic: checkbox no text
+================================================================================
+ - [ ]
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (checkbox)))))
+
+================================================================================
+List.1j  - Basic: description
+================================================================================
+ - a :: description
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (description
+          (expr))
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.2a  - two items
+================================================================================
+
+  - a
+  - a
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.2d  - two items
+================================================================================
+
+  1. a
+  2. a
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.2b  - two items
+================================================================================
+
+  - a
+
+  - a
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.2c  - two lists
+================================================================================
+
+  - a
+
+
+  - a
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
+List.3a   - sublist
+================================================================================
+
+  - a
     a
     - b
-    - [ ] b
     a
   - a
 
-==========
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)
+          (expr)
+          (list
+            (listitem
+              (bullet)
+              (itemtext
+                (expr))))
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
+
+================================================================================
 List.3b   - sublist with description and checkbox
-==========
+================================================================================
 
   - a :: description
     a
@@ -1251,621 +743,816 @@ List.3b   - sublist with description and checkbox
     a
   - a
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
     (list
-      (listitem (bullet) (description) (itemtext
-        (list
-          (listitem (bullet) (description) (itemtext))
-          (listitem (bullet) (checkbox) (itemtext))
-          )))
-      (listitem (bullet) (itemtext))
-    )))
+      (listitem
+        (bullet)
+        (description
+          (expr))
+        (itemtext
+          (expr)
+          (expr)
+          (list
+            (listitem
+              (bullet)
+              (description
+                (expr))
+              (itemtext
+                (expr)))
+            (listitem
+              (bullet)
+              (checkbox)
+              (itemtext
+                (expr))))
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
 
-==========
+================================================================================
 List.4a  - multiline item
-==========
+================================================================================
 
   - a
     b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)
+          (expr))))))
 
-==========
+================================================================================
 List.4b  - multiline item
-==========
+================================================================================
 
   - a
 
     b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)
+          (expr))))))
 
-==========
+================================================================================
 List.4c  - multiline item checkbox
-==========
+================================================================================
 
   - [ ] a
     b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (checkbox) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (checkbox)
+        (itemtext
+          (expr)
+          (expr))))))
 
-==========
+================================================================================
 List.4d  - multiline item checkbox
-==========
+================================================================================
 
   - [ ] a
 
     b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (checkbox) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (checkbox)
+        (itemtext
+          (expr)
+          (expr))))))
 
-==========
+================================================================================
 List.4e  - multiline item description
-==========
+================================================================================
 
   - a :: description
     b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (description) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (description
+          (expr))
+        (itemtext
+          (expr)
+          (expr))))))
 
-==========
+================================================================================
 List.4f  - multiline item description
-==========
+================================================================================
 
   - a :: description
 
     b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (description) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (description
+          (expr))
+        (itemtext
+          (expr)
+          (expr))))))
 
-==========
+================================================================================
 List.5   - dedent
-==========
+================================================================================
 
   - a
   b
   - a
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (itemtext)))
-    (paragraph)
-    (list (listitem (bullet) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))
+    (paragraph
+      (expr))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
 
-==========
+================================================================================
 List.6   - multi dedent
-==========
+================================================================================
 
 b
   - a
     - a
 b
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (paragraph)
+    (paragraph
+      (expr))
     (list
-      (listitem (bullet) (itemtext
-        (list (listitem (bullet) (itemtext))))))
-    (paragraph)
-    ))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)
+          (list
+            (listitem
+              (bullet)
+              (itemtext
+                (expr)))))))
+    (paragraph
+      (expr))))
 
-==========
+================================================================================
 List.7a  - changing
-==========
+================================================================================
 
   - a
   + a
 
-----------
+--------------------------------------------------------------------------------
 
 (document
   (body
-    (list (listitem (bullet) (itemtext)))
-    (list (listitem (bullet) (itemtext)))
-    ))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
 
-==========
+================================================================================
 List.8a  - Whitespace
-==========
+================================================================================
   - 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (list (listitem (bullet)))))
+(document
+  (body
+    (list
+      (listitem
+        (bullet)))))
 
-==========
+================================================================================
 List.8b  - Whitespace after text
-==========
+================================================================================
   - a 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (list (listitem (bullet) (itemtext)))))
-==========
-List.9   - With markup
-==========
-  - A *b* c
-----------
+(document
+  (body
+    (list
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
 
-(document (body (list (listitem (bullet) (itemtext (markup))))))
-
-==============
+================================================================================
 Directive.1  - Document
-==============
+================================================================================
 #+a: b
 
-----------
+--------------------------------------------------------------------------------
 
-(document (directive (name) (value)))
+(document
+  (body
+    (directive
+      (expr)
+      (value
+        (expr)))))
 
-==============
+================================================================================
 Directive.2  - Bare
-==============
+================================================================================
 
 #+a: b
-----------
+--------------------------------------------------------------------------------
 
-(document (body (directive (name) (value))))
+(document
+  (body
+    (directive
+      (expr)
+      (value
+        (expr)))))
 
-==============
+================================================================================
 Directive.3  - Doc & Bare
-==============
+================================================================================
 #+a: b
 
 #+a: b
-----------
+--------------------------------------------------------------------------------
 
-(document (directive (name) (value)) (body (directive (name) (value))))
+(document
+  (body
+    (directive
+      (expr)
+      (value
+        (expr)))
+    (directive
+      (expr)
+      (value
+        (expr)))))
 
-==============
+================================================================================
 Directive.4a - Attached
-==============
+================================================================================
 
 #+a: b
 c
-----------
+--------------------------------------------------------------------------------
 
-(document (body (paragraph (directive (name) (value)))))
+(document
+  (body
+    (paragraph
+      (directive
+        (expr)
+        (value
+          (expr)))
+      (expr))))
 
-==============
+================================================================================
 Directive.4b - Attached
-==============
+================================================================================
 #+a: b
 c
-----------
+--------------------------------------------------------------------------------
 
-(document (body (paragraph (directive (name) (value)))))
+(document
+  (body
+    (paragraph
+      (directive
+        (expr)
+        (value
+          (expr)))
+      (expr))))
 
-==============
+================================================================================
 Directive.5  - No empty lines
-==============
+================================================================================
 * a
 #+a: b
 c
-----------
+--------------------------------------------------------------------------------
 
 (document
   (section
-    (headline (stars) (item))
-    (body (paragraph (directive (name) (value))))
-    ))
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body
+      (paragraph
+        (directive
+          (expr)
+          (value
+            (expr)))
+        (expr)))))
 
-==============
+================================================================================
 Directive.6a - List
-==============
+================================================================================
 
 #+a: b
   - c
-----------
+--------------------------------------------------------------------------------
 
-(document (body (list (directive (name) (value)) (listitem (bullet) (itemtext)))))
+(document
+  (body
+    (list
+      (directive
+        (expr)
+        (value
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr))))))
 
-==============
+================================================================================
 Directive.6b - Sublist
-==============
+================================================================================
 
 #+a: b
   - c
     #+a: b
     - c
 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (list (directive (name) (value)) (listitem (bullet) (itemtext (list (directive (name) (value)) (listitem (bullet) (itemtext))))))))
+(document
+  (body
+    (list
+      (directive
+        (expr)
+        (value
+          (expr)))
+      (listitem
+        (bullet)
+        (itemtext
+          (expr)
+          (list
+            (directive
+              (expr)
+              (value
+                (expr)))
+            (listitem
+              (bullet)
+              (itemtext
+                (expr)))))))))
 
-==============
+================================================================================
 Directive.7  - Directive unrelated to section
-==============
+================================================================================
 
 #+a: b
 * c
-----------
+--------------------------------------------------------------------------------
 
-(document (body (directive (name) (value))) (section (headline (stars) (item))))
+(document
+  (body
+    (directive
+      (expr)
+      (value
+        (expr))))
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
 
-=============
-LatexEnv.1  -
-=============
+================================================================================
+LatexEnv.1  - Basic
+================================================================================
 \begin{a}
 \end{a}
 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (latex_env)))
+(document
+  (body
+    (latex_env
+      (name)
+      (name))))
 
-=============
-LatexEnv.2  -
-=============
+================================================================================
+LatexEnv.2  - Contents
+================================================================================
 \begin{a1}
 a
 \end{1a}
-----------
-
-(document (body (latex_env (contents))))
-
-=============
-LatexEnv.3  -
-=============
-\begin{a}
-
-\end{a}
-----------
-
-(document (body (latex_env (contents))))
-
-=============
-LatexEnv.4a -
-=============
-\begin{a}
-
-a
-\end{a}
-----------
-
-(document (body (latex_env (contents))))
-
-=============
-LatexEnv.4b -
-=============
-\begin{a}
-a
-
-\end{a}
-----------
-
-(document (body (latex_env (contents))))
-
-=============
-LatexEnv.4c -
-=============
-\begin{a}
-
-a
-
-\end{a}
-----------
-
-(document (body (latex_env (contents))))
-
-=============
-LatexEnv.5  - Uppercase
-=============
-\begin{a}
-\end{a}
-
-----------
-
-(document (body (latex_env)))
-
-==================
-LatexFragment.1  -
-==================
-a \b{c}{d}
-----------
-
-(document (body (paragraph (latex_fragment))))
-
-==================
-LatexFragment.2  -
-==================
-a $$b $ c$$ d
-----------
-
-(document (body (paragraph (latex_fragment))))
-
-==================
-LatexFragment.3  -
-==================
-a $$b
-c$$ d
-----------
-
-(document (body (paragraph (latex_fragment))))
-
-==================
-LatexFragment.4  -
-==================
-a $b+c$ d
-----------
-
-(document (body (paragraph (latex_fragment))))
-
-==================
-LatexFragment.5  - Not a fragment -- use query
-==================
-a$b+c$d
-----------
-
-(document (body (paragraph)))
-
-==================
-LatexFragment.6  -
-==================
-\(a + b\)
-----------
-
-(document (body (paragraph (latex_fragment))))
-
-==================
-LatexFragment.7  -
-==================
-\[a + b\]
-----------
-
-(document (body (paragraph (latex_fragment))))
-
-=============
-Combined.1  -
-=============
-#+TITLE: A
-
-* A
-:PROPERTIES:
-:l: 1
-:END:
-----------
+--------------------------------------------------------------------------------
 
 (document
-  (directive (name) (value))
-  (section
-    (headline (stars) (item))
-    (property_drawer (property))
-    ))
+  (body
+    (latex_env
+      (name)
+      (contents
+        (expr))
+      (name))))
 
-=============
-Combined.2  -
-=============
+================================================================================
+LatexEnv.3  - Empty
+================================================================================
+\begin{a}
+
+\end{a}
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (latex_env
+      (name)
+      (contents)
+      (name))))
+
+================================================================================
+LatexEnv.4a - Pre nl
+================================================================================
+\begin{a}
+
+a
+\end{a}
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (latex_env
+      (name)
+      (contents
+        (expr))
+      (name))))
+
+================================================================================
+LatexEnv.4b - Post nl
+================================================================================
+\begin{a}
+a
+
+\end{a}
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (latex_env
+      (name)
+      (contents
+        (expr))
+      (name))))
+
+================================================================================
+LatexEnv.4c - Spare nls
+================================================================================
+\begin{a}
+
+a
+
+\end{a}
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (latex_env
+      (name)
+      (contents
+        (expr))
+      (name))))
+
+================================================================================
+LatexEnv.5  - Uppercase
+================================================================================
+\begin{a}
+\end{a}
+
+--------------------------------------------------------------------------------
+
+(document
+  (body
+    (latex_env
+      (name)
+      (name))))
+
+================================================================================
+Precedence.1  - Paragraph comment
+================================================================================
 a
 # a
-----------
+--------------------------------------------------------------------------------
 
-(document (body
-  (paragraph)
-  (comment)
-  ))
+(document
+  (body
+    (paragraph
+      (expr))
+    (comment
+      (expr))))
 
-=============
-Combined.3  -
-=============
+================================================================================
+Precedence.2  - Paragraph comment paragraph
+================================================================================
 a
 # a
 a
-----------
+--------------------------------------------------------------------------------
 
-(document (body
-  (paragraph)
-  (comment)
-  (paragraph)
-  ))
+(document
+  (body
+    (paragraph
+      (expr))
+    (comment
+      (expr))
+    (paragraph
+      (expr))))
 
-=============
-Combined.4  -
-=============
+================================================================================
+Precedence.3  - Comment paragraph
+================================================================================
 # a
 a
-----------
+--------------------------------------------------------------------------------
 
-(document (body
-  (comment)
-  (paragraph)
-  ))
+(document
+  (body
+    (comment
+      (expr))
+    (paragraph
+      (expr))))
 
-=============
-Combined.5  -
-=============
-# a
-a
-# a
-----------
-
-(document (body
-  (comment)
-  (paragraph)
-  (comment)
-  ))
-
-=============
-Combined.6  -
-=============
+================================================================================
+Precedence.4  - Paragraph drawer
+================================================================================
 a
 :AB:
 c
 :END:
-----------
+--------------------------------------------------------------------------------
 
-(document (body
-  (paragraph)
-  (drawer)
-  ))
+(document
+  (body
+    (paragraph
+      (expr))
+    (drawer
+      (expr)
+      (contents
+        (expr)))))
 
-==================
-Miscellaneous.1  -
-==================
-a_b
-----------
+================================================================================
+Precedence.5  - Comment paragraph drawer
+================================================================================
+# a
+b
+:c:
+d
+:end:
+--------------------------------------------------------------------------------
 
-(document (body (paragraph)))
+(document
+  (body
+    (comment
+      (expr))
+    (paragraph
+      (expr))
+    (drawer
+      (expr)
+      (contents
+        (expr)))))
 
-==================
-Miscellaneous.2  -
-==================
-a_b
-a b+c
-a c=a+d
-----------
-
-(document (body (paragraph)))
-
-==========
+================================================================================
 Table.1  - 1x1
-==========
+================================================================================
 |a|
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table (row (cell)))))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr)))))))
 
-==========
+================================================================================
 Table.2  - 1x2
-==========
-|a|b|
-----------
+================================================================================
+|a|b c|
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell))
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr)))
+        (cell
+          (contents
+            (expr)
+            (expr)))))))
 
-==========
+================================================================================
 Table.3  - 2x2
-==========
+================================================================================
 |a|b|
 |c|d|
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell))
-                  (row (cell) (cell))
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr)))
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell
+          (contents
+            (expr)))
+        (cell
+          (contents
+            (expr)))))))
 
-==========
+================================================================================
 Table.4  - empty cell
-==========
+================================================================================
 |a|b|
 | |d|
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell))
-                  (row (cell) (cell))
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr)))
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell)
+        (cell
+          (contents
+            (expr)))))))
 
-
-==========
+================================================================================
 Table.5  - empty cells
-==========
+================================================================================
 || |
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell))
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell)
+        (cell)))))
 
-==========
+================================================================================
 Table.6  - simple hr
-==========
+================================================================================
 |-|
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table (hr))))
+(document
+  (body
+    (table
+      (hr))))
 
-==========
+================================================================================
 Table.7  - words
-==========
+================================================================================
 |a | b |  c|
 |--+---+---|
 |Some words about | something |
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell) (cell))
-                  (hr)
-                  (row (cell) (cell))
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr)))
+        (cell
+          (contents
+            (expr)))
+        (cell
+          (contents
+            (expr))))
+      (hr)
+      (row
+        (cell
+          (contents
+            (expr)
+            (expr)
+            (expr)))
+        (cell
+          (contents
+            (expr)))))))
 
-
-==========
+================================================================================
 Table.8  - Formula
-==========
-|a|b|
-|c|d|
+================================================================================
+|a|
 #+TBLFM: ab cd ef gh
 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell))
-                  (row (cell) (cell))
-                  (formula)
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr))))
+      (formula
+        (expr)
+        (expr)
+        (expr)
+        (expr)))))
 
-==========
+================================================================================
 Table.9  - Multiple formula
-==========
-|a|b|
-|c|d|
+================================================================================
+|a|
 #+TBLFM: ab cd ef gh1
 #+TBLFM: ab cd ef gh2
 #+TBLFM: ab cd ef gh3
 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell) (cell))
-                  (row (cell) (cell))
-                  (formula)
-                  (formula)
-                  (formula)
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr))))
+      (formula
+        (expr)
+        (expr)
+        (expr)
+        (expr))
+      (formula
+        (expr)
+        (expr)
+        (expr)
+        (expr))
+      (formula
+        (expr)
+        (expr)
+        (expr)
+        (expr)))))
 
-==========
+================================================================================
 Table.10 - Multiline
-==========
+================================================================================
 
 | 1 |
 | 2 |
@@ -1874,13 +1561,733 @@ Table.10 - Multiline
 | 5 |
 | 6 |
 
-----------
+--------------------------------------------------------------------------------
 
-(document (body (table
-                  (row (cell))
-                  (row (cell))
-                  (row (cell))
-                  (row (cell))
-                  (row (cell))
-                  (row (cell))
-                  )))
+(document
+  (body
+    (table
+      (row
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell
+          (contents
+            (expr))))
+      (row
+        (cell
+          (contents
+            (expr)))))))
+
+================================================================================
+Headlines.1a - No eols
+================================================================================
+* l1
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.1b - pre eol body
+================================================================================
+
+* l1
+--------------------------------------------------------------------------------
+
+(document
+  (body)
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.1c - Post eols (body) (ts-test strips 1 nl, 2 required here)
+================================================================================
+* l1
+
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body)))
+
+================================================================================
+Headlines.2  - level 2
+================================================================================
+** l2
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.3a - Two sections
+================================================================================
+* l1
+* l1
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr))))
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.3b - Two sections, body
+================================================================================
+* l1
+
+* l1
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body))
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.4  - Subsection
+================================================================================
+* l1
+** l2
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (section
+      (headline
+        (stars)
+        (item
+          (expr))))))
+
+================================================================================
+Headlines.4a - Subsection bodies
+================================================================================
+* l1
+
+** l2
+
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body)
+    (section
+      (headline
+        (stars)
+        (item
+          (expr)))
+      (body))))
+
+================================================================================
+Headlines.5  - Subsection & continued section
+================================================================================
+* l1
+** l2
+* l1
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (section
+      (headline
+        (stars)
+        (item
+          (expr)))))
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.6  - Top high level section
+================================================================================
+*** l3
+* l1
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr))))
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))))
+
+================================================================================
+Headlines.7a - Item/tag junk
+================================================================================
+* a: b
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)
+        (expr)))))
+
+================================================================================
+Headlines.7b - Item/tag junk
+================================================================================
+* a: b:
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)
+        (expr)))))
+
+================================================================================
+Headlines.8a - Tag
+================================================================================
+* a :b:
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr))
+      (tag_list
+        (tag)))))
+
+================================================================================
+Headlines.8b - Multitag
+================================================================================
+* a :b:c:
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr))
+      (tag_list
+        (tag)
+        (tag)))))
+
+================================================================================
+Headlines.8c - Junk
+================================================================================
+* a :b: c:
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)
+        (expr)
+        (expr)))))
+
+================================================================================
+Headlines.8d - Junk
+================================================================================
+* :a: b
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)
+        (expr)))))
+
+================================================================================
+Headlines.8e - Junk
+================================================================================
+* :a b:
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)
+        (expr)))))
+
+================================================================================
+Section.1  - paragraph not a plan
+================================================================================
+* a
+b
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body
+      (paragraph
+        (expr)))))
+
+================================================================================
+Properties.1  - one char name
+================================================================================
+* b
+:PROPERTIES:
+:a: c b
+:END:
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (property_drawer
+      (property
+        (expr)
+        (value
+          (expr)
+          (expr))))))
+
+================================================================================
+Properties.2  - simple
+================================================================================
+* C
+:PROPERTIES:
+:ab: 3
+:END:
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (property_drawer
+      (property
+        (expr)
+        (value
+          (expr))))))
+
+================================================================================
+Properties.3  - Lowercase
+================================================================================
+* a
+:properties:
+:a: b
+:end:
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (property_drawer
+      (property
+        (expr)
+        (value
+          (expr))))))
+
+================================================================================
+Plan.1  - Basic
+================================================================================
+* a
+<1-1-1 a>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (day))))))
+
+================================================================================
+Plan.2  - Repeater
+================================================================================
+* a
+<1-1-1 a +1h>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (day)
+          (repeat))))))
+
+================================================================================
+Plan.3  - Delay
+================================================================================
+* a
+<1-1-1 a -1d>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (day)
+          (delay))))))
+
+================================================================================
+Plan.4  - Repdel
+================================================================================
+* a
+<1-1-1 a +1w -1m>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (day)
+          (repeat)
+          (delay))))))
+
+================================================================================
+Plan.5  - Time
+================================================================================
+* a
+<1-1-1 a 1:11>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (day)
+          (time))))))
+
+================================================================================
+Plan.6  - Time range
+================================================================================
+* a
+<1-1-1 1:11-11:11>
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (duration))))))
+
+================================================================================
+Plan.7  - Date range
+================================================================================
+* a
+<1-1-1>--<1-1-1>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (date))))))
+
+================================================================================
+Plan.8a - Junk
+================================================================================
+* a
+[if there are letters only]
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body
+      (paragraph
+        (expr)
+        (expr)
+        (expr)
+        (expr)
+        (expr)))))
+
+================================================================================
+Plan.8b - Junk
+================================================================================
+* a
+<b>
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body
+      (paragraph
+        (expr)))))
+
+================================================================================
+Plan.9  - Expression
+================================================================================
+* a
+<%%(b)> [%%c]
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (tsexp
+            (expr))))
+      (entry
+        (timestamp
+          (tsexp
+            (expr)))))))
+
+================================================================================
+Plan.10 - inactive
+================================================================================
+* h
+[1111-11-11 Day]
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (timestamp
+          (date)
+          (day))))))
+
+================================================================================
+Plan.11 - scheduled
+================================================================================
+* headline
+a: <1111-11-11 Day>
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (entry_name)
+        (timestamp
+          (date)
+          (day))))))
+
+================================================================================
+Plan.12 - multi
+================================================================================
+* headline
+DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (entry_name)
+        (timestamp
+          (date)
+          (day)))
+      (entry
+        (timestamp
+          (date)
+          (day)))
+      (entry
+        (entry_name)
+        (timestamp
+          (date)
+          (day))))))
+
+================================================================================
+Plan.13  - Lowercase
+================================================================================
+* headline
+scheduled: <1111-11-11 Day>
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (entry_name)
+        (timestamp
+          (date)
+          (day))))))
+
+================================================================================
+Plan.14  - paragraph conflict
+================================================================================
+* hl
+  A: [[b][c]]
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (body
+      (paragraph
+        (expr)
+        (expr)))))
+
+================================================================================
+Plan.14a - Successful
+================================================================================
+* hl
+  A: [1-2-3]
+
+--------------------------------------------------------------------------------
+
+(document
+  (section
+    (headline
+      (stars)
+      (item
+        (expr)))
+    (plan
+      (entry
+        (entry_name)
+        (timestamp
+          (date))))))

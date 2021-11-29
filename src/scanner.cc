@@ -10,18 +10,17 @@ namespace {
 using std::vector;
 using std::iswspace;
 
-enum TokenType {                                                       // {{{1
+enum TokenType {
   LISTSTART,
   LISTEND,
   LISTITEMEND,
   BULLET,
   HLSTARS,
   SECTIONEND,
-  MARKUP,
   ENDOFFILE,
 };
 
-enum Bullet {                                                          // {{{1
+enum Bullet {
   NOTABULLET,
   DASH,
   PLUS,
@@ -34,7 +33,7 @@ enum Bullet {                                                          // {{{1
   NUMPAREN,
 };
 
-struct Scanner {                                                       // {{{1
+struct Scanner {
   vector<int16_t> indent_length_stack;
   vector<int16_t> bullet_stack;
   vector<int16_t> section_stack;
@@ -43,7 +42,7 @@ struct Scanner {                                                       // {{{1
     deserialize(NULL, 0);
   }
 
-  unsigned serialize(char *buffer) {                                   // {{{1
+  unsigned serialize(char *buffer) {
     size_t i = 0;
 
     size_t indent_count = indent_length_stack.size() - 1;
@@ -74,7 +73,7 @@ struct Scanner {                                                       // {{{1
     return i;
   }
 
-  void deserialize(const char *buffer, unsigned length) {              // {{{1
+  void deserialize(const char *buffer, unsigned length) {
     section_stack.clear();
     section_stack.push_back(0);
     indent_length_stack.clear();
@@ -94,22 +93,22 @@ struct Scanner {                                                       // {{{1
 
   }
 
-  void advance(TSLexer *lexer) {                                       // {{{1
+  void advance(TSLexer *lexer) {
     lexer->advance(lexer, false);
   }
 
-  void skip(TSLexer *lexer) {                                          // {{{1
+  void skip(TSLexer *lexer) {
     lexer->advance(lexer, true);
   }
 
-  bool dedent(TSLexer *lexer) {                                        // {{{1
+  bool dedent(TSLexer *lexer) {
     indent_length_stack.pop_back();
     bullet_stack.pop_back();
     lexer->result_symbol = LISTEND;
     return true;
   }
 
-  Bullet getbullet(TSLexer *lexer) {                                   // {{{1
+  Bullet getbullet(TSLexer *lexer) {
     if (lexer->lookahead == '-') {
       advance(lexer);
       if (iswspace(lexer->lookahead)) return DASH;
@@ -152,10 +151,9 @@ struct Scanner {                                                       // {{{1
     return NOTABULLET;
   }
 
-bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
+bool scan(TSLexer *lexer, const bool *valid_symbols) {
 
-  // - Section ends                                                     {{{2
-
+  // - Section ends
   int16_t indent_length = 0;
   lexer->mark_end(lexer);
   for (;;) {
@@ -177,7 +175,7 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     skip(lexer);
   }
 
-  // - Listiem ends                                                     {{{2
+  // - Listiem ends
   // Listend -> end of a line, looking for:
   // 1. dedent
   // 2. same indent, not a bullet
@@ -214,7 +212,7 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
     return false;
   }
 
-  // - Col=0 star                                                       {{{2
+  // - Col=0 star
   if (indent_length == 0 && lexer->lookahead == '*') {
     lexer->mark_end(lexer);
     int16_t stars = 1;
@@ -232,19 +230,13 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
       section_stack.push_back(stars);
       lexer->result_symbol = HLSTARS;
       return true;
-    } else if (valid_symbols[MARKUP] && stars == 1 && (!iswspace(lexer->lookahead) && lexer->lookahead != '\0')) {
-      lexer->result_symbol = MARKUP;
-      return true;
     }
     return false;
   }
 
-  // - Liststart and bullets                                            {{{2
-
+  // - Liststart and bullets
   if (valid_symbols[LISTSTART] || valid_symbols[BULLET]) {
 
-    // + and * need processing here, getbullet skips characters.
-    bool markup = lexer->lookahead == '+' || lexer->lookahead == '*';
     Bullet bullet = getbullet(lexer);
 
     if (valid_symbols[BULLET] && bullet == bullet_stack.back() && indent_length == indent_length_stack.back()) {
@@ -256,34 +248,16 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {               // {{{1
       bullet_stack.push_back(bullet);
       lexer->result_symbol = LISTSTART;
       return true;
-    } else if (valid_symbols[MARKUP] && bullet == NOTABULLET && markup) {
-      lexer->result_symbol = MARKUP;
-      return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
     }
   }
 
-  // - Markup                                                           {{{2
-  if (valid_symbols[MARKUP] && (indent_length > 0 || lexer->get_column(lexer) == 0)
-    && (lexer->lookahead == '*'
-    || lexer->lookahead == '/'
-    || lexer->lookahead == '_'
-    || lexer->lookahead == '+'
-    || lexer->lookahead == '~'
-    || lexer->lookahead == '='
-    || lexer->lookahead == '`')) {
-    lexer->mark_end(lexer);
-    skip(lexer);
-    lexer->result_symbol = MARKUP;
-    return (!iswspace(lexer->lookahead) && lexer->lookahead != '\0');
-  }
-  // - Default                                                          {{{2
-  return false;
+  return false; // default
 }
 };
 
 }
 
-extern "C" {                                                           // {{{1
+extern "C" {
 
 void *tree_sitter_org_external_scanner_create() {
   return new Scanner();
@@ -310,5 +284,3 @@ void tree_sitter_org_external_scanner_destroy(void *payload) {
 }
 
 }
-
-// vim: set fm=marker sw=2
