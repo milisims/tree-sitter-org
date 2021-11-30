@@ -362,6 +362,10 @@
       "required": true,
       "types": [
         {
+          "type": "cookie",
+          "named": true
+        },
+        {
           "type": "item",
           "named": true
         },
@@ -390,6 +394,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "cookie",
+          "named": true
+        },
         {
           "type": "footnote",
           "named": true
@@ -939,6 +947,10 @@
   },
   {
     "type": "checkbox",
+    "named": true
+  },
+  {
+    "type": "cookie",
     "named": true
   },
   {

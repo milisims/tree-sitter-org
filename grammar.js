@@ -180,6 +180,7 @@ org_grammar = {
         /[ \t]+/, // so it's not part of title
         $.item,
       )),
+      optional($.cookie),
       optional(field('tags', $._taglist)),
     ),
 
@@ -490,6 +491,7 @@ org_grammar = {
     ),
 
     checkbox: _ => /\[[ xX-]\]/,
+    cookie: _ => /\[(\d*\/\d*|\d*%)\]/,
     description: $ => seq(
       repeat($._text),
       prec.dynamic(DYN.listtag, '::'), // precedence over itemtext
@@ -497,6 +499,7 @@ org_grammar = {
 
     itemtext: $ => seq(
       repeat1($._textelement),
+      optional($.cookie),
       repeat(seq(
         $._nl,
         optional($._nl),
