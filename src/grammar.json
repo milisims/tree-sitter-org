@@ -410,13 +410,17 @@
           }
         },
         {
-          "type": "ALIAS",
+          "type": "PREC_DYNAMIC",
+          "value": 1,
           "content": {
-            "type": "PATTERN",
-            "value": ":[Ee][Nn][Dd]:"
-          },
-          "named": false,
-          "value": ":end:"
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": ":[Ee][Nn][Dd]:"
+            },
+            "named": false,
+            "value": ":end:"
+          }
         },
         {
           "type": "SYMBOL",

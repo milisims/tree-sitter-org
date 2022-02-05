@@ -120,7 +120,7 @@ org_grammar = {
       caseInsensitive(':properties:'),
       repeat1($._nl),
       repeat(seq($.property, repeat1($._nl))),
-      caseInsensitive(':end:'),
+      prec.dynamic(1, caseInsensitive(':end:')),
       $._eol,
     ),
 
