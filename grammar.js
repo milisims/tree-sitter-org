@@ -161,7 +161,7 @@ org_grammar = {
     date: $ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
 
     _ts_element: $ => choice(
-      alias(/\p{L}+/, $.day),
+      alias(/\p{L}+[.]?/, $.day),
       alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.time),
       alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?-\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.duration),
       alias(/[.+]?\+\p{N}+\p{L}/, $.repeat),

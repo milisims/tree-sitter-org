@@ -786,7 +786,7 @@
           "type": "ALIAS",
           "content": {
             "type": "PATTERN",
-            "value": "\\p{L}+"
+            "value": "\\p{L}+[.]?"
           },
           "named": true,
           "value": "day"
