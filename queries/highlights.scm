@@ -19,8 +19,8 @@
 
 ; Match cookies in a headline or listitem. If you want the numbers
 ; differently highlighted from the borders, add a capture name to "num".
-([ (item) (itemtext) ] (expr "[" "num"? @OrgCookieNum "/" "num"? @OrgCookieNum "]" ) @OrgProgressCookie (#match? @OrgProgressCookie "^\[\d*/\d*\]$"))
-([ (item) (itemtext) ] (expr "[" "num"? @OrgCookieNum "%" "]" ) @OrgPercentCookie (#match? @OrgPercentCookie "^\[\d*%\]$"))
+; ([ (item) (itemtext) ] (expr "[" "num"? @OrgCookieNum "/" "num"? @OrgCookieNum "]" ) @OrgProgressCookie (#match? @OrgProgressCookie "^\[\d*/\d*\]$"))
+; ([ (item) (itemtext) ] (expr "[" "num"? @OrgCookieNum "%" "]" ) @OrgPercentCookie (#match? @OrgPercentCookie "^\[\d*%\]$"))
 
 (tag_list (tag) @OrgTag) @OrgTagList
 
@@ -59,12 +59,12 @@
 
 ; Can match different styles with a (#match?) or (#eq?) predicate if desired
 (bullet) @OrgListBullet
-(listitem (description) @OrgListDescription)
 
 ; Get different colors for different statuses as follows
-(checkbox) @OrgCheckbox
-(checkbox status: [ "x" "X" ] @OrgCheckDone)
-(checkbox status: "-" @OrgCheckInProgress)
+(listitem . (bullet) . (paragraph . (expr "[" "str" @OrgCheckDone "]") @OrgCheckbox (#match? @OrgCheckbox "^\[[xX]\]$")))
+(listitem . (bullet) . (paragraph . (expr "[" "-" @OrgCheckInProgress "]") @OrgCheckbox (#eq? @OrgCheckbox "[-]")))
+(listitem . (bullet) . (paragraph . (expr "[") @OrgCheckbox.left (#eq? @OrgCheckbox.left "[") . (expr "]") @OrgCheckbox.right (#eq? @OrgCheckbox.right "]")))
+; (listitem . (bullet) . (paragraph (expr ":" ":") @OrgListDescriptionSeparator (#eq? @OrgListDescriptionSeparator "::"))) -- matches multiple, requires a special search.
 
 ; If you want the ruler one color and the separators a different color,
 ; something like this would do it:

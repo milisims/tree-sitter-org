@@ -482,21 +482,7 @@ List.1a  - Basic: dash [-]
     (list
       (listitem
         (bullet)
-        (itemtext
-          (expr))))))
-
-================================================================================
-List.1b  - Basic: plus [+]
-================================================================================
- + a
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -510,7 +496,7 @@ List.1c  - Basic: star [*]
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -524,7 +510,7 @@ List.1d  - Basic: count dot [1.]
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -538,7 +524,7 @@ List.1e  - Basic: count paren [1)]
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -552,7 +538,7 @@ List.1f  - Basic: letter dot [a.]
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -566,51 +552,7 @@ List.1g  - Basic: letter paren [a)]
     (list
       (listitem
         (bullet)
-        (itemtext
-          (expr))))))
-
-================================================================================
-List.1h  - Basic: checkbox
-================================================================================
- - [ ] a
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (checkbox)
-        (itemtext
-          (expr))))))
-
-================================================================================
-List.1i  - Basic: checkbox no text
-================================================================================
- - [ ]
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (checkbox)))))
-
-================================================================================
-List.1j  - Basic: description
-================================================================================
- - a :: description
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (description
-          (expr))
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -627,11 +569,11 @@ List.2a  - two items
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr)))
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -648,11 +590,11 @@ List.2d  - two items
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr)))
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -670,11 +612,11 @@ List.2b  - two items
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr)))
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -693,12 +635,12 @@ List.2c  - two lists
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -718,59 +660,19 @@ List.3a   - sublist
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr)
-          (expr)
-          (list
-            (listitem
-              (bullet)
-              (itemtext
-                (expr))))
-          (expr)))
-      (listitem
-        (bullet)
-        (itemtext
-          (expr))))))
-
-================================================================================
-List.3b   - sublist with description and checkbox
-================================================================================
-
-  - a :: description
-    a
-    - b :: description
-    - [ ] b
-    a
-  - a
-
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (description
           (expr))
-        (itemtext
-          (expr)
-          (expr)
-          (list
-            (listitem
-              (bullet)
-              (description
-                (expr))
-              (itemtext
-                (expr)))
-            (listitem
-              (bullet)
-              (checkbox)
-              (itemtext
-                (expr))))
+        (list
+          (listitem
+            (bullet)
+            (paragraph
+              (expr))))
+        (paragraph
           (expr)))
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -787,7 +689,7 @@ List.4a  - multiline item
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr)
           (expr))))))
 
@@ -806,88 +708,9 @@ List.4b  - multiline item
     (list
       (listitem
         (bullet)
-        (itemtext
-          (expr)
-          (expr))))))
-
-================================================================================
-List.4c  - multiline item checkbox
-================================================================================
-
-  - [ ] a
-    b
-
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (checkbox)
-        (itemtext
-          (expr)
-          (expr))))))
-
-================================================================================
-List.4d  - multiline item checkbox
-================================================================================
-
-  - [ ] a
-
-    b
-
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (checkbox)
-        (itemtext
-          (expr)
-          (expr))))))
-
-================================================================================
-List.4e  - multiline item description
-================================================================================
-
-  - a :: description
-    b
-
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (description
+        (paragraph
           (expr))
-        (itemtext
-          (expr)
-          (expr))))))
-
-================================================================================
-List.4f  - multiline item description
-================================================================================
-
-  - a :: description
-
-    b
-
---------------------------------------------------------------------------------
-
-(document
-  (body
-    (list
-      (listitem
-        (bullet)
-        (description
-          (expr))
-        (itemtext
-          (expr)
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -905,14 +728,14 @@ List.5   - dedent
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))
     (paragraph
       (expr))
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -933,18 +756,18 @@ b
     (list
       (listitem
         (bullet)
-        (itemtext
-          (expr)
-          (list
-            (listitem
-              (bullet)
-              (itemtext
-                (expr)))))))
+        (paragraph
+          (expr))
+        (list
+          (listitem
+            (bullet)
+            (paragraph
+              (expr))))))
     (paragraph
       (expr))))
 
 ================================================================================
-List.7a  - changing
+List.7a  - change bullet
 ================================================================================
 
   - a
@@ -957,12 +780,12 @@ List.7a  - changing
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -988,7 +811,7 @@ List.8b  - Whitespace after text
     (list
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -1110,7 +933,7 @@ Directive.6a - List
           (expr)))
       (listitem
         (bullet)
-        (itemtext
+        (paragraph
           (expr))))))
 
 ================================================================================
@@ -1133,17 +956,17 @@ Directive.6b - Sublist
           (expr)))
       (listitem
         (bullet)
-        (itemtext
-          (expr)
-          (list
-            (directive
-              (expr)
-              (value
-                (expr)))
-            (listitem
-              (bullet)
-              (itemtext
-                (expr)))))))))
+        (paragraph
+          (expr))
+        (list
+          (directive
+            (expr)
+            (value
+              (expr)))
+          (listitem
+            (bullet)
+            (paragraph
+              (expr))))))))
 
 ================================================================================
 Directive.7  - Directive unrelated to section

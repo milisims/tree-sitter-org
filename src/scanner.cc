@@ -179,37 +179,34 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {
   // Listend -> end of a line, looking for:
   // 1. dedent
   // 2. same indent, not a bullet
-  // 3. three eols
-  if (lexer->lookahead == '\n') {
-    if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
-      int16_t newlines = 0;
-      for (;;) {
-        if (lexer->lookahead == ' ') {
-          indent_length++;
-        } else if (lexer->lookahead == '\t') {
-          indent_length += 8;
-        } else if (lexer->lookahead == '\0') {
-          return dedent(lexer);
-        } else if (lexer->lookahead == '\n') {
-          if (++newlines > 2) return dedent(lexer);
-          indent_length = 0;
-        } else {
-          break;
-        }
-        skip(lexer);
-      }
-
-      if (indent_length < indent_length_stack.back()) {
+  // 3. two eols
+  if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
+    int16_t newlines = 0;
+    for (;;) {
+      if (lexer->lookahead == ' ') {
+        indent_length++;
+      } else if (lexer->lookahead == '\t') {
+        indent_length += 8;
+      } else if (lexer->lookahead == '\0') {
         return dedent(lexer);
-      } else if (indent_length == indent_length_stack.back()) {
-        if (getbullet(lexer) == bullet_stack.back()) {
-          lexer->result_symbol = LISTITEMEND;
-          return true;
-        }
-        return dedent(lexer);
+      } else if (lexer->lookahead == '\n') {
+        if (++newlines > 1) return dedent(lexer);
+        indent_length = 0;
+      } else {
+        break;
       }
+      skip(lexer);
     }
-    return false;
+
+    if (indent_length < indent_length_stack.back()) {
+      return dedent(lexer);
+    } else if (indent_length == indent_length_stack.back()) {
+      if (getbullet(lexer) == bullet_stack.back()) {
+        lexer->result_symbol = LISTITEMEND;
+        return true;
+      }
+      return dedent(lexer);
+    }
   }
 
   // - Col=0 star

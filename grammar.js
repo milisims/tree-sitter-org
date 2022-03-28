@@ -22,6 +22,7 @@ org_grammar = {
     $._eol,
     $._ts_contents,
     $._directive_list,
+    $._body_contents,
   ],
 
   precedences: _ => [
@@ -44,7 +45,7 @@ org_grammar = {
     [$.expr, $.drawer],
 
     // headline  'entry_token1'  ':'  •  '<'  …
-    [$.entry, $.expr]
+    [$.entry, $.expr],
 
   ],
 
@@ -53,7 +54,9 @@ org_grammar = {
     document: $ => seq(optional($.body), repeat($.section)),
 
     // Set up to prevent lexing conflicts of having two paragraphs in a row
-    body: $ => choice(
+    body: $ => $._body_contents,
+
+    _body_contents: $ => choice(
       repeat1($._nl),
       seq(repeat($._nl), $._multis),
       seq(
@@ -229,38 +232,24 @@ org_grammar = {
     list: $ => seq(
       optional($._directive_list),
       $._liststart,  // captures indent length and bullet type
-      repeat(seq($.listitem, $._listitemend, repeat1($._nl))),
+      repeat(seq($.listitem, $._listitemend, repeat($._nl))),
       seq($.listitem, $._listend)
     ),
 
     listitem: $ => seq(
       $.bullet,
-      optional(field('checkbox', $.checkbox)),
-      optional(seq(alias(optional($._expr_line), $.description), '::')),
-      optional($.itemtext),
+      choice(
+        $._eof,
+        alias($.body, "item_body"),
+      )
     ),
 
-    checkbox: _ => seq(
-      token(prec('non-immediate', '[')), // ]
-      field(
-        'status',
-        choice(
-          token.immediate(' '),
-          token.immediate('-'),
-          token.immediate('x'),
-          token.immediate('X'),
-          token.immediate(/./),
-        )),
-      token(prec('special', ']')),  // [.] could be an (expr)
-    ),
-
-    itemtext: $ => seq(
-      $._expr_line,
-      repeat(seq(
-        $._nl,
-        optional($._nl),
-        choice($._expr_line, $.list)
-      )),
+    listitem: $ => seq(
+      field('bullet', $.bullet),
+      choice(
+        $._eof,
+        field('contents', $._body_contents),
+      ),
     ),
 
     table: $ => prec.right(seq(

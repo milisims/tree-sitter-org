@@ -120,34 +120,6 @@
     }
   },
   {
-    "type": "checkbox",
-    "named": true,
-    "fields": {
-      "status": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": " ",
-            "named": false
-          },
-          {
-            "type": "-",
-            "named": false
-          },
-          {
-            "type": "X",
-            "named": false
-          },
-          {
-            "type": "x",
-            "named": false
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "comment",
     "named": true,
     "fields": {},
@@ -459,25 +431,6 @@
     }
   },
   {
-    "type": "itemtext",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        },
-        {
-          "type": "list",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "latex_env",
     "named": true,
     "fields": {
@@ -553,34 +506,80 @@
     "type": "listitem",
     "named": true,
     "fields": {
-      "checkbox": {
+      "bullet": {
         "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bullet",
+            "named": true
+          }
+        ]
+      },
+      "contents": {
+        "multiple": true,
         "required": false,
         "types": [
           {
-            "type": "checkbox",
+            "type": "\n",
+            "named": false
+          },
+          {
+            "type": "\r",
+            "named": false
+          },
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "comment",
+            "named": true
+          },
+          {
+            "type": "directive",
+            "named": true
+          },
+          {
+            "type": "drawer",
+            "named": true
+          },
+          {
+            "type": "dynamic_block",
+            "named": true
+          },
+          {
+            "type": "fndef",
+            "named": true
+          },
+          {
+            "type": "latex_env",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "paragraph",
+            "named": true
+          },
+          {
+            "type": "table",
+            "named": true
+          }
+        ]
+      },
+      "directive": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "directive",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "bullet",
-          "named": true
-        },
-        {
-          "type": "description",
-          "named": true
-        },
-        {
-          "type": "itemtext",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -853,10 +852,6 @@
     "named": false
   },
   {
-    "type": " ",
-    "named": false
-  },
-  {
     "type": "!",
     "named": false
   },
@@ -945,10 +940,6 @@
     "named": false
   },
   {
-    "type": "::",
-    "named": false
-  },
-  {
     "type": ":end:",
     "named": false
   },
@@ -986,10 +977,6 @@
   },
   {
     "type": "@",
-    "named": false
-  },
-  {
-    "type": "X",
     "named": false
   },
   {
@@ -1083,10 +1070,6 @@
   {
     "type": "time",
     "named": true
-  },
-  {
-    "type": "x",
-    "named": false
   },
   {
     "type": "{",
