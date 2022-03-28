@@ -330,15 +330,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "TOKEN",
-            "content": {
-              "type": "PREC",
-              "value": "non-immediate",
-              "content": {
-                "type": "STRING",
-                "value": ":"
-              }
-            }
+            "type": "SYMBOL",
+            "name": "_tag_expr_start"
           },
           {
             "type": "REPEAT1",
@@ -373,6 +366,17 @@
             }
           }
         ]
+      }
+    },
+    "_tag_expr_start": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": "non-immediate",
+        "content": {
+          "type": "STRING",
+          "value": ":"
+        }
       }
     },
     "property_drawer": {
@@ -4170,6 +4174,10 @@
   "conflicts": [
     [
       "item"
+    ],
+    [
+      "_tag_expr_start",
+      "expr"
     ],
     [
       "paragraph"

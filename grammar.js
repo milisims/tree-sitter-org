@@ -36,6 +36,8 @@ org_grammar = {
     // Should we start the tag?
     [$.item],
 
+    [$._tag_expr_start, $.expr],
+
     // _multiline_text  •  ':'  …
     // Is the ':' continued multiline text or is it a drawer?
     [$.paragraph],
@@ -112,12 +114,15 @@ org_grammar = {
     item: $ => repeat1($.expr),
 
     tag_list: $ => prec.dynamic(1, seq(
-      token(prec('non-immediate', ':')),
+      $._tag_expr_start,
       repeat1(seq(
         field('tag', alias($._noc_expr, $.tag)),
         token.immediate(prec('special', ':')),
       )),
     )),
+
+    // This is in another node to ensure a conflict with headline (item)
+    _tag_expr_start: _ => token(prec('non-immediate', ':')),
 
     property_drawer: $ => seq(
       caseInsensitive(':properties:'),
