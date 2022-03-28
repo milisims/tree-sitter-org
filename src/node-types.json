@@ -796,6 +796,10 @@
           "named": true
         },
         {
+          "type": "expr",
+          "named": true
+        },
+        {
           "type": "repeat",
           "named": true
         },

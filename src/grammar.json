@@ -786,7 +786,7 @@
           "type": "ALIAS",
           "content": {
             "type": "PATTERN",
-            "value": "\\p{L}+"
+            "value": "\\p{L}[^\\]>\\p{Z}\\n\\r]*"
           },
           "named": true,
           "value": "day"
@@ -826,6 +826,19 @@
           },
           "named": true,
           "value": "delay"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "PREC",
+            "value": -1,
+            "content": {
+              "type": "PATTERN",
+              "value": "[^\\]>\\p{Z}\\n\\r]+"
+            }
+          },
+          "named": true,
+          "value": "expr"
         }
       ]
     },
