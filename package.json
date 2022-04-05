@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-org",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Org grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
