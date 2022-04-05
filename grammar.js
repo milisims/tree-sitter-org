@@ -174,7 +174,7 @@ org_grammar = {
       alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?-\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.duration),
       alias(/[.+]?\+\p{N}+\p{L}/, $.repeat),
       alias(/--?\p{N}+\p{L}/, $.delay),
-      alias(prec(-1, /[^\]>\p{Z}\n\r]+/), $.expr),
+      alias(prec(-1, /[^\[<\]>\p{Z}\n\r]+/), $.expr),
     ),
 
     paragraph: $ => seq(optional($._directive_list), $._multiline_text),
