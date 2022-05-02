@@ -1,9 +1,6 @@
 #include <tree_sitter/parser.h>
 #include <vector>
 #include <cwctype>
-#include <cstring>
-#include <cassert>
-#include <stdio.h>
 
 namespace {
 
@@ -180,8 +177,8 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {
   // 1. dedent
   // 2. same indent, not a bullet
   // 3. two eols
+  int16_t newlines = 0;
   if (valid_symbols[LISTEND] || valid_symbols[LISTITEMEND]) {
-    int16_t newlines = 0;
     for (;;) {
       if (lexer->lookahead == ' ') {
         indent_length++;
@@ -232,8 +229,7 @@ bool scan(TSLexer *lexer, const bool *valid_symbols) {
   }
 
   // - Liststart and bullets
-  if (valid_symbols[LISTSTART] || valid_symbols[BULLET]) {
-
+  if ((valid_symbols[LISTSTART] || valid_symbols[BULLET]) && newlines == 0) {
     Bullet bullet = getbullet(lexer);
 
     if (valid_symbols[BULLET] && bullet == bullet_stack.back() && indent_length == indent_length_stack.back()) {

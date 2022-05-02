@@ -242,14 +242,6 @@ org_grammar = {
     ),
 
     listitem: $ => seq(
-      $.bullet,
-      choice(
-        $._eof,
-        alias($.body, "item_body"),
-      )
-    ),
-
-    listitem: $ => seq(
       field('bullet', $.bullet),
       choice(
         $._eof,
