@@ -269,7 +269,7 @@ org_grammar = {
       optional(field('contents', alias($._expr_line, $.contents)))),
     hr: $ => seq(
       token(prec(1, '|')),
-      repeat1(seq(token(prec(1, /[-+]+/)), optional('|'))),
+      repeat1(seq(token.immediate(prec(1, /[-+]+/)), optional('|'))),
       $._eol,
     ),
 
