@@ -1,11 +1,11 @@
 [package]
 name = "tree-sitter-org"
 description = "org grammar for the tree-sitter parsing library"
-version = "1.0.0"
+version = "1.0.1"
 keywords = ["incremental", "parsing", "org"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/milisims/tree-sitter-org"
-edition = "2022"
+edition = "2021"
 license = "MIT"
 
 build = "bindings/rust/build.rs"
@@ -20,7 +20,7 @@ include = [
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "0.19"
+tree-sitter = ">= 0.19, < 0.21"
 
 [build-dependencies]
 cc = "1.0"
