@@ -93,11 +93,11 @@ org_grammar = {
     ),
 
     section: $ => seq(
-      $.headline,
-      optional($.plan),
-      optional($.property_drawer),
-      optional($.body),
-      repeat($.section),
+      field('headline', $.headline),
+      optional(field('plan', $.plan)),
+      optional(field('property_drawer', $.property_drawer)),
+      optional(field('body', $.body)),
+      repeat(field('subsection', $.section)),
       $._sectionend,
     ),
 
@@ -143,7 +143,7 @@ org_grammar = {
 
     entry: $ => seq(
       optional(seq(
-        alias(token(prec('non-immediate', /\p{L}+/)), $.entry_name),
+        field('name', alias(token(prec('non-immediate', /\p{L}+/)), $.entry_name)),
         token.immediate(prec('immediate', ':'))
       )),
       field('timestamp', $.timestamp)
@@ -162,18 +162,18 @@ org_grammar = {
 
     _ts_contents: $ => seq(
       repeat($._ts_element),
-      $.date,
+      field('date', $.date),
       repeat($._ts_element),
     ),
 
     date: $ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
 
     _ts_element: $ => choice(
-      alias(/\p{L}[^\]>\p{Z}\n\r]*/, $.day),
-      alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.time),
-      alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?-\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.duration),
-      alias(/[.+]?\+\p{N}+\p{L}/, $.repeat),
-      alias(/--?\p{N}+\p{L}/, $.delay),
+      field('day', alias(/\p{L}[^\]>\p{Z}\n\r]*/, $.day)),
+      field('time', alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.time)),
+      field('duration', alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?-\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.duration)),
+      field('repeat', alias(/[.+]?\+\p{N}+\p{L}/, $.repeat)),
+      field('delay', alias(/--?\p{N}+\p{L}/, $.delay)),
       alias(prec(-1, /[^\[<\]>\p{Z}\n\r]+/), $.expr),
     ),
 
@@ -255,10 +255,16 @@ org_grammar = {
       repeat($.formula),
     )),
 
-    row: $ => prec(1, seq(repeat1($.cell), optional(token(prec(1, '|'))), $._eol)),
+    row: $ => prec(1, seq(
+      repeat1($.cell),
+      optional(token(prec(1, '|'))),
+      $._eol,
+    )),
+
     cell: $ => seq(
       token(prec(1, '|')), // Table > paragraph (expr)
-      optional(field('contents', alias($._expr_line, $.contents)))),
+      optional(field('contents', alias($._expr_line, $.contents))),
+    ),
     hr: $ => seq(
       token(prec(1, '|')),
       repeat1(seq(token.immediate(prec(1, /[-+]+/)), optional('|'))),

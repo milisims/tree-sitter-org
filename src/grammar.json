@@ -198,15 +198,23 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "headline"
+          "type": "FIELD",
+          "name": "headline",
+          "content": {
+            "type": "SYMBOL",
+            "name": "headline"
+          }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "plan"
+              "type": "FIELD",
+              "name": "plan",
+              "content": {
+                "type": "SYMBOL",
+                "name": "plan"
+              }
             },
             {
               "type": "BLANK"
@@ -217,8 +225,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "property_drawer"
+              "type": "FIELD",
+              "name": "property_drawer",
+              "content": {
+                "type": "SYMBOL",
+                "name": "property_drawer"
+              }
             },
             {
               "type": "BLANK"
@@ -229,8 +241,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "body"
+              "type": "FIELD",
+              "name": "body",
+              "content": {
+                "type": "SYMBOL",
+                "name": "body"
+              }
             },
             {
               "type": "BLANK"
@@ -240,8 +256,12 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "section"
+            "type": "FIELD",
+            "name": "subsection",
+            "content": {
+              "type": "SYMBOL",
+              "name": "section"
+            }
           }
         },
         {
@@ -516,20 +536,24 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
+                  "type": "FIELD",
+                  "name": "name",
                   "content": {
-                    "type": "TOKEN",
+                    "type": "ALIAS",
                     "content": {
-                      "type": "PREC",
-                      "value": "non-immediate",
+                      "type": "TOKEN",
                       "content": {
-                        "type": "PATTERN",
-                        "value": "\\p{L}+"
+                        "type": "PREC",
+                        "value": "non-immediate",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "\\p{L}+"
+                        }
                       }
-                    }
-                  },
-                  "named": true,
-                  "value": "entry_name"
+                    },
+                    "named": true,
+                    "value": "entry_name"
+                  }
                 },
                 {
                   "type": "IMMEDIATE_TOKEN",
@@ -771,8 +795,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "date"
+          "type": "FIELD",
+          "name": "date",
+          "content": {
+            "type": "SYMBOL",
+            "name": "date"
+          }
         },
         {
           "type": "REPEAT",
@@ -791,49 +819,69 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "day",
           "content": {
-            "type": "PATTERN",
-            "value": "\\p{L}[^\\]>\\p{Z}\\n\\r]*"
-          },
-          "named": true,
-          "value": "day"
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\p{L}[^\\]>\\p{Z}\\n\\r]*"
+            },
+            "named": true,
+            "value": "day"
+          }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "time",
           "content": {
-            "type": "PATTERN",
-            "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?"
-          },
-          "named": true,
-          "value": "time"
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?"
+            },
+            "named": true,
+            "value": "time"
+          }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "duration",
           "content": {
-            "type": "PATTERN",
-            "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?-\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?"
-          },
-          "named": true,
-          "value": "duration"
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?-\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?"
+            },
+            "named": true,
+            "value": "duration"
+          }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "repeat",
           "content": {
-            "type": "PATTERN",
-            "value": "[.+]?\\+\\p{N}+\\p{L}"
-          },
-          "named": true,
-          "value": "repeat"
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "[.+]?\\+\\p{N}+\\p{L}"
+            },
+            "named": true,
+            "value": "repeat"
+          }
         },
         {
-          "type": "ALIAS",
+          "type": "FIELD",
+          "name": "delay",
           "content": {
-            "type": "PATTERN",
-            "value": "--?\\p{N}+\\p{L}"
-          },
-          "named": true,
-          "value": "delay"
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "--?\\p{N}+\\p{L}"
+            },
+            "named": true,
+            "value": "delay"
+          }
         },
         {
           "type": "ALIAS",

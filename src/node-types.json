@@ -295,6 +295,16 @@
     "type": "entry",
     "named": true,
     "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "entry_name",
+            "named": true
+          }
+        ]
+      },
       "timestamp": {
         "multiple": false,
         "required": true,
@@ -305,16 +315,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "entry_name",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -682,32 +682,57 @@
   {
     "type": "section",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "body",
-          "named": true
-        },
-        {
-          "type": "headline",
-          "named": true
-        },
-        {
-          "type": "plan",
-          "named": true
-        },
-        {
-          "type": "property_drawer",
-          "named": true
-        },
-        {
-          "type": "section",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      },
+      "headline": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "headline",
+            "named": true
+          }
+        ]
+      },
+      "plan": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "plan",
+            "named": true
+          }
+        ]
+      },
+      "property_drawer": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "property_drawer",
+            "named": true
+          }
+        ]
+      },
+      "subsection": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "section",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -773,37 +798,74 @@
   {
     "type": "timestamp",
     "named": true,
-    "fields": {},
+    "fields": {
+      "date": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "date",
+            "named": true
+          }
+        ]
+      },
+      "day": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "day",
+            "named": true
+          }
+        ]
+      },
+      "delay": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "delay",
+            "named": true
+          }
+        ]
+      },
+      "duration": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "duration",
+            "named": true
+          }
+        ]
+      },
+      "repeat": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "repeat",
+            "named": true
+          }
+        ]
+      },
+      "time": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "time",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "date",
-          "named": true
-        },
-        {
-          "type": "day",
-          "named": true
-        },
-        {
-          "type": "delay",
-          "named": true
-        },
-        {
-          "type": "duration",
-          "named": true
-        },
-        {
           "type": "expr",
-          "named": true
-        },
-        {
-          "type": "repeat",
-          "named": true
-        },
-        {
-          "type": "time",
           "named": true
         },
         {
