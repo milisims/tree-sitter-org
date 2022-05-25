@@ -279,14 +279,30 @@ org_grammar = {
 
     latex_env: $ => seq(
       optional($._directive_list),
-      caseInsensitive('\\begin{'),
-      field('name', alias(/[\p{L}\p{N}]+/, $.name)),
-      token.immediate('}'),
-      $._eol,
-      optional(field('contents', $.contents)),
-      caseInsensitive('\\end{'),
-      alias(/[\p{L}\p{N}]+/, $.name),
-      token.immediate('}'),
+      choice(
+        seq(
+          caseInsensitive('\\begin{'),
+          field('name', alias(/[\p{L}\p{N}*]+/, $.name)),
+          token.immediate('}'),
+          $._nl,
+          optional(field('contents', $.contents)),
+          caseInsensitive('\\end{'),
+          alias(/[\p{L}\p{N}*]+/, $.name),
+          token.immediate('}'),
+        ),
+        seq(
+          caseInsensitive('\\['),
+          $._nl,
+          optional(field('contents', $.contents)),
+          caseInsensitive('\\]'),
+        ),
+        seq(
+          caseInsensitive('\\('),
+          $._nl,
+          optional(field('contents', $.contents)),
+          caseInsensitive('\\)'),
+        ),
+      ),
       $._eol,
     ),
 
