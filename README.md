@@ -56,17 +56,17 @@ Parses as:
       (expr [2, 13] - [2, 16])
       (expr [2, 17] - [2, 22])))
   (section [4, 0] - [16, 0]
-    (headline [4, 0] - [5, 0]
+    headline: (headline [4, 0] - [5, 0]
       stars: (stars [4, 0] - [4, 1])
       item: (item [4, 2] - [4, 12]
         (expr [4, 2] - [4, 6])
         (expr [4, 7] - [4, 12])))
-    (plan [5, 0] - [6, 0]
+    plan: (plan [5, 0] - [6, 0]
       (entry [5, 0] - [5, 16]
         timestamp: (timestamp [5, 0] - [5, 16]
-          (date [5, 1] - [5, 11])
-          (day [5, 12] - [5, 15]))))
-    (body [6, 0] - [13, 0]
+          date: (date [5, 1] - [5, 11])
+          day: (day [5, 12] - [5, 15]))))
+    body: (body [6, 0] - [13, 0]
       (list [7, 0] - [12, 0]
         (listitem [7, 2] - [8, 0]
           bullet: (bullet [7, 2] - [7, 3])
@@ -100,16 +100,17 @@ Parses as:
           contents: (paragraph [11, 4] - [12, 0]
             (expr [11, 4] - [11, 8])
             (expr [11, 9] - [11, 10])))))
-    (section [13, 0] - [16, 0]
-      (headline [13, 0] - [14, 0]
+    subsection: (section [13, 0] - [16, 0]
+      headline: (headline [13, 0] - [14, 0]
         stars: (stars [13, 0] - [13, 2])
         item: (item [13, 3] - [13, 13]
           (expr [13, 3] - [13, 13]))
         tags: (tag_list [13, 14] - [13, 19]
           tag: (tag [13, 15] - [13, 18])))
-      (body [14, 0] - [16, 0]
+      body: (body [14, 0] - [16, 0]
         (paragraph [15, 0] - [16, 0]
           (expr [15, 0] - [15, 4]))))))
+
 ```
 
 ## Install
