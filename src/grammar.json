@@ -8,8 +8,12 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "body"
+              "type": "FIELD",
+              "name": "body",
+              "content": {
+                "type": "SYMBOL",
+                "name": "body"
+              }
             },
             {
               "type": "BLANK"
@@ -19,8 +23,12 @@
         {
           "type": "REPEAT",
           "content": {
-            "type": "SYMBOL",
-            "name": "section"
+            "type": "FIELD",
+            "name": "subsection",
+            "content": {
+              "type": "SYMBOL",
+              "name": "section"
+            }
           }
         }
       ]

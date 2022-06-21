@@ -193,20 +193,27 @@
   {
     "type": "document",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "body",
-          "named": true
-        },
-        {
-          "type": "section",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      },
+      "subsection": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "section",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

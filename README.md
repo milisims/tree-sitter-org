@@ -45,7 +45,7 @@ Text
 Parses as:
 ```
 (document [0, 0] - [16, 0]
-  (body [0, 0] - [4, 0]
+  body: (body [0, 0] - [4, 0]
     directive: (directive [0, 0] - [1, 0]
       name: (expr [0, 2] - [0, 7])
       value: (value [0, 9] - [0, 16]
@@ -55,7 +55,7 @@ Parses as:
       (expr [2, 5] - [2, 12])
       (expr [2, 13] - [2, 16])
       (expr [2, 17] - [2, 22])))
-  (section [4, 0] - [16, 0]
+  subsection: (section [4, 0] - [16, 0]
     headline: (headline [4, 0] - [5, 0]
       stars: (stars [4, 0] - [4, 1])
       item: (item [4, 2] - [4, 12]
@@ -110,7 +110,6 @@ Parses as:
       body: (body [14, 0] - [16, 0]
         (paragraph [15, 0] - [16, 0]
           (expr [15, 0] - [15, 4]))))))
-
 ```
 
 ## Install

@@ -53,7 +53,10 @@ org_grammar = {
 
   rules: {
 
-    document: $ => seq(optional($.body), repeat($.section)),
+    document: $ => seq(
+      optional(field('body', $.body)),
+      repeat(field('subsection', $.section)),
+    ),
 
     // Set up to prevent lexing conflicts of having two paragraphs in a row
     body: $ => $._body_contents,

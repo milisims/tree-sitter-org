@@ -412,7 +412,7 @@ DynamicBlock.1  - Empty
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (dynamic_block
       name: (expr)
       parameter: (expr))))
@@ -426,7 +426,7 @@ c
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (dynamic_block
       name: (expr)
       contents: (contents
