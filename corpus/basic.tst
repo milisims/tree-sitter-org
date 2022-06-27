@@ -5,7 +5,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))))
 
@@ -17,7 +17,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))))
 
@@ -30,7 +30,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))))
 
@@ -45,7 +45,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))))
 
@@ -58,7 +58,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))
     (paragraph
@@ -73,7 +73,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))
     (comment
@@ -88,7 +88,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr))))
@@ -112,7 +112,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr)
@@ -140,7 +140,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr)
@@ -162,7 +162,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr)
@@ -178,10 +178,10 @@ Footnote.1 - Simple
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (fndef
-      (expr)
-      (description
+      label: (expr)
+      description: (description
         (expr)))))
 
 ================================================================================
@@ -191,10 +191,10 @@ Footnote.2 - Brackets
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (fndef
-      (expr)
-      (description
+      label: (expr)
+      description: (description
         (expr)))))
 
 ================================================================================
@@ -206,13 +206,13 @@ Footnote.3 - Precedence
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (fndef
-      (expr)
-      (description
+      label: (expr)
+      description: (description
         (expr)))
     (drawer
-      (expr))))
+      name: (expr))))
 
 ================================================================================
 Drawer.1 - Basic
@@ -222,9 +222,9 @@ Drawer.1 - Basic
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (drawer
-      (expr))))
+      name: (expr))))
 
 ================================================================================
 Drawer.2 - Empty
@@ -235,10 +235,10 @@ Drawer.2 - Empty
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (drawer
-      (expr)
-      (contents))))
+      name: (expr)
+      contents: (contents))))
 
 ================================================================================
 Drawer.3 - Multiple
@@ -252,12 +252,12 @@ Drawer.3 - Multiple
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (drawer
-      (expr)
-      (contents))
+      name: (expr)
+      contents: (contents))
     (drawer
-      (expr))))
+      name: (expr))))
 
 ================================================================================
 Drawer.4 Contents
@@ -268,10 +268,10 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (drawer
-      (expr)
-      (contents
+      name: (expr)
+      contents: (contents
         (expr)))))
 
 ================================================================================
@@ -281,7 +281,7 @@ Drawer.5 - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))))
 
@@ -293,7 +293,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr))))
@@ -306,10 +306,10 @@ Drawer.6b - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (fndef
-      (expr)
-      (description
+      label: (expr)
+      description: (description
         (expr)
         (expr)))))
 
@@ -322,7 +322,7 @@ c
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr)
@@ -336,7 +336,7 @@ b
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr)
       (expr))))
@@ -456,7 +456,7 @@ Comment.1 - Basic
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (comment
       (expr))))
 
@@ -468,7 +468,7 @@ Comment.2 - Two lines
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (comment
       (expr)
       (expr))))
@@ -482,7 +482,7 @@ Comment.3 - Two separate
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (comment
       (expr))
     (comment
@@ -495,11 +495,11 @@ List.1a  - Basic: dash [-]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -509,11 +509,11 @@ List.1c  - Basic: star [*]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -523,11 +523,11 @@ List.1d  - Basic: count dot [1.]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -537,11 +537,11 @@ List.1e  - Basic: count paren [1)]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -551,11 +551,11 @@ List.1f  - Basic: letter dot [a.]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -565,11 +565,11 @@ List.1g  - Basic: letter paren [a)]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -582,15 +582,15 @@ List.2a  - two items
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)))
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -603,15 +603,15 @@ List.2d  - two items
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)))
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -625,15 +625,15 @@ List.2b  - two items
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)))
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -648,16 +648,16 @@ List.2c  - two lists
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -673,23 +673,23 @@ List.3a   - sublist
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr))
-        (list
+        contents: (list
           (listitem
-            (bullet)
-            (paragraph
+            bullet: (bullet)
+            contents: (paragraph
               (expr))))
-        (paragraph
+        contents: (paragraph
           (expr)))
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -702,11 +702,11 @@ List.4a  - multiline item
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr))))))
 
@@ -721,13 +721,13 @@ List.4b  - multiline item
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))
-        (paragraph
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -741,18 +741,18 @@ List.5   - dedent
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))
     (paragraph
       (expr))
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -767,18 +767,18 @@ b
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))
-        (list
+        contents: (list
           (listitem
-            (bullet)
-            (paragraph
+            bullet: (bullet)
+            contents: (paragraph
               (expr))))))
     (paragraph
       (expr))))
@@ -793,16 +793,16 @@ List.7a  - change bullet
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -812,10 +812,10 @@ List.8a  - Whitespace
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)))))
+        bullet: (bullet)))))
 
 ================================================================================
 List.8b  - Whitespace after text
@@ -824,11 +824,11 @@ List.8b  - Whitespace after text
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -840,16 +840,16 @@ List.9   - newline before sub listitem
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))
-        (list
+        contents: (list
           (listitem
-            (bullet)
-            (paragraph
+            bullet: (bullet)
+            contents: (paragraph
               (expr))))))))
 
 ================================================================================
@@ -859,12 +859,12 @@ List.10a - Checkbox [ ]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (checkbox)
-        (paragraph
+        bullet: (bullet)
+        checkbox: (checkbox)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -874,13 +874,13 @@ List.10b - Checkbox [x]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (checkbox
-          (expr))
-        (paragraph
+        bullet: (bullet)
+        checkbox: (checkbox
+          status: (expr))
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -890,13 +890,13 @@ List.10c - Checkbox [X]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (checkbox
-          (expr))
-        (paragraph
+        bullet: (bullet)
+        checkbox: (checkbox
+          status: (expr))
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -906,13 +906,13 @@ List.10d - Checkbox [-]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (checkbox
-          (expr))
-        (paragraph
+        bullet: (bullet)
+        checkbox: (checkbox
+          status: (expr))
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -922,13 +922,13 @@ List.10e - Checkbox [done]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (checkbox
-          (expr))
-        (paragraph
+        bullet: (bullet)
+        checkbox: (checkbox
+          status: (expr))
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -938,11 +938,11 @@ List.11a  - No Checkbox markup
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr)
           (expr))))))
@@ -954,11 +954,11 @@ List.11b  - No Checkbox [ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr))))))
 
@@ -969,11 +969,11 @@ List.11c  - No Checkbox [  ]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr))))))
 
@@ -984,11 +984,11 @@ List.11d  - No Checkbox [-
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr))))))
 
@@ -999,11 +999,11 @@ List.11e  - No Checkbox [x
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr)
           (expr))))))
 
@@ -1014,11 +1014,11 @@ List.11f  - No Checkbox [x1]
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -1029,10 +1029,10 @@ Directive.1  - Document
 --------------------------------------------------------------------------------
 
 (document
-  (body
-    (directive
-      (expr)
-      (value
+  body: (body
+    directive: (directive
+      name: (expr)
+      value: (value
         (expr)))))
 
 ================================================================================
@@ -1043,10 +1043,10 @@ Directive.2  - Bare
 --------------------------------------------------------------------------------
 
 (document
-  (body
-    (directive
-      (expr)
-      (value
+  body: (body
+    directive: (directive
+      name: (expr)
+      value: (value
         (expr)))))
 
 ================================================================================
@@ -1058,14 +1058,14 @@ Directive.3  - Doc & Bare
 --------------------------------------------------------------------------------
 
 (document
-  (body
-    (directive
-      (expr)
-      (value
+  body: (body
+    directive: (directive
+      name: (expr)
+      value: (value
         (expr)))
-    (directive
-      (expr)
-      (value
+    directive: (directive
+      name: (expr)
+      value: (value
         (expr)))))
 
 ================================================================================
@@ -1077,11 +1077,11 @@ c
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
-      (directive
-        (expr)
-        (value
+      directive: (directive
+        name: (expr)
+        value: (value
           (expr)))
       (expr))))
 
@@ -1093,11 +1093,11 @@ c
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
-      (directive
-        (expr)
-        (value
+      directive: (directive
+        name: (expr)
+        value: (value
           (expr)))
       (expr))))
 
@@ -1110,16 +1110,16 @@ c
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (paragraph
-        (directive
-          (expr)
-          (value
+        directive: (directive
+          name: (expr)
+          value: (value
             (expr)))
         (expr)))))
 
@@ -1132,15 +1132,15 @@ Directive.6a - List
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
-      (directive
-        (expr)
-        (value
+      directive: (directive
+        name: (expr)
+        value: (value
           (expr)))
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))))))
 
 ================================================================================
@@ -1155,24 +1155,24 @@ Directive.6b - Sublist
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (list
-      (directive
-        (expr)
-        (value
+      directive: (directive
+        name: (expr)
+        value: (value
           (expr)))
       (listitem
-        (bullet)
-        (paragraph
+        bullet: (bullet)
+        contents: (paragraph
           (expr))
-        (list
-          (directive
-            (expr)
-            (value
+        contents: (list
+          directive: (directive
+            name: (expr)
+            value: (value
               (expr)))
           (listitem
-            (bullet)
-            (paragraph
+            bullet: (bullet)
+            contents: (paragraph
               (expr))))))))
 
 ================================================================================
@@ -1184,15 +1184,15 @@ Directive.7  - Directive unrelated to section
 --------------------------------------------------------------------------------
 
 (document
-  (body
-    (directive
-      (expr)
-      (value
+  body: (body
+    directive: (directive
+      name: (expr)
+      value: (value
         (expr))))
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1204,9 +1204,9 @@ LatexEnv.1a - Basic
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
+      name: (name)
       (name))))
 
 ================================================================================
@@ -1218,7 +1218,7 @@ LatexEnv.1b - Basic
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env)))
 
 ================================================================================
@@ -1230,7 +1230,7 @@ LatexEnv.1c - Basic
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env)))
 
 ================================================================================
@@ -1242,10 +1242,10 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
-      (contents
+      name: (name)
+      contents: (contents
         (expr))
       (name))))
 
@@ -1259,9 +1259,9 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (contents
+      contents: (contents
         (expr)))))
 
 ================================================================================
@@ -1274,9 +1274,9 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (contents
+      contents: (contents
         (expr)))))
 
 ================================================================================
@@ -1288,10 +1288,10 @@ LatexEnv.3  - Empty
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
-      (contents)
+      name: (name)
+      contents: (contents)
       (name))))
 
 ================================================================================
@@ -1304,10 +1304,10 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
-      (contents
+      name: (name)
+      contents: (contents
         (expr))
       (name))))
 
@@ -1321,10 +1321,10 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
-      (contents
+      name: (name)
+      contents: (contents
         (expr))
       (name))))
 
@@ -1339,10 +1339,10 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
-      (contents
+      name: (name)
+      contents: (contents
         (expr))
       (name))))
 
@@ -1355,9 +1355,9 @@ LatexEnv.5  - Uppercase
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (latex_env
-      (name)
+      name: (name)
       (name))))
 
 ================================================================================
@@ -1368,7 +1368,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))
     (comment
@@ -1383,7 +1383,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))
     (comment
@@ -1399,7 +1399,7 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (comment
       (expr))
     (paragraph
@@ -1415,12 +1415,12 @@ c
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (paragraph
       (expr))
     (drawer
-      (expr)
-      (contents
+      name: (expr)
+      contents: (contents
         (expr)))))
 
 ================================================================================
@@ -1434,14 +1434,14 @@ d
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (comment
       (expr))
     (paragraph
       (expr))
     (drawer
-      (expr)
-      (contents
+      name: (expr)
+      contents: (contents
         (expr)))))
 
 ================================================================================
@@ -1451,11 +1451,11 @@ Table.1  - 1x1
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))))))
 
 ================================================================================
@@ -1465,14 +1465,14 @@ Table.2  - 1x2
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr)
             (expr)))))))
 
@@ -1484,21 +1484,21 @@ Table.3  - 2x2
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr)))))))
 
 ================================================================================
@@ -1509,19 +1509,19 @@ Table.4  - empty cell
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell)
         (cell
-          (contents
+          contents: (contents
             (expr)))))))
 
 ================================================================================
@@ -1531,7 +1531,7 @@ Table.5  - empty cells
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell)
@@ -1544,7 +1544,7 @@ Table.6  - simple hr
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (hr))))
 
@@ -1557,27 +1557,27 @@ Table.7  - words
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (hr)
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)
             (expr)
             (expr)))
         (cell
-          (contents
+          contents: (contents
             (expr)))))))
 
 ================================================================================
@@ -1589,17 +1589,17 @@ Table.8  - Formula
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (formula
-        (expr)
-        (expr)
-        (expr)
-        (expr)))))
+        formula: (expr)
+        formula: (expr)
+        formula: (expr)
+        formula: (expr)))))
 
 ================================================================================
 Table.9  - Multiple formula
@@ -1612,27 +1612,27 @@ Table.9  - Multiple formula
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (formula
-        (expr)
-        (expr)
-        (expr)
-        (expr))
+        formula: (expr)
+        formula: (expr)
+        formula: (expr)
+        formula: (expr))
       (formula
-        (expr)
-        (expr)
-        (expr)
-        (expr))
+        formula: (expr)
+        formula: (expr)
+        formula: (expr)
+        formula: (expr))
       (formula
-        (expr)
-        (expr)
-        (expr)
-        (expr)))))
+        formula: (expr)
+        formula: (expr)
+        formula: (expr)
+        formula: (expr)))))
 
 ================================================================================
 Table.10 - Multiline
@@ -1648,31 +1648,31 @@ Table.10 - Multiline
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell
-          (contents
+          contents: (contents
             (expr))))
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))))))
 
 ================================================================================
@@ -1684,11 +1684,11 @@ Table.11 - Cell contents with '-'
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (table
       (row
         (cell
-          (contents
+          contents: (contents
             (expr)))))))
 
 ================================================================================
@@ -1712,11 +1712,11 @@ Headlines.1b - pre eol body
 --------------------------------------------------------------------------------
 
 (document
-  (body)
-  (section
-    (headline
-      (stars)
-      (item
+  body: (body)
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1728,12 +1728,12 @@ Headlines.1c - Post eols (body) (ts-test strips 1 nl, 2 required here)
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body)))
+    body: (body)))
 
 ================================================================================
 Headlines.2  - level 2
@@ -1777,16 +1777,16 @@ Headlines.3b - Two sections, body
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body))
-  (section
-    (headline
-      (stars)
-      (item
+    body: (body))
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1820,18 +1820,18 @@ Headlines.4a - Subsection bodies
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body)
-    (section
-      (headline
-        (stars)
-        (item
+    body: (body)
+    subsection: (section
+      headline: (headline
+        stars: (stars)
+        item: (item
           (expr)))
-      (body))))
+      body: (body))))
 
 ================================================================================
 Headlines.5  - Subsection & continued section
@@ -1987,12 +1987,12 @@ b
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (paragraph
         (expr)))))
 
@@ -2209,12 +2209,12 @@ Plan.8a - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (paragraph
         (expr)
         (expr)
@@ -2230,12 +2230,12 @@ Plan.8b - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (paragraph
         (expr)))))
 
@@ -2362,12 +2362,12 @@ Plan.14  - paragraph conflict
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (paragraph
         (expr)
         (expr)))))
@@ -2419,11 +2419,11 @@ Plan.16  - Link
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (paragraph
         (expr)))))
