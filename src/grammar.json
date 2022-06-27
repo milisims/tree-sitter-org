@@ -1250,8 +1250,17 @@
           "value": "#+end_"
         },
         {
-          "type": "SYMBOL",
-          "name": "_immediate_expr"
+          "type": "FIELD",
+          "name": "end_name",
+          "content": {
+            "type": "ALIAS",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_immediate_expr"
+            },
+            "named": true,
+            "value": "expr"
+          }
         },
         {
           "type": "SYMBOL",

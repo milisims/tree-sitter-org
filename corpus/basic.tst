@@ -349,9 +349,10 @@ Block.1  - Empty
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (block
-      (expr))))
+      name: (expr)
+      end_name: (expr))))
 
 ================================================================================
 Block.2  - Contents
@@ -362,12 +363,13 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (block
-      (expr)
-      (expr)
-      (contents
-        (expr)))))
+      name: (expr)
+      parameter: (expr)
+      contents: (contents
+        (expr))
+      end_name: (expr))))
 
 ================================================================================
 Block.3  - In section
@@ -380,17 +382,18 @@ a
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (body
+    body: (body
       (block
-        (expr)
-        (expr)
-        (contents
-          (expr))))))
+        name: (expr)
+        parameter: (expr)
+        contents: (contents
+          (expr))
+        end_name: (expr)))))
 
 ================================================================================
 Block.4  - lowercase
@@ -400,9 +403,10 @@ Block.4  - lowercase
 --------------------------------------------------------------------------------
 
 (document
-  (body
+  body: (body
     (block
-      (expr))))
+      name: (expr)
+      end_name: (expr))))
 
 ================================================================================
 DynamicBlock.1  - Empty

@@ -222,7 +222,7 @@ org_grammar = {
       $._nl,
       optional(field('contents', $.contents)),
       caseInsensitive('#+end_'),
-      $._immediate_expr,
+      field('end_name',alias($._immediate_expr, $.expr)),
       $._eol,
     ),
 
