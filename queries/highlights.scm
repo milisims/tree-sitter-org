@@ -61,10 +61,10 @@
 (bullet) @OrgListBullet
 
 ; Get different colors for different statuses as follows
-(listitem . (bullet) . (paragraph . (expr "[" "str" @OrgCheckDone "]") @OrgCheckbox (#match? @OrgCheckbox "^\[[xX]\]$")))
-(listitem . (bullet) . (paragraph . (expr "[" "-" @OrgCheckInProgress "]") @OrgCheckbox (#eq? @OrgCheckbox "[-]")))
-(listitem . (bullet) . (paragraph . (expr "[") @OrgCheckbox.left (#eq? @OrgCheckbox.left "[") . (expr "]") @OrgCheckbox.right (#eq? @OrgCheckbox.right "]")))
-; (listitem . (bullet) . (paragraph (expr ":" ":") @OrgListDescriptionSeparator (#eq? @OrgListDescriptionSeparator "::"))) -- matches multiple, requires a special search.
+(checkbox) @OrgCheckbox
+(checkbox status: (expr "-") @OrgCheckInProgress)
+(checkbox status: (expr "str") @OrgCheckDone (#any-of? @OrgCheckDone "x" "X"))
+(checkbox status: (expr) @Error (#not-any-of? @Error "x" "X" "-"))
 
 ; If you want the ruler one color and the separators a different color,
 ; something like this would do it:

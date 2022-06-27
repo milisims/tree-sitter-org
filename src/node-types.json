@@ -120,6 +120,22 @@
     }
   },
   {
+    "type": "checkbox",
+    "named": true,
+    "fields": {
+      "status": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "comment",
     "named": true,
     "fields": {},
@@ -519,6 +535,16 @@
         "types": [
           {
             "type": "bullet",
+            "named": true
+          }
+        ]
+      },
+      "checkbox": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "checkbox",
             "named": true
           }
         ]
@@ -1050,6 +1076,10 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "[ ]",
     "named": false
   },
   {
