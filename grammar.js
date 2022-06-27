@@ -234,6 +234,7 @@ org_grammar = {
       $._nl,
       optional(field('contents', $.contents)),
       caseInsensitive('#+end:'),
+      optional(field('end_name', $.expr)),
       $._eol,
     ),
 

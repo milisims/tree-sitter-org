@@ -1332,6 +1332,22 @@
           "value": "#+end:"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "end_name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expr"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "_eol"
         }

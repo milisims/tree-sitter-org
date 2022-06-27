@@ -292,6 +292,16 @@
           }
         ]
       },
+      "end_name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
