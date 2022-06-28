@@ -1698,10 +1698,10 @@ Headlines.1a - No eols
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1742,10 +1742,10 @@ Headlines.2  - level 2
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1757,15 +1757,15 @@ Headlines.3a - Two sections
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr))))
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1798,15 +1798,15 @@ Headlines.4  - Subsection
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (section
-      (headline
-        (stars)
-        (item
+    subsection: (section
+      headline: (headline
+        stars: (stars)
+        item: (item
           (expr))))))
 
 ================================================================================
@@ -1842,20 +1842,20 @@ Headlines.5  - Subsection & continued section
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (section
-      (headline
-        (stars)
-        (item
+    subsection: (section
+      headline: (headline
+        stars: (stars)
+        item: (item
           (expr)))))
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1866,15 +1866,15 @@ Headlines.6  - Top high level section
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr))))
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))))
 
 ================================================================================
@@ -1884,10 +1884,10 @@ Headlines.7a - Item/tag junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)
         (expr)))))
 
@@ -1898,10 +1898,10 @@ Headlines.7b - Item/tag junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)
         (expr)))))
 
@@ -1912,13 +1912,13 @@ Headlines.8a - Tag
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr))
-      (tag_list
-        (tag)))))
+      tags: (tag_list
+        tag: (tag)))))
 
 ================================================================================
 Headlines.8b - Multitag
@@ -1927,14 +1927,14 @@ Headlines.8b - Multitag
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr))
-      (tag_list
-        (tag)
-        (tag)))))
+      tags: (tag_list
+        tag: (tag)
+        tag: (tag)))))
 
 ================================================================================
 Headlines.8c - Junk
@@ -1943,10 +1943,10 @@ Headlines.8c - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)
         (expr)
         (expr)))))
@@ -1958,10 +1958,10 @@ Headlines.8d - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)
         (expr)))))
 
@@ -1972,10 +1972,10 @@ Headlines.8e - Junk
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)
         (expr)))))
 
@@ -2006,15 +2006,15 @@ Properties.1  - one char name
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (property_drawer
+    property_drawer: (property_drawer
       (property
-        (expr)
-        (value
+        name: (expr)
+        value: (value
           (expr)
           (expr))))))
 
@@ -2029,15 +2029,15 @@ Properties.2  - simple
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (property_drawer
+    property_drawer: (property_drawer
       (property
-        (expr)
-        (value
+        name: (expr)
+        value: (value
           (expr))))))
 
 ================================================================================
@@ -2051,15 +2051,15 @@ Properties.3  - Lowercase
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (property_drawer
+    property_drawer: (property_drawer
       (property
-        (expr)
-        (value
+        name: (expr)
+        value: (value
           (expr))))))
 
 ================================================================================
@@ -2070,16 +2070,16 @@ Plan.1  - Basic
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (day))))))
+        timestamp: (timestamp
+          date: (date)
+          day: (day))))))
 
 ================================================================================
 Plan.2  - Repeater
@@ -2089,17 +2089,17 @@ Plan.2  - Repeater
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (day)
-          (repeat))))))
+        timestamp: (timestamp
+          date: (date)
+          day: (day)
+          repeat: (repeat))))))
 
 ================================================================================
 Plan.3  - Delay
@@ -2109,17 +2109,17 @@ Plan.3  - Delay
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (day)
-          (delay))))))
+        timestamp: (timestamp
+          date: (date)
+          day: (day)
+          delay: (delay))))))
 
 ================================================================================
 Plan.4  - Repdel
@@ -2129,18 +2129,18 @@ Plan.4  - Repdel
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (day)
-          (repeat)
-          (delay))))))
+        timestamp: (timestamp
+          date: (date)
+          day: (day)
+          repeat: (repeat)
+          delay: (delay))))))
 
 ================================================================================
 Plan.5  - Time
@@ -2150,17 +2150,17 @@ Plan.5  - Time
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (day)
-          (time))))))
+        timestamp: (timestamp
+          date: (date)
+          day: (day)
+          time: (time))))))
 
 ================================================================================
 Plan.6  - Time range
@@ -2171,16 +2171,16 @@ Plan.6  - Time range
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (duration))))))
+        timestamp: (timestamp
+          date: (date)
+          duration: (duration))))))
 
 ================================================================================
 Plan.7  - Date range
@@ -2190,16 +2190,16 @@ Plan.7  - Date range
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (date))))))
+        timestamp: (timestamp
+          date: (date)
+          date: (date))))))
 
 ================================================================================
 Plan.8a - Junk
@@ -2247,18 +2247,18 @@ Plan.9  - TsExpression
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
+        timestamp: (timestamp
           (tsexp
             (expr))))
       (entry
-        (timestamp
+        timestamp: (timestamp
           (tsexp
             (expr)))))))
 
@@ -2270,16 +2270,16 @@ Plan.10 - inactive
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
-          (day))))))
+        timestamp: (timestamp
+          date: (date)
+          day: (day))))))
 
 ================================================================================
 Plan.11 - scheduled
@@ -2290,17 +2290,17 @@ a: <1111-11-11 Day>
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (entry_name)
-        (timestamp
-          (date)
-          (day))))))
+        name: (entry_name)
+        timestamp: (timestamp
+          date: (date)
+          day: (day))))))
 
 ================================================================================
 Plan.12 - multi
@@ -2311,26 +2311,26 @@ DEADLINE: <1111-11-11 Day> <1111-11-11 Day> CLOSED: [1111-11-11 Day]
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (entry_name)
-        (timestamp
-          (date)
-          (day)))
+        name: (entry_name)
+        timestamp: (timestamp
+          date: (date)
+          day: (day)))
       (entry
-        (timestamp
-          (date)
-          (day)))
+        timestamp: (timestamp
+          date: (date)
+          day: (day)))
       (entry
-        (entry_name)
-        (timestamp
-          (date)
-          (day))))))
+        name: (entry_name)
+        timestamp: (timestamp
+          date: (date)
+          day: (day))))))
 
 ================================================================================
 Plan.13  - Lowercase
@@ -2341,17 +2341,17 @@ scheduled: <1111-11-11 Day>
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (entry_name)
-        (timestamp
-          (date)
-          (day))))))
+        name: (entry_name)
+        timestamp: (timestamp
+          date: (date)
+          day: (day))))))
 
 ================================================================================
 Plan.14  - paragraph conflict
@@ -2381,16 +2381,16 @@ Plan.14a - Successful
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (entry_name)
-        (timestamp
-          (date))))))
+        name: (entry_name)
+        timestamp: (timestamp
+          date: (date))))))
 
 ================================================================================
 Plan.15  - Expr
@@ -2400,15 +2400,15 @@ Plan.15  - Expr
 --------------------------------------------------------------------------------
 
 (document
-  (section
-    (headline
-      (stars)
-      (item
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
         (expr)))
-    (plan
+    plan: (plan
       (entry
-        (timestamp
-          (date)
+        timestamp: (timestamp
+          date: (date)
           (expr))))))
 
 ================================================================================
