@@ -1,78 +1,55 @@
-; A Note on anonymous nodes (represented in a query file as strings). As of
-; right now, anonymous nodes can not be anchored.
-; See https://github.com/tree-sitter/tree-sitter/issues/1461
+(headline (stars) @symbol (item) @text.title)
 
-; Example highlighting for headlines. The headlines here will be matched
-; cyclically, easily extended to match however your heart desires.
-(headline (stars) @OrgStars1 (#match? @OrgStars1 "^(\\*{3})*\\*$") (item) @OrgHeadlineLevel1)
-(headline (stars) @OrgStars2 (#match? @OrgStars2 "^(\\*{3})*\\*\\*$") (item) @OrgHeadlineLevel2)
-(headline (stars) @OrgStars3 (#match? @OrgStars3 "^(\\*{3})*\\*\\*\\*$") (item) @OrgHeadlineLevel3)
+(item . (_) @text.todo (#eq? @text.todo "TODO"))
+(item . (_) @text.todo.checked (#eq? @text.todo.checked "DONE"))
 
-; This one should be generated after scanning for configuration, using 
-; something like #any-of? for keywords, but could use a match if allowing
-; markup on todo keywords is desirable.
-(item . (expr) @OrgKeywordTodo (#eq? @OrgKeywordTodo "TODO"))
-(item . (expr) @OrgKeywordDone (#eq? @OrgKeywordDone "DONE"))
+(tag_list (tag) @tag) @punctuation.delimiter
 
-; Not sure about this one with the anchors.
-(item . (expr)? . (expr "[" "#" @OrgPriority [ "num" "str" ] @OrgPriority "]") @OrgPriorityCookie (#match? @OrgPriorityCookie "\[#.\]"))
+(property_drawer) @punctuation.bracket
 
-; Match cookies in a headline or listitem. If you want the numbers
-; differently highlighted from the borders, add a capture name to "num".
-; ([ (item) (itemtext) ] (expr "[" "num"? @OrgCookieNum "/" "num"? @OrgCookieNum "]" ) @OrgProgressCookie (#match? @OrgProgressCookie "^\[\d*/\d*\]$"))
-; ([ (item) (itemtext) ] (expr "[" "num"? @OrgCookieNum "%" "]" ) @OrgPercentCookie (#match? @OrgPercentCookie "^\[\d*%\]$"))
+(property name: (_) @property (value)? @constant)
 
-(tag_list (tag) @OrgTag) @OrgTagList
+(timestamp "[") @comment
+(timestamp "<" (_)* @string.special) @punctuation.special
 
-(property_drawer) @OrgPropertyDrawer
+(fndef label: (_) @identifier (description) @normal) @punctuation.bracket
 
-; Properties are :name: vale, so to color the ':' we can either add them
-; directly, or highlight the property separately from the name and value. If
-; priorities are set properly, it should be simple to achieve.
-(property name: (expr) @OrgPropertyName (value)? @OrgPropertyValue) @OrgProperty
+(directive name: (_) @preproc (value)? @string) @punctuation.bracket
 
-; Simple examples, but can also match (day), (date), (time), etc.
-(timestamp "[") @OrgTimestampInactive
-(timestamp "<"
- (day)? @OrgTimestampDay
- (date)? @OrgTimestampDate
- (time)? @OrgTimestampTime
- (repeat)? @OrgTimestampRepeat
- (delay)? @OrgTimestampDelay
- ) @OrgTimestampActive
+(comment) @comment
 
-; Like OrgProperty, easy to choose how the '[fn:LABEL] DESCRIPTION' are highlighted
-(fndef label: (expr) @OrgFootnoteLabel (description) @OrgFootnoteDescription) @OrgFootnoteDefinition
+(drawer (name) @identifier (contents) @text) @punctuation.bracket
 
-; Again like OrgProperty to change the styling of '#+' and ':'. Note that they
-; can also be added in the query directly as anonymous nodes to style differently.
-(directive name: (expr) @OrgDirectiveName (value)? @OrgDirectiveValue) @OrgDirective
+(block
+  name: (name) @identifier
+  parameter: (_)* @parameter
+  contents: (contents)? @text
+  ) @punctuation.bracket
 
-(comment) @OrgComment
+(dynamic_block
+  name: (name) @identifier.name
+  parameter: (_)* @parameter
+  contents: (contents)? @text
+  ) @punctuation.bracket
 
-; At the moment, these three elements use one regex for the whole name.
-; So (name) -> :name:, ideally this will not be the case, so it follows the
-; patterns listed above, but that's the current status. Conflict issues.
-(drawer name: (expr) @OrgDrawerName (contents)? @OrgDrawerContents) @OrgDrawer
-(block name: (expr) @OrgBlockName (contents)? @OrgBlockContents) @OrgBlock
-(dynamic_block name: (expr) @OrgDynamicBlockName (contents)? @OrgDynamicBlockContents) @OrgDynamicBlock
+(block
+  name: (name) @_name
+  end_name: (_) @text.danger (#not-eq? @_name @text.danger)
+  )
 
-; Can match different styles with a (#match?) or (#eq?) predicate if desired
-(bullet) @OrgListBullet
+(dynamic_block
+  name: (name) @_name
+  end_name: (_) @text.danger (#not-eq? @_name @text.danger)
+  )
 
-; Get different colors for different statuses as follows
-(checkbox) @OrgCheckbox
-(checkbox status: (expr "-") @OrgCheckInProgress)
-(checkbox status: (expr "str") @OrgCheckDone (#any-of? @OrgCheckDone "x" "X"))
-(checkbox status: (expr) @Error (#not-any-of? @Error "x" "X" "-"))
+(bullet) @punctuation.special
 
-; If you want the ruler one color and the separators a different color,
-; something like this would do it:
-; (hr "|" @OrgTableHRBar) @OrgTableHorizontalRuler
-(hr) @OrgTableHorizontalRuler
+(checkbox) @punctuation.delimiter
+(checkbox status: (_) @text.todo.unchecked (#eq? @text.todo.unchecked "-"))
+(checkbox status: (_) @text.todo.checked (#any-of? @text.todo.checked "x" "X"))
+(checkbox status: (_) @text.danger (#not-any-of? @text.danger "x" "X" "-"))
 
-; Can do all sorts of fun highlighting here..
-(cell (contents . (expr "=")) @OrgCellFormula (#match? @OrgCellFormula "^\d+([.,]\d+)*$"))
+(hr) @punctuation.delimiter
 
-; Dollars, floats, etc. Strings.. all options to play with
-(cell (contents . (expr "num") @OrgCellNumber (#match? @OrgCellNumber "^\d+([.,]\d+)*$") .))
+(paragraph) @spell
+(fndef (description) @spell)
