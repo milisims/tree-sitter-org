@@ -105,6 +105,16 @@ struct Scanner {
     return true;
   }
 
+  bool in_error_recovery(const bool *valid_symbols) {
+    return (valid_symbols[LISTSTART] &&
+        valid_symbols[LISTEND] &&
+        valid_symbols[LISTITEMEND] &&
+        valid_symbols[BULLET] &&
+        valid_symbols[HLSTARS] &&
+        valid_symbols[SECTIONEND] &&
+        valid_symbols[ENDOFFILE]);
+  }
+
   Bullet getbullet(TSLexer *lexer) {
     if (lexer->lookahead == '-') {
       advance(lexer);
@@ -149,6 +159,10 @@ struct Scanner {
   }
 
 bool scan(TSLexer *lexer, const bool *valid_symbols) {
+
+  if (in_error_recovery(valid_symbols))
+    return false;
+
 
   // - Section ends
   int16_t indent_length = 0;
