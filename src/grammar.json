@@ -833,7 +833,7 @@
             "type": "ALIAS",
             "content": {
               "type": "PATTERN",
-              "value": "\\p{L}[^\\]>\\p{Z}\\n\\r]*"
+              "value": "\\p{L}[^\\]>\\p{Z}\\t\\n\\r]*"
             },
             "named": true,
             "value": "day"
@@ -898,7 +898,7 @@
             "value": -1,
             "content": {
               "type": "PATTERN",
-              "value": "[^\\[<\\]>\\p{Z}\\n\\r]+"
+              "value": "[^\\[<\\]>\\p{Z}\\t\\n\\r]+"
             }
           },
           "named": true,
@@ -961,7 +961,7 @@
                 "type": "ALIAS",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\p{Z}\\n\\r\\]]+"
+                  "value": "[^\\p{Z}\\t\\n\\r\\]]+"
                 },
                 "named": true,
                 "value": "expr"
@@ -2407,7 +2407,7 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                  "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
                 }
               }
             },
@@ -2804,7 +2804,7 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                  "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
                 }
               }
             },
@@ -3199,7 +3199,7 @@
               "value": "immediate",
               "content": {
                 "type": "PATTERN",
-                "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
               }
             }
           },
@@ -3585,7 +3585,7 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                    "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
                   }
                 }
               },
@@ -3970,7 +3970,7 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                      "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
                     }
                   }
                 },
@@ -4381,7 +4381,7 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                    "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
                   }
                 }
               },
@@ -4788,7 +4788,7 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[^\\p{Z}\\p{L}\\p{N}\\n\\r]"
+                      "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
                     }
                   }
                 },

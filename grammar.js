@@ -172,12 +172,12 @@ org_grammar = {
     date: $ => /\p{N}{1,4}-\p{N}{1,4}-\p{N}{1,4}/,
 
     _ts_element: $ => choice(
-      field('day', alias(/\p{L}[^\]>\p{Z}\n\r]*/, $.day)),
+      field('day', alias(/\p{L}[^\]>\p{Z}\t\n\r]*/, $.day)),
       field('time', alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.time)),
       field('duration', alias(/\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?-\p{N}?\p{N}[:.]\p{N}\p{N}( ?\p{L}{1,2})?/, $.duration)),
       field('repeat', alias(/[.+]?\+\p{N}+\p{L}/, $.repeat)),
       field('delay', alias(/--?\p{N}+\p{L}/, $.delay)),
-      alias(prec(-1, /[^\[<\]>\p{Z}\n\r]+/), $.expr),
+      alias(prec(-1, /[^\[<\]>\p{Z}\t\n\r]+/), $.expr),
     ),
 
     paragraph: $ => seq(optional($._directive_list), $._multiline_text),
@@ -186,7 +186,7 @@ org_grammar = {
       optional($._directive_list),
       seq(
         caseInsensitive('[fn:'),
-        field('label', alias(/[^\p{Z}\n\r\]]+/, $.expr)),
+        field('label', alias(/[^\p{Z}\t\n\r\]]+/, $.expr)),
         ']',
       ),
       field('description', alias($._multiline_text, $.description))
@@ -356,7 +356,7 @@ function expr(pr, tfunc, skip = '') {
     ...asciiSymbols.filter(c => !skip.includes(c)).map(c => tfunc(prec(pr, c))),
     alias(tfunc(prec(pr, /\p{L}+/)), 'str'),
     alias(tfunc(prec(pr, /\p{N}+/)), 'num'),
-    alias(tfunc(prec(pr, /[^\p{Z}\p{L}\p{N}\n\r]/)), 'sym'),
+    alias(tfunc(prec(pr, /[^\p{Z}\p{L}\p{N}\t\n\r]/)), 'sym'),
      // for checkboxes: ugly, but makes them work..
     // alias(tfunc(prec(pr, 'x')), 'str'),
     // alias(tfunc(prec(pr, 'X')), 'str'),

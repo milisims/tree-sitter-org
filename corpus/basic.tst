@@ -2427,3 +2427,22 @@ Plan.16  - Link
     body: (body
       (paragraph
         (expr)))))
+
+================================================================================
+Plan.17  - Tab
+================================================================================
+* a
+	a: <2-2-2>
+--------------------------------------------------------------------------------
+
+(document
+  subsection: (section
+    headline: (headline
+      stars: (stars)
+      item: (item
+        (expr)))
+    plan: (plan
+      (entry
+        name: (entry_name)
+        timestamp: (timestamp
+          date: (date))))))
