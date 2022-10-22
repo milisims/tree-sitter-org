@@ -1820,17 +1820,34 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
+                  "type": "TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "\\\\\\["
-                  },
-                  "named": false,
-                  "value": "\\["
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_nl"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "\\\\\\["
+                        },
+                        "named": false,
+                        "value": "\\["
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "\n"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "\r"
+                          }
+                        ]
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "CHOICE",
@@ -1863,17 +1880,34 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
+                  "type": "TOKEN",
                   "content": {
-                    "type": "PATTERN",
-                    "value": "\\\\\\("
-                  },
-                  "named": false,
-                  "value": "\\("
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "_nl"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "\\\\\\("
+                        },
+                        "named": false,
+                        "value": "\\("
+                      },
+                      {
+                        "type": "CHOICE",
+                        "members": [
+                          {
+                            "type": "STRING",
+                            "value": "\n"
+                          },
+                          {
+                            "type": "STRING",
+                            "value": "\r"
+                          }
+                        ]
+                      }
+                    ]
+                  }
                 },
                 {
                   "type": "CHOICE",

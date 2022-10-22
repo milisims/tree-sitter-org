@@ -305,14 +305,12 @@ org_grammar = {
           token.immediate('}'),
         ),
         seq(
-          caseInsensitive('\\['),
-          $._nl,
+          token(seq(caseInsensitive('\\['), choice('\n', '\r'))),
           optional(field('contents', $.contents)),
           caseInsensitive('\\]'),
         ),
         seq(
-          caseInsensitive('\\('),
-          $._nl,
+          token(seq(caseInsensitive('\\('), choice('\n', '\r'))),
           optional(field('contents', $.contents)),
           caseInsensitive('\\)'),
         ),
