@@ -23,7 +23,7 @@ Like in many regex systems, `*/+` is read as "0/1 or more", and `?` is 0 or 1.
 
 ## Example
 
-``` org
+```org
 #+TITLE: Example
 
 Some *marked up* words
@@ -43,6 +43,7 @@ Text
 ```
 
 Parses as:
+
 ```
 (document [0, 0] - [16, 0]
   body: (body [0, 0] - [4, 0]
@@ -117,13 +118,13 @@ For manual install, use `make`.
 
 For neovim, using `nvim-treesitter/nvim-treesitter`, add to your configuration:
 
-``` lua
+```lua
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.org = {
   install_info = {
     url = 'https://github.com/milisims/tree-sitter-org',
     revision = 'main',
-    files = { 'src/parser.c', 'src/scanner.cc' },
+    files = { 'src/parser.c', 'src/scanner.c' },
   },
   filetype = 'org',
 }
