@@ -5,3 +5,5 @@ build
 *.log
 /examples/*/
 /target/
+*.so
+*.o

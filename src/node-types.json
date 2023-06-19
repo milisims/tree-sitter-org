@@ -28,7 +28,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -38,7 +38,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -48,7 +48,15 @@
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": "num",
+            "named": true
+          },
+          {
+            "type": "str",
+            "named": true
+          },
+          {
+            "type": "sym",
             "named": true
           }
         ]
@@ -138,7 +146,7 @@
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": "status",
             "named": true
           }
         ]
@@ -154,7 +162,15 @@
       "required": false,
       "types": [
         {
-          "type": "expr",
+          "type": "num",
+          "named": true
+        },
+        {
+          "type": "str",
+          "named": true
+        },
+        {
+          "type": "sym",
           "named": true
         }
       ]
@@ -166,10 +182,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "nl",
+          "named": true
+        },
+        {
+          "type": "num",
+          "named": true
+        },
+        {
+          "type": "str",
+          "named": true
+        },
+        {
+          "type": "sym",
           "named": true
         }
       ]
@@ -181,10 +209,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "nl",
+          "named": true
+        },
+        {
+          "type": "num",
+          "named": true
+        },
+        {
+          "type": "str",
+          "named": true
+        },
+        {
+          "type": "sym",
           "named": true
         }
       ]
@@ -199,7 +239,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -271,7 +311,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -307,7 +347,7 @@
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -317,7 +357,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -327,7 +367,15 @@
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": "num",
+            "named": true
+          },
+          {
+            "type": "str",
+            "named": true
+          },
+          {
+            "type": "sym",
             "named": true
           }
         ]
@@ -343,7 +391,7 @@
         "required": false,
         "types": [
           {
-            "type": "entry_name",
+            "type": "name",
             "named": true
           }
         ]
@@ -359,11 +407,6 @@
         ]
       }
     }
-  },
-  {
-    "type": "expr",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "fndef",
@@ -394,7 +437,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "label",
             "named": true
           }
         ]
@@ -410,7 +453,15 @@
         "required": false,
         "types": [
           {
-            "type": "expr",
+            "type": "num",
+            "named": true
+          },
+          {
+            "type": "str",
+            "named": true
+          },
+          {
+            "type": "sym",
             "named": true
           }
         ]
@@ -467,7 +518,15 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "num",
+          "named": true
+        },
+        {
+          "type": "str",
+          "named": true
+        },
+        {
+          "type": "sym",
           "named": true
         }
       ]
@@ -636,6 +695,21 @@
     }
   },
   {
+    "type": "name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "nl",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "num",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "paragraph",
     "named": true,
     "fields": {
@@ -652,10 +726,22 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "nl",
+          "named": true
+        },
+        {
+          "type": "num",
+          "named": true
+        },
+        {
+          "type": "str",
+          "named": true
+        },
+        {
+          "type": "sym",
           "named": true
         }
       ]
@@ -685,7 +771,7 @@
         "required": true,
         "types": [
           {
-            "type": "expr",
+            "type": "name",
             "named": true
           }
         ]
@@ -791,7 +877,75 @@
   {
     "type": "stars",
     "named": true,
+    "fields": {
+      "final": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          }
+        ]
+      },
+      "sub": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "str",
+    "named": true,
     "fields": {}
+  },
+  {
+    "type": "sym",
+    "named": true,
+    "fields": {
+      "next": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "num",
+            "named": false
+          },
+          {
+            "type": "str",
+            "named": false
+          },
+          {
+            "type": "sym",
+            "named": false
+          }
+        ]
+      },
+      "prev": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "num",
+            "named": false
+          },
+          {
+            "type": "str",
+            "named": false
+          },
+          {
+            "type": "sym",
+            "named": false
+          }
+        ]
+      }
+    }
   },
   {
     "type": "table",
@@ -828,17 +982,12 @@
     }
   },
   {
-    "type": "tag",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "tag_list",
     "named": true,
     "fields": {
       "tag": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "tag",
@@ -931,17 +1080,7 @@
   {
     "type": "tsexp",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "value",
@@ -952,7 +1091,15 @@
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "num",
+          "named": true
+        },
+        {
+          "type": "str",
+          "named": true
+        },
+        {
+          "type": "sym",
           "named": true
         }
       ]
@@ -964,6 +1111,10 @@
   },
   {
     "type": "\r",
+    "named": false
+  },
+  {
+    "type": " ",
     "named": false
   },
   {
@@ -1099,10 +1250,6 @@
     "named": false
   },
   {
-    "type": "[ ]",
-    "named": false
-  },
-  {
     "type": "[%%",
     "named": false
   },
@@ -1171,11 +1318,11 @@
     "named": true
   },
   {
-    "type": "entry_name",
+    "type": "expr",
     "named": true
   },
   {
-    "type": "name",
+    "type": "label",
     "named": true
   },
   {
@@ -1187,12 +1334,20 @@
     "named": true
   },
   {
+    "type": "status",
+    "named": true
+  },
+  {
     "type": "str",
     "named": false
   },
   {
     "type": "sym",
     "named": false
+  },
+  {
+    "type": "tag",
+    "named": true
   },
   {
     "type": "time",
