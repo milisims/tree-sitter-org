@@ -7,8 +7,9 @@
 
 #define VEC_RESIZE(vec, _cap)                                                  \
     {                                                                          \
-        (vec)->data = realloc((vec)->data, (_cap) * sizeof((vec)->data[0]));   \
-        assert((vec)->data != NULL);                                           \
+        void *tmp = realloc((vec)->data, (_cap) * sizeof((vec)->data[0]));     \
+        assert(tmp != NULL);                                                   \
+        (vec)->data = tmp;                                                     \
         (vec)->cap = (_cap);                                                   \
     }
 
@@ -72,39 +73,39 @@ static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 
-unsigned serialize(Scanner *scanner, char *buffer) {
-    size_t i = 0;
+static unsigned serialize(Scanner *scanner, char *buffer) {
+    size_t size = 0;
 
     size_t indent_count = scanner->indent_length_stack->len - 1;
     if (indent_count > UINT8_MAX)
         indent_count = UINT8_MAX;
-    buffer[i++] = indent_count;
+    buffer[size++] = (char)indent_count;
 
-    int iter = 1;
+    uint32_t iter = 1;
     for (; iter < scanner->indent_length_stack->len &&
-           i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
+           size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
          ++iter) {
-        buffer[i++] = scanner->indent_length_stack->data[iter];
+        buffer[size++] = (char)scanner->indent_length_stack->data[iter];
     }
 
     iter = 1;
     for (; iter < scanner->bullet_stack->len &&
-           i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
+           size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
          ++iter) {
-        buffer[i++] = scanner->bullet_stack->data[iter];
+        buffer[size++] = (char)scanner->bullet_stack->data[iter];
     }
 
     iter = 1;
     for (; iter < scanner->section_stack->len &&
-           i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
+           size < TREE_SITTER_SERIALIZATION_BUFFER_SIZE;
          ++iter) {
-        buffer[i++] = scanner->section_stack->data[iter];
+        buffer[size++] = (char)scanner->section_stack->data[iter];
     }
 
-    return i;
+    return size;
 }
 
-void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
+static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
     VEC_CLEAR(scanner->section_stack);
     VEC_PUSH(scanner->section_stack, 0);
     VEC_CLEAR(scanner->indent_length_stack);
@@ -115,16 +116,16 @@ void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
     if (length == 0)
         return;
 
-    size_t i = 0;
+    size_t size = 0;
 
-    size_t indent_count = (uint8_t)buffer[i++];
+    size_t indent_count = (uint8_t)buffer[size++];
 
-    for (; i <= indent_count; i++)
-        VEC_PUSH(scanner->indent_length_stack, buffer[i]);
-    for (; i <= 2 * indent_count; i++)
-        VEC_PUSH(scanner->bullet_stack, buffer[i]);
-    for (; i < length; i++)
-        VEC_PUSH(scanner->section_stack, buffer[i]);
+    for (; size <= indent_count; size++)
+        VEC_PUSH(scanner->indent_length_stack, (unsigned)buffer[size]);
+    for (; size <= 2 * indent_count; size++)
+        VEC_PUSH(scanner->bullet_stack, (unsigned)buffer[size]);
+    for (; size < length; size++)
+        VEC_PUSH(scanner->section_stack, (unsigned)buffer[size]);
 }
 
 static bool dedent(Scanner *scanner, TSLexer *lexer) {
@@ -141,7 +142,7 @@ static bool in_error_recovery(const bool *valid_symbols) {
             valid_symbols[ENDOFFILE]);
 }
 
-Bullet getbullet(TSLexer *lexer) {
+static Bullet getbullet(TSLexer *lexer) {
     if (lexer->lookahead == '-') {
         advance(lexer);
         if (iswspace(lexer->lookahead))
@@ -193,7 +194,7 @@ Bullet getbullet(TSLexer *lexer) {
     return NOTABULLET;
 }
 
-bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
+static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (in_error_recovery(valid_symbols))
         return false;
 
@@ -248,8 +249,9 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
         if (indent_length < VEC_BACK(scanner->indent_length_stack)) {
             return dedent(scanner, lexer);
-        } else if (indent_length == VEC_BACK(scanner->indent_length_stack)) {
-            if (getbullet(lexer) == VEC_BACK(scanner->bullet_stack)) {
+        }
+        if (indent_length == VEC_BACK(scanner->indent_length_stack)) {
+            if ((int16_t)getbullet(lexer) == VEC_BACK(scanner->bullet_stack)) {
                 lexer->result_symbol = LISTITEMEND;
                 return true;
             }
@@ -272,7 +274,8 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             VEC_POP(scanner->section_stack);
             lexer->result_symbol = SECTIONEND;
             return true;
-        } else if (valid_symbols[HLSTARS] && iswspace(lexer->lookahead)) {
+        }
+        if (valid_symbols[HLSTARS] && iswspace(lexer->lookahead)) {
             VEC_PUSH(scanner->section_stack, stars);
             lexer->result_symbol = HLSTARS;
             return true;
@@ -285,13 +288,14 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         Bullet bullet = getbullet(lexer);
 
         if (valid_symbols[BULLET] &&
-            bullet == VEC_BACK(scanner->bullet_stack) &&
+            bullet == (uint8_t)VEC_BACK(scanner->bullet_stack) &&
             indent_length == VEC_BACK(scanner->indent_length_stack)) {
             lexer->mark_end(lexer);
             lexer->result_symbol = BULLET;
             return true;
-        } else if (valid_symbols[LISTSTART] && bullet != NOTABULLET &&
-                   indent_length > VEC_BACK(scanner->indent_length_stack)) {
+        }
+        if (valid_symbols[LISTSTART] && bullet != NOTABULLET &&
+            indent_length > VEC_BACK(scanner->indent_length_stack)) {
             VEC_PUSH(scanner->indent_length_stack, indent_length);
             VEC_PUSH(scanner->bullet_stack, bullet);
             lexer->result_symbol = LISTSTART;
