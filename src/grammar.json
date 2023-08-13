@@ -287,7 +287,8 @@
         },
         {
           "type": "PATTERN",
-          "value": "\\*+"
+          "value": "\\*+",
+          "flags": ""
         }
       ]
     },
@@ -304,7 +305,8 @@
         },
         {
           "type": "PATTERN",
-          "value": "[ \\t]+"
+          "value": "[ \\t]+",
+          "flags": ""
         },
         {
           "type": "CHOICE",
@@ -411,13 +413,9 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": ":[Pp][Rr][Oo][Pp][Ee][Rr][Tt][Ii][Ee][Ss]:"
-          },
-          "named": false,
-          "value": ":properties:"
+          "type": "PATTERN",
+          "value": ":properties:",
+          "flags": "i"
         },
         {
           "type": "REPEAT1",
@@ -449,13 +447,9 @@
           "type": "PREC_DYNAMIC",
           "value": 1,
           "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": ":[Ee][Nn][Dd]:"
-            },
-            "named": false,
-            "value": ":end:"
+            "type": "PATTERN",
+            "value": ":end:",
+            "flags": "i"
           }
         },
         {
@@ -555,7 +549,8 @@
                         "value": "non-immediate",
                         "content": {
                           "type": "PATTERN",
-                          "value": "\\p{L}+"
+                          "value": "\\p{L}+",
+                          "flags": ""
                         }
                       }
                     },
@@ -821,7 +816,8 @@
     },
     "date": {
       "type": "PATTERN",
-      "value": "\\p{N}{1,4}-\\p{N}{1,4}-\\p{N}{1,4}"
+      "value": "\\p{N}{1,4}-\\p{N}{1,4}-\\p{N}{1,4}",
+      "flags": ""
     },
     "_ts_element": {
       "type": "CHOICE",
@@ -833,7 +829,8 @@
             "type": "ALIAS",
             "content": {
               "type": "PATTERN",
-              "value": "\\p{L}[^\\]>\\p{Z}\\t\\n\\r]*"
+              "value": "\\p{L}[^\\]>\\p{Z}\\t\\n\\r]*",
+              "flags": ""
             },
             "named": true,
             "value": "day"
@@ -846,7 +843,8 @@
             "type": "ALIAS",
             "content": {
               "type": "PATTERN",
-              "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?"
+              "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?",
+              "flags": ""
             },
             "named": true,
             "value": "time"
@@ -859,7 +857,8 @@
             "type": "ALIAS",
             "content": {
               "type": "PATTERN",
-              "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?-\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?"
+              "value": "\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?-\\p{N}?\\p{N}[:.]\\p{N}\\p{N}( ?\\p{L}{1,2})?",
+              "flags": ""
             },
             "named": true,
             "value": "duration"
@@ -872,7 +871,8 @@
             "type": "ALIAS",
             "content": {
               "type": "PATTERN",
-              "value": "[.+]?\\+\\p{N}+\\p{L}"
+              "value": "[.+]?\\+\\p{N}+\\p{L}",
+              "flags": ""
             },
             "named": true,
             "value": "repeat"
@@ -885,7 +885,8 @@
             "type": "ALIAS",
             "content": {
               "type": "PATTERN",
-              "value": "--?\\p{N}+\\p{L}"
+              "value": "--?\\p{N}+\\p{L}",
+              "flags": ""
             },
             "named": true,
             "value": "delay"
@@ -898,7 +899,8 @@
             "value": -1,
             "content": {
               "type": "PATTERN",
-              "value": "[^\\[<\\]>\\p{Z}\\t\\n\\r]+"
+              "value": "[^\\[<\\]>\\p{Z}\\t\\n\\r]+",
+              "flags": ""
             }
           },
           "named": true,
@@ -946,13 +948,9 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "PATTERN",
-                "value": "\\[[Ff][Nn]:"
-              },
-              "named": false,
-              "value": "[fn:"
+              "type": "PATTERN",
+              "value": "\\[fn:",
+              "flags": "i"
             },
             {
               "type": "FIELD",
@@ -961,7 +959,8 @@
                 "type": "ALIAS",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\p{Z}\\t\\n\\r\\]]+"
+                  "value": "[^\\p{Z}\\t\\n\\r\\]]+",
+                  "flags": ""
                 },
                 "named": true,
                 "value": "expr"
@@ -1063,7 +1062,8 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "#[^+\\n\\r]"
+              "value": "#[^+\\n\\r]",
+              "flags": ""
             },
             {
               "type": "REPEAT",
@@ -1154,13 +1154,9 @@
           "type": "PREC_DYNAMIC",
           "value": 1,
           "content": {
-            "type": "ALIAS",
-            "content": {
-              "type": "PATTERN",
-              "value": ":[Ee][Nn][Dd]:"
-            },
-            "named": false,
-            "value": ":end:"
+            "type": "PATTERN",
+            "value": ":end:",
+            "flags": "i"
           }
         },
         {
@@ -1185,13 +1181,9 @@
           ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#\\+[Bb][Ee][Gg][Ii][Nn]_"
-          },
-          "named": false,
-          "value": "#+begin_"
+          "type": "PATTERN",
+          "value": "#\\+begin_",
+          "flags": "i"
         },
         {
           "type": "FIELD",
@@ -1241,13 +1233,9 @@
           ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#\\+[Ee][Nn][Dd]_"
-          },
-          "named": false,
-          "value": "#+end_"
+          "type": "PATTERN",
+          "value": "#\\+end_",
+          "flags": "i"
         },
         {
           "type": "FIELD",
@@ -1284,13 +1272,9 @@
           ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#\\+[Bb][Ee][Gg][Ii][Nn]:"
-          },
-          "named": false,
-          "value": "#+begin:"
+          "type": "PATTERN",
+          "value": "#\\+begin:",
+          "flags": "i"
         },
         {
           "type": "FIELD",
@@ -1332,13 +1316,9 @@
           ]
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#\\+[Ee][Nn][Dd]:"
-          },
-          "named": false,
-          "value": "#+end:"
+          "type": "PATTERN",
+          "value": "#\\+end:",
+          "flags": "i"
         },
         {
           "type": "CHOICE",
@@ -1660,7 +1640,8 @@
                   "value": 1,
                   "content": {
                     "type": "PATTERN",
-                    "value": "[-+]+"
+                    "value": "[-+]+",
+                    "flags": ""
                   }
                 }
               },
@@ -1689,13 +1670,9 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "PATTERN",
-            "value": "#\\+[Tt][Bb][Ll][Ff][Mm]:"
-          },
-          "named": false,
-          "value": "#+tblfm:"
+          "type": "PATTERN",
+          "value": "#\\+tblfm:",
+          "flags": "i"
         },
         {
           "type": "FIELD",
@@ -1741,13 +1718,9 @@
               "type": "SEQ",
               "members": [
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "\\\\[Bb][Ee][Gg][Ii][Nn]\\{"
-                  },
-                  "named": false,
-                  "value": "\\begin{"
+                  "type": "PATTERN",
+                  "value": "\\\\begin\\{",
+                  "flags": "i"
                 },
                 {
                   "type": "FIELD",
@@ -1756,7 +1729,8 @@
                     "type": "ALIAS",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[\\p{L}\\p{N}*]+"
+                      "value": "[\\p{L}\\p{N}*]+",
+                      "flags": ""
                     },
                     "named": true,
                     "value": "name"
@@ -1790,19 +1764,16 @@
                   ]
                 },
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "\\\\[Ee][Nn][Dd]\\{"
-                  },
-                  "named": false,
-                  "value": "\\end{"
+                  "type": "PATTERN",
+                  "value": "\\\\end\\{",
+                  "flags": "i"
                 },
                 {
                   "type": "ALIAS",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[\\p{L}\\p{N}*]+"
+                    "value": "[\\p{L}\\p{N}*]+",
+                    "flags": ""
                   },
                   "named": true,
                   "value": "name"
@@ -1825,12 +1796,7 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "PATTERN",
-                          "value": "\\\\\\["
-                        },
-                        "named": false,
+                        "type": "STRING",
                         "value": "\\["
                       },
                       {
@@ -1866,12 +1832,7 @@
                   ]
                 },
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "\\\\\\]"
-                  },
-                  "named": false,
+                  "type": "STRING",
                   "value": "\\]"
                 }
               ]
@@ -1885,12 +1846,7 @@
                     "type": "SEQ",
                     "members": [
                       {
-                        "type": "ALIAS",
-                        "content": {
-                          "type": "PATTERN",
-                          "value": "\\\\\\("
-                        },
-                        "named": false,
+                        "type": "STRING",
                         "value": "\\("
                       },
                       {
@@ -1926,12 +1882,7 @@
                   ]
                 },
                 {
-                  "type": "ALIAS",
-                  "content": {
-                    "type": "PATTERN",
-                    "value": "\\\\\\)"
-                  },
-                  "named": false,
+                  "type": "STRING",
                   "value": "\\)"
                 }
               ]
@@ -2409,7 +2360,8 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "\\p{L}+"
+                  "value": "\\p{L}+",
+                  "flags": ""
                 }
               }
             },
@@ -2425,7 +2377,8 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "\\p{N}+"
+                  "value": "\\p{N}+",
+                  "flags": ""
                 }
               }
             },
@@ -2441,7 +2394,8 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                  "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                  "flags": ""
                 }
               }
             },
@@ -2806,7 +2760,8 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "\\p{L}+"
+                  "value": "\\p{L}+",
+                  "flags": ""
                 }
               }
             },
@@ -2822,7 +2777,8 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "\\p{N}+"
+                  "value": "\\p{N}+",
+                  "flags": ""
                 }
               }
             },
@@ -2838,7 +2794,8 @@
                 "value": "immediate",
                 "content": {
                   "type": "PATTERN",
-                  "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                  "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                  "flags": ""
                 }
               }
             },
@@ -3201,7 +3158,8 @@
               "value": "immediate",
               "content": {
                 "type": "PATTERN",
-                "value": "\\p{L}+"
+                "value": "\\p{L}+",
+                "flags": ""
               }
             }
           },
@@ -3217,7 +3175,8 @@
               "value": "immediate",
               "content": {
                 "type": "PATTERN",
-                "value": "\\p{N}+"
+                "value": "\\p{N}+",
+                "flags": ""
               }
             }
           },
@@ -3233,7 +3192,8 @@
               "value": "immediate",
               "content": {
                 "type": "PATTERN",
-                "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                "flags": ""
               }
             }
           },
@@ -3587,7 +3547,8 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "\\p{L}+"
+                    "value": "\\p{L}+",
+                    "flags": ""
                   }
                 }
               },
@@ -3603,7 +3564,8 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "\\p{N}+"
+                    "value": "\\p{N}+",
+                    "flags": ""
                   }
                 }
               },
@@ -3619,7 +3581,8 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                    "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                    "flags": ""
                   }
                 }
               },
@@ -3972,7 +3935,8 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "\\p{L}+"
+                      "value": "\\p{L}+",
+                      "flags": ""
                     }
                   }
                 },
@@ -3988,7 +3952,8 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "\\p{N}+"
+                      "value": "\\p{N}+",
+                      "flags": ""
                     }
                   }
                 },
@@ -4004,7 +3969,8 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                      "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                      "flags": ""
                     }
                   }
                 },
@@ -4383,7 +4349,8 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "\\p{L}+"
+                    "value": "\\p{L}+",
+                    "flags": ""
                   }
                 }
               },
@@ -4399,7 +4366,8 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "\\p{N}+"
+                    "value": "\\p{N}+",
+                    "flags": ""
                   }
                 }
               },
@@ -4415,7 +4383,8 @@
                   "value": "non-immediate",
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                    "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                    "flags": ""
                   }
                 }
               },
@@ -4790,7 +4759,8 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "\\p{L}+"
+                      "value": "\\p{L}+",
+                      "flags": ""
                     }
                   }
                 },
@@ -4806,7 +4776,8 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "\\p{N}+"
+                      "value": "\\p{N}+",
+                      "flags": ""
                     }
                   }
                 },
@@ -4822,7 +4793,8 @@
                     "value": "immediate",
                     "content": {
                       "type": "PATTERN",
-                      "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]"
+                      "value": "[^\\p{Z}\\p{L}\\p{N}\\t\\n\\r]",
+                      "flags": ""
                     }
                   }
                 },
@@ -4838,7 +4810,8 @@
   "extras": [
     {
       "type": "PATTERN",
-      "value": "[ \\f\\t\\v\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff]"
+      "value": "[ \\f\\t\\v\\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff]",
+      "flags": ""
     }
   ],
   "conflicts": [

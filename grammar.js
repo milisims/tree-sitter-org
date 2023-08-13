@@ -128,10 +128,10 @@ org_grammar = {
     _tag_expr_start: _ => token(prec('non-immediate', ':')),
 
     property_drawer: $ => seq(
-      caseInsensitive(':properties:'),
+      /:properties:/i,
       repeat1($._nl),
       repeat(seq($.property, repeat1($._nl))),
-      prec.dynamic(1, caseInsensitive(':end:')),
+      prec.dynamic(1, /:end:/i),
       $._eol,
     ),
 
@@ -185,7 +185,7 @@ org_grammar = {
     fndef: $ => seq(
       optional($._directive_list),
       seq(
-        caseInsensitive('[fn:'),
+        /\[fn:/i,
         field('label', alias(/[^\p{Z}\t\n\r\]]+/, $.expr)),
         ']',
       ),
@@ -210,30 +210,30 @@ org_grammar = {
       token.immediate(prec('special', ':')),
       $._nl,
       optional(field('contents', $.contents)),
-      prec.dynamic(1, caseInsensitive(':end:')),
+      prec.dynamic(1, /:end:/i),
       $._eol,
     ),
 
     block: $ => seq(
       optional($._directive_list),
-      caseInsensitive('#+begin_'),
+      /#\+begin_/i,
       field('name', $.expr),
       optional(repeat1(field('parameter', $.expr))),
       $._nl,
       optional(field('contents', $.contents)),
-      caseInsensitive('#+end_'),
+      /#\+end_/i,
       field('end_name',alias($._immediate_expr, $.expr)),
       $._eol,
     ),
 
     dynamic_block: $ => seq(
       optional($._directive_list),
-      caseInsensitive('#+begin:'),
+      /#\+begin:/i,
       field('name', $.expr),
       repeat(field('parameter', $.expr)),
       $._nl,
       optional(field('contents', $.contents)),
-      caseInsensitive('#+end:'),
+      /#\+end:/i,
       optional(field('end_name', $.expr)),
       $._eol,
     ),
@@ -286,7 +286,7 @@ org_grammar = {
     ),
 
     formula: $ => seq(
-      caseInsensitive('#+tblfm:'),
+      /#\+tblfm:/i,
       field('formula', optional($._expr_line)),
       $._eol,
     ),
@@ -295,24 +295,24 @@ org_grammar = {
       optional($._directive_list),
       choice(
         seq(
-          caseInsensitive('\\begin{'),
+          /\\begin\{/i,
           field('name', alias(/[\p{L}\p{N}*]+/, $.name)),
           token.immediate('}'),
           $._nl,
           optional(field('contents', $.contents)),
-          caseInsensitive('\\end{'),
+          /\\end\{/i,
           alias(/[\p{L}\p{N}*]+/, $.name),
           token.immediate('}'),
         ),
         seq(
-          token(seq(caseInsensitive('\\['), choice('\n', '\r'))),
+          token(seq('\\[', choice('\n', '\r'))),
           optional(field('contents', $.contents)),
-          caseInsensitive('\\]'),
+          '\\]',
         ),
         seq(
-          token(seq(caseInsensitive('\\('), choice('\n', '\r'))),
+          token(seq('\\(', choice('\n', '\r'))),
           optional(field('contents', $.contents)),
-          caseInsensitive('\\)'),
+          '\\)',
         ),
       ),
       $._eol,
