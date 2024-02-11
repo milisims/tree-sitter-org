@@ -323,7 +323,7 @@ bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
       return lexer->lookahead == ']';
     }
     for (;;) {
-      if (iswsnl(lexer->lookahead)) {
+      if (iswsnl(lexer->lookahead) || lexer->lookahead == '[') {
         return false;
       } else if (lexer->lookahead == ']') {
         return true;
