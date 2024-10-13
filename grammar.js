@@ -1,8 +1,8 @@
-asciiSymbols = [ '!', '"', '#', '$', '%', '&', "'", '(', ')', '*',
-  '+', ',', '-', '.', '/',  ':', ';', '<', '=', '>', '?', '@', '[', ']',
-  '\\', '^', '_', '`', '{', '|', '}', '~' ]
+const asciiSymbols = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*',
+  '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']',
+  '\\', '^', '_', '`', '{', '|', '}', '~']
 
-org_grammar = {
+const org_grammar = {
   name: 'org',
   // Treat newlines explicitly, all other whitespace is extra
   extras: _ => [/[ \f\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]/],
@@ -222,7 +222,7 @@ org_grammar = {
       $._nl,
       optional(field('contents', $.contents)),
       caseInsensitive('#+end_'),
-      field('end_name',alias($._immediate_expr, $.expr)),
+      field('end_name', alias($._immediate_expr, $.expr)),
       $._eol,
     ),
 
@@ -355,7 +355,7 @@ function expr(pr, tfunc, skip = '') {
     alias(tfunc(prec(pr, /\p{L}+/)), 'str'),
     alias(tfunc(prec(pr, /\p{N}+/)), 'num'),
     alias(tfunc(prec(pr, /[^\p{Z}\p{L}\p{N}\t\n\r]/)), 'sym'),
-     // for checkboxes: ugly, but makes them work..
+    // for checkboxes: ugly, but makes them work..
     // alias(tfunc(prec(pr, 'x')), 'str'),
     // alias(tfunc(prec(pr, 'X')), 'str'),
   )
